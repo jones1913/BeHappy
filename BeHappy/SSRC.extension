@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+  <AudioDSP UniqueID="325bfe50-85b7-11da-a72b-0800200c9a66">
+    <Plugin>
+      <MultiOptionDSP Type="BeHappy.Extensions.MultiOptionDSP, BeHappy">
+  	    <DialogWidth>0</DialogWidth>
+		<TitleFormatString>Resample SSRC - {0}</TitleFormatString>
+        <Option>
+          <Name>48000 Hz</Name>
+          <Value>SSRC(last, 48000)</Value>
+        </Option>
+        <Option>
+          <Name>44100 Hz</Name>
+			<Value>SSRC(last, 44100)</Value>
+		</Option>
+		<Option>
+          <Name>32000 Hz</Name>
+			<Value>SSRC(last, 32000)</Value>
+		</Option>
+		<Option>
+          <Name>24000 Hz</Name>
+			<Value>SSRC(last, 24000)</Value>
+		</Option>
+		<Option>
+          <Name>22050 Hz</Name>
+			<Value>SSRC(last, 22050)</Value>
+		</Option>
+		<Option>
+          <Name>16000 Hz</Name>
+			<Value>SSRC(last, 16000)</Value>
+		</Option>
+		<Option>
+          <Name>12000 Hz</Name>
+			<Value>SSRC(last, 12000)</Value>
+		</Option>
+		<Option>
+          <Name>11025 Hz</Name>
+			<Value>SSRC(last, 11025)</Value>
+		</Option>
+		<Option>
+			<Name>8000 Hz</Name>
+			<Value>SSRC(last, 8000)</Value>
+		</Option>
+      </MultiOptionDSP>
+    </Plugin>
+  </AudioDSP>
+</BeHappy.Extension>
