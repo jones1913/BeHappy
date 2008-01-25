@@ -65,6 +65,9 @@ namespace BeHappy
 		public JobList JobList;
 		public Guid[] DspOrder;
 		public Guid CurrentEncoder;
+        public GuiPosition GuiPosition;
+        public MiscSettings MiscSettings;
+
 		public Configuration()
 		{
 			//
@@ -88,4 +91,25 @@ namespace BeHappy
 			}
 		}
 	}
+	[XmlRoot(Namespace = Constants.DefaultXmlNamespace, ElementName = "BeHappy.GUIPosition")]
+    public sealed class GuiPosition
+    {
+        [XmlElement("Top")]
+        public int iTop;
+        [XmlElement("Left")]
+        public int iLeft;
+        [XmlElement("Width")]
+        public int iWidth;
+        [XmlElement("Height")]
+        public int iHeight;
+    }
+    [XmlRoot(Namespace = Constants.DefaultXmlNamespace, ElementName = "BeHappy.MiscSettings")]
+    public sealed class MiscSettings
+    {
+        [XmlElement("DirectShowPlayer")]
+        public string directShowPlayer;
+        [XmlElement("PreferMP4overM4A")]
+        public bool preferMP4overM4A;
+
+    }
 }

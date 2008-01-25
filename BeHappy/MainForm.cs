@@ -76,7 +76,6 @@ namespace BeHappy
         private System.Windows.Forms.Button btnPreview;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
-        private CheckBox checkBox1;
         private ContextMenuStrip contextMenuStrip2;
         private ToolStripMenuItem toolStripMenuItem2;
         private ToolStripMenuItem toolStripMenuItem3;
@@ -96,14 +95,22 @@ namespace BeHappy
         private LinkLabel button1;
         private NumericUpDown numericUpDown4;
         private CheckBox cbxBuffer;
+        private Button btnDeleteAll;
+        private CheckBox chkKeepOutput;
         private IContainer components;
 
+        private bool m_bKeepOutput;
+        private string encoder_dir;
+        private string ds_player="mplayer2";
+        
 		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+
+            m_bKeepOutput = false;
 
             using (TextReader r = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("BeHappy.gpl.txt")))
             {
@@ -115,7 +122,6 @@ namespace BeHappy
                 this.Icon = new Icon(ricon);
             }
 
-
 			numericUpDown1.Minimum = numericUpDown2.Minimum = numericUpDown3.Minimum = decimal.MinValue+16;
 			numericUpDown1.Maximum = numericUpDown2.Maximum = numericUpDown3.Maximum = decimal.MaxValue-16;
 
@@ -124,10 +130,15 @@ namespace BeHappy
 			placeControls(txtSourceFileName, btnSelectSourceFile, lstAudioSource, btnConfigureAudioSource);
 			placeControls(txtOutputFileName, button2, lstEncoder, btnConfigureEncoder);
 			loadExtensionsAndApplyConfiguration();
+			if (Directory.Exists(getExeDirectory()+"\\encoder"))
+				encoder_dir="encoder\\";
+			else
+				encoder_dir="";
 			btnConfigureAudioSource.Enabled = currentSource.IsSupportConfiguration;
 			btnConfigureEncoder.Enabled = currentEncoder.IsSupportConfiguration;
 			lstEncoder.SelectedIndexChanged += new EventHandler(lstEncoder_SelectedIndexChanged);
 			lstAudioSource.SelectedIndexChanged+=new EventHandler(lstAudioSource_SelectedIndexChanged);
+			
 			// MessageBox.Show(@"res://" + Application.ExecutablePath + "/#32512");
 			// this.Icon = new Icon(@"res://BeHappy.exe/32512");//@"res://" + Application.ExecutablePath + "/#32512"); //("res://BeHappy.exe/#32512"); // null; // Application.Icon;
 		}
@@ -151,7 +162,7 @@ namespace BeHappy
 		}
 
 
-
+        
 		private void loadExtensionsAndApplyConfiguration()
 		{
 			//1) let's load all extensions
@@ -159,10 +170,13 @@ namespace BeHappy
 			ArrayList dspProcessors = new ArrayList();
 			ArrayList audioEncoders = new ArrayList();
 			Extension extension = Extension.Default;
-
+            string ExtensionDirectory = getExeDirectory()+"\\extensions";
+            if(!Directory.Exists(ExtensionDirectory))
+               ExtensionDirectory = getExeDirectory();
+            	
 			fillFromExtension(extension, audioEncoders, dspProcessors, audioSources);
 
-			foreach(string file in Directory.GetFiles(getExeDirectory(),"*.extension"))
+			foreach(string file in Directory.GetFiles(ExtensionDirectory,"*.extension"))
 			{
 				__retry:
 				try
@@ -185,7 +199,6 @@ namespace BeHappy
 					}
 				}
 			}
-			
 			//let's load configuration
 			Configuration c = new Configuration();
 			try
@@ -195,6 +208,8 @@ namespace BeHappy
 			catch
 			{}
 
+            loadGuiPositionConfiguration(c);
+            loadMiscConfiguration(c);
 			loadPluginsConfiguration(audioSources, c.Settings);
 			loadPluginsConfiguration(audioEncoders, c.Settings);
 			loadPluginsConfiguration(dspProcessors, c.Settings);
@@ -235,8 +250,34 @@ namespace BeHappy
 				lstEncoder.SelectedIndex = 0;
 			lstAudioSource.SelectedIndex = 0;
 
+            SetJobMoveButtonState();
 		}
 
+		private void loadMiscConfiguration(Configuration c)
+		{
+			if(c.MiscSettings!=null)
+			{
+				BeHappy.NeroDigitalAAC.Encoder.preferMP4overM4A = c.MiscSettings.preferMP4overM4A;
+				this.ds_player = c.MiscSettings.directShowPlayer;
+			}
+//			else
+//			{
+//				BeHappy.NeroDigitalAAC.Encoder.preferMP4overM4A = true;
+//				this.ds_player = "mplayer";
+//			}
+		}
+		
+        private void loadGuiPositionConfiguration(Configuration c)
+        {
+            if (c.GuiPosition == null)
+                return;
+
+            this.Top = c.GuiPosition.iTop;
+            this.Left = c.GuiPosition.iLeft;
+            this.Width = c.GuiPosition.iWidth;
+            this.Height = c.GuiPosition.iHeight;
+        }
+        
 		private static void loadPluginsConfiguration(ArrayList plugins, IDictionary c)
 		{
 			foreach(ExtensionItemBase i in plugins)
@@ -291,6 +332,15 @@ namespace BeHappy
 				col.Add(i.UniqueID);
 			c.DspOrder = (Guid[])col.ToArray(typeof(Guid));
 			c.CurrentEncoder = currentEncoder.UniqueID;
+
+            c.GuiPosition = new GuiPosition();
+            c.GuiPosition.iTop      = this.Top;
+            c.GuiPosition.iLeft     = this.Left;
+            c.GuiPosition.iWidth    = this.Width;
+            c.GuiPosition.iHeight   = this.Height;
+            c.MiscSettings = new MiscSettings();
+            c.MiscSettings.directShowPlayer = this.ds_player;
+            c.MiscSettings.preferMP4overM4A = BeHappy.NeroDigitalAAC.Encoder.preferMP4overM4A;
 			c.SaveToFile(getConfigFileName());
 		}
 
@@ -360,7 +410,9 @@ namespace BeHappy
             this.btnPreview = new System.Windows.Forms.Button();
             this.cbxOmitEncoderScript = new System.Windows.Forms.CheckBox();
             this.gbxTweak = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.cbxBuffer = new System.Windows.Forms.CheckBox();
+            this.cbxEnsureMP3VBRSync = new System.Windows.Forms.CheckBox();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.cbxSplit = new System.Windows.Forms.CheckBox();
@@ -378,6 +430,8 @@ namespace BeHappy
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.containerControl6 = new System.Windows.Forms.ContainerControl();
+            this.chkKeepOutput = new System.Windows.Forms.CheckBox();
+            this.btnDeleteAll = new System.Windows.Forms.Button();
             this.btnNewJob = new System.Windows.Forms.Button();
             this.btnAbort = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -400,8 +454,6 @@ namespace BeHappy
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-            this.cbxBuffer = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPageNewJob.SuspendLayout();
             this.containerControl2.SuspendLayout();
@@ -415,6 +467,7 @@ namespace BeHappy
             this.containerControl3.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.gbxTweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -423,7 +476,6 @@ namespace BeHappy
             this.containerControl6.SuspendLayout();
             this.tabPageAbout.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -436,7 +488,7 @@ namespace BeHappy
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(442, 299);
+            this.tabControl1.Size = new System.Drawing.Size(792, 373);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageNewJob
@@ -445,7 +497,7 @@ namespace BeHappy
             this.tabPageNewJob.Controls.Add(this.containerControl1);
             this.tabPageNewJob.Location = new System.Drawing.Point(4, 22);
             this.tabPageNewJob.Name = "tabPageNewJob";
-            this.tabPageNewJob.Size = new System.Drawing.Size(434, 273);
+            this.tabPageNewJob.Size = new System.Drawing.Size(784, 347);
             this.tabPageNewJob.TabIndex = 0;
             this.tabPageNewJob.Text = "New Job";
             // 
@@ -457,7 +509,7 @@ namespace BeHappy
             this.containerControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.containerControl2.Location = new System.Drawing.Point(0, 0);
             this.containerControl2.Name = "containerControl2";
-            this.containerControl2.Size = new System.Drawing.Size(434, 245);
+            this.containerControl2.Size = new System.Drawing.Size(784, 319);
             this.containerControl2.TabIndex = 1;
             // 
             // containerControl4
@@ -469,7 +521,7 @@ namespace BeHappy
             this.containerControl4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.containerControl4.Location = new System.Drawing.Point(0, 0);
             this.containerControl4.Name = "containerControl4";
-            this.containerControl4.Size = new System.Drawing.Size(282, 245);
+            this.containerControl4.Size = new System.Drawing.Size(632, 319);
             this.containerControl4.TabIndex = 1;
             // 
             // groupBox5
@@ -479,7 +531,7 @@ namespace BeHappy
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Location = new System.Drawing.Point(0, 32);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(282, 189);
+            this.groupBox5.Size = new System.Drawing.Size(632, 263);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "[3] Digital Signal Processing";
@@ -490,7 +542,7 @@ namespace BeHappy
             this.lstDSP.IntegralHeight = false;
             this.lstDSP.Location = new System.Drawing.Point(3, 16);
             this.lstDSP.Name = "lstDSP";
-            this.lstDSP.Size = new System.Drawing.Size(276, 142);
+            this.lstDSP.Size = new System.Drawing.Size(626, 216);
             this.lstDSP.TabIndex = 1;
             this.lstDSP.SelectedIndexChanged += new System.EventHandler(this.lstDSP_SelectedIndexChanged);
             // 
@@ -502,40 +554,40 @@ namespace BeHappy
             this.containerControl5.Controls.Add(this.btnMoveUpDSP);
             this.containerControl5.Controls.Add(this.cbxDisableDSP);
             this.containerControl5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.containerControl5.Location = new System.Drawing.Point(3, 158);
+            this.containerControl5.Location = new System.Drawing.Point(3, 232);
             this.containerControl5.Name = "containerControl5";
-            this.containerControl5.Size = new System.Drawing.Size(276, 28);
+            this.containerControl5.Size = new System.Drawing.Size(626, 28);
             this.containerControl5.TabIndex = 2;
             // 
             // btnConfigureDSP
             // 
             this.btnConfigureDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConfigureDSP.Enabled = false;
-            this.btnConfigureDSP.Location = new System.Drawing.Point(38, 4);
+            this.btnConfigureDSP.Location = new System.Drawing.Point(388, 4);
             this.btnConfigureDSP.Name = "btnConfigureDSP";
             this.btnConfigureDSP.Size = new System.Drawing.Size(75, 23);
             this.btnConfigureDSP.TabIndex = 3;
-            this.btnConfigureDSP.Text = "Configure";
+            this.btnConfigureDSP.Text = "&Configure";
             this.btnConfigureDSP.Click += new System.EventHandler(this.configureDSP);
             // 
             // btnMoveDownDSP
             // 
             this.btnMoveDownDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveDownDSP.Location = new System.Drawing.Point(198, 4);
+            this.btnMoveDownDSP.Location = new System.Drawing.Point(548, 4);
             this.btnMoveDownDSP.Name = "btnMoveDownDSP";
             this.btnMoveDownDSP.Size = new System.Drawing.Size(75, 23);
             this.btnMoveDownDSP.TabIndex = 1;
-            this.btnMoveDownDSP.Text = "Move Down";
+            this.btnMoveDownDSP.Text = "Move Do&wn";
             this.btnMoveDownDSP.Click += new System.EventHandler(this.moveDownDSP);
             // 
             // btnMoveUpDSP
             // 
             this.btnMoveUpDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveUpDSP.Location = new System.Drawing.Point(118, 4);
+            this.btnMoveUpDSP.Location = new System.Drawing.Point(468, 4);
             this.btnMoveUpDSP.Name = "btnMoveUpDSP";
             this.btnMoveUpDSP.Size = new System.Drawing.Size(75, 23);
             this.btnMoveUpDSP.TabIndex = 0;
-            this.btnMoveUpDSP.Text = "Move Up";
+            this.btnMoveUpDSP.Text = "Move &Up";
             this.btnMoveUpDSP.Click += new System.EventHandler(this.moveUpDSP);
             // 
             // cbxDisableDSP
@@ -554,12 +606,12 @@ namespace BeHappy
             this.groupBox4.Controls.Add(this.button2);
             this.groupBox4.Controls.Add(this.txtOutputFileName);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox4.Location = new System.Drawing.Point(0, 221);
+            this.groupBox4.Location = new System.Drawing.Point(0, 295);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(282, 24);
+            this.groupBox4.Size = new System.Drawing.Size(632, 24);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "[4] Destination";
+            this.groupBox4.Text = "[4] &Destination";
             // 
             // btnConfigureEncoder
             // 
@@ -613,7 +665,7 @@ namespace BeHappy
             this.lstEncoder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lstEncoder.Location = new System.Drawing.Point(4, 40);
             this.lstEncoder.Name = "lstEncoder";
-            this.lstEncoder.Size = new System.Drawing.Size(274, 21);
+            this.lstEncoder.Size = new System.Drawing.Size(624, 21);
             this.lstEncoder.Sorted = true;
             this.lstEncoder.TabIndex = 2;
             // 
@@ -641,10 +693,10 @@ namespace BeHappy
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(282, 32);
+            this.groupBox1.Size = new System.Drawing.Size(632, 32);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "[1] Source";
+            this.groupBox1.Text = "[1] &Source";
             // 
             // btnConfigureAudioSource
             // 
@@ -698,7 +750,7 @@ namespace BeHappy
             this.lstAudioSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lstAudioSource.Location = new System.Drawing.Point(4, 40);
             this.lstAudioSource.Name = "lstAudioSource";
-            this.lstAudioSource.Size = new System.Drawing.Size(274, 21);
+            this.lstAudioSource.Size = new System.Drawing.Size(624, 21);
             this.lstAudioSource.Sorted = true;
             this.lstAudioSource.TabIndex = 2;
             // 
@@ -723,9 +775,9 @@ namespace BeHappy
             this.containerControl3.Controls.Add(this.groupBox3);
             this.containerControl3.Controls.Add(this.gbxTweak);
             this.containerControl3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.containerControl3.Location = new System.Drawing.Point(282, 0);
+            this.containerControl3.Location = new System.Drawing.Point(632, 0);
             this.containerControl3.Name = "containerControl3";
-            this.containerControl3.Size = new System.Drawing.Size(152, 245);
+            this.containerControl3.Size = new System.Drawing.Size(152, 319);
             this.containerControl3.TabIndex = 0;
             // 
             // groupBox3
@@ -735,7 +787,7 @@ namespace BeHappy
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 146);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(152, 99);
+            this.groupBox3.Size = new System.Drawing.Size(152, 173);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Preview";
@@ -745,9 +797,9 @@ namespace BeHappy
             this.btnPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPreview.Location = new System.Drawing.Point(3, 16);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(146, 63);
+            this.btnPreview.Size = new System.Drawing.Size(146, 137);
             this.btnPreview.TabIndex = 1;
-            this.btnPreview.Text = "Preview";
+            this.btnPreview.Text = "&Preview";
             this.btnPreview.Click += new System.EventHandler(this.startPreview);
             // 
             // cbxOmitEncoderScript
@@ -756,7 +808,7 @@ namespace BeHappy
             this.cbxOmitEncoderScript.Checked = true;
             this.cbxOmitEncoderScript.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxOmitEncoderScript.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cbxOmitEncoderScript.Location = new System.Drawing.Point(3, 79);
+            this.cbxOmitEncoderScript.Location = new System.Drawing.Point(3, 153);
             this.cbxOmitEncoderScript.Name = "cbxOmitEncoderScript";
             this.cbxOmitEncoderScript.Size = new System.Drawing.Size(146, 17);
             this.cbxOmitEncoderScript.TabIndex = 0;
@@ -766,7 +818,7 @@ namespace BeHappy
             // 
             this.gbxTweak.Controls.Add(this.numericUpDown4);
             this.gbxTweak.Controls.Add(this.cbxBuffer);
-            this.gbxTweak.Controls.Add(this.checkBox1);
+            this.gbxTweak.Controls.Add(this.cbxEnsureMP3VBRSync);
             this.gbxTweak.Controls.Add(this.numericUpDown3);
             this.gbxTweak.Controls.Add(this.numericUpDown2);
             this.gbxTweak.Controls.Add(this.cbxSplit);
@@ -780,17 +832,42 @@ namespace BeHappy
             this.gbxTweak.TabStop = false;
             this.gbxTweak.Text = "[2] Tweak";
             // 
-            // checkBox1
+            // numericUpDown4
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(3, 20);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(136, 17);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "Ensure MP3 VBR Sync";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.numericUpDown4.Enabled = false;
+            this.numericUpDown4.Location = new System.Drawing.Point(66, 117);
+            this.numericUpDown4.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(80, 20);
+            this.numericUpDown4.TabIndex = 7;
+            this.numericUpDown4.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // cbxBuffer
+            // 
+            this.cbxBuffer.Location = new System.Drawing.Point(2, 115);
+            this.cbxBuffer.Name = "cbxBuffer";
+            this.cbxBuffer.Size = new System.Drawing.Size(60, 23);
+            this.cbxBuffer.TabIndex = 6;
+            this.cbxBuffer.Text = "Buffer";
+            this.cbxBuffer.CheckedChanged += new System.EventHandler(this.cbxBuffer_CheckedChanged);
+            // 
+            // cbxEnsureMP3VBRSync
+            // 
+            this.cbxEnsureMP3VBRSync.AutoSize = true;
+            this.cbxEnsureMP3VBRSync.Location = new System.Drawing.Point(3, 20);
+            this.cbxEnsureMP3VBRSync.Name = "cbxEnsureMP3VBRSync";
+            this.cbxEnsureMP3VBRSync.Size = new System.Drawing.Size(136, 17);
+            this.cbxEnsureMP3VBRSync.TabIndex = 5;
+            this.cbxEnsureMP3VBRSync.Text = "Ensure MP3 VBR Sync";
+            this.cbxEnsureMP3VBRSync.UseVisualStyleBackColor = true;
             // 
             // numericUpDown3
             // 
@@ -840,15 +917,15 @@ namespace BeHappy
             this.containerControl1.Controls.Add(this.btnExportScript);
             this.containerControl1.Controls.Add(this.btnAddToJobList);
             this.containerControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.containerControl1.Location = new System.Drawing.Point(0, 245);
+            this.containerControl1.Location = new System.Drawing.Point(0, 319);
             this.containerControl1.Name = "containerControl1";
-            this.containerControl1.Size = new System.Drawing.Size(434, 28);
+            this.containerControl1.Size = new System.Drawing.Size(784, 28);
             this.containerControl1.TabIndex = 0;
             // 
             // btnExportScript
             // 
             this.btnExportScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportScript.Location = new System.Drawing.Point(162, 4);
+            this.btnExportScript.Location = new System.Drawing.Point(512, 4);
             this.btnExportScript.Name = "btnExportScript";
             this.btnExportScript.Size = new System.Drawing.Size(132, 23);
             this.btnExportScript.TabIndex = 1;
@@ -858,11 +935,11 @@ namespace BeHappy
             // btnAddToJobList
             // 
             this.btnAddToJobList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddToJobList.Location = new System.Drawing.Point(300, 4);
+            this.btnAddToJobList.Location = new System.Drawing.Point(650, 4);
             this.btnAddToJobList.Name = "btnAddToJobList";
             this.btnAddToJobList.Size = new System.Drawing.Size(130, 23);
             this.btnAddToJobList.TabIndex = 0;
-            this.btnAddToJobList.Text = "Enqueue";
+            this.btnAddToJobList.Text = "En&queue";
             this.btnAddToJobList.Click += new System.EventHandler(this.submitJobToJobControl);
             // 
             // tabPageJobControl
@@ -871,7 +948,7 @@ namespace BeHappy
             this.tabPageJobControl.Controls.Add(this.containerControl6);
             this.tabPageJobControl.Location = new System.Drawing.Point(4, 22);
             this.tabPageJobControl.Name = "tabPageJobControl";
-            this.tabPageJobControl.Size = new System.Drawing.Size(434, 247);
+            this.tabPageJobControl.Size = new System.Drawing.Size(784, 347);
             this.tabPageJobControl.TabIndex = 1;
             this.tabPageJobControl.Text = "Queue";
             // 
@@ -889,9 +966,8 @@ namespace BeHappy
             this.jobListView.HideSelection = false;
             this.jobListView.LabelWrap = false;
             this.jobListView.Location = new System.Drawing.Point(0, 0);
-            this.jobListView.MultiSelect = false;
             this.jobListView.Name = "jobListView";
-            this.jobListView.Size = new System.Drawing.Size(434, 67);
+            this.jobListView.Size = new System.Drawing.Size(784, 167);
             this.jobListView.TabIndex = 1;
             this.jobListView.UseCompatibleStateImageBehavior = false;
             this.jobListView.View = System.Windows.Forms.View.Details;
@@ -930,6 +1006,8 @@ namespace BeHappy
             // 
             // containerControl6
             // 
+            this.containerControl6.Controls.Add(this.chkKeepOutput);
+            this.containerControl6.Controls.Add(this.btnDeleteAll);
             this.containerControl6.Controls.Add(this.btnNewJob);
             this.containerControl6.Controls.Add(this.btnAbort);
             this.containerControl6.Controls.Add(this.btnStop);
@@ -940,11 +1018,31 @@ namespace BeHappy
             this.containerControl6.Controls.Add(this.btnMoveUpJob);
             this.containerControl6.Controls.Add(this.btnDeleteJob);
             this.containerControl6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.containerControl6.Location = new System.Drawing.Point(0, 67);
+            this.containerControl6.Location = new System.Drawing.Point(0, 167);
             this.containerControl6.Name = "containerControl6";
-            this.containerControl6.Size = new System.Drawing.Size(434, 180);
+            this.containerControl6.Size = new System.Drawing.Size(784, 180);
             this.containerControl6.TabIndex = 0;
             this.containerControl6.Text = "containerControl6";
+            // 
+            // chkKeepOutput
+            // 
+            this.chkKeepOutput.AutoSize = true;
+            this.chkKeepOutput.Location = new System.Drawing.Point(178, 5);
+            this.chkKeepOutput.Name = "chkKeepOutput";
+            this.chkKeepOutput.Size = new System.Drawing.Size(163, 17);
+            this.chkKeepOutput.TabIndex = 10;
+            this.chkKeepOutput.Text = "&Keep output on Abort or error";
+            this.chkKeepOutput.UseVisualStyleBackColor = true;
+            this.chkKeepOutput.CheckedChanged += new System.EventHandler(this.chkKeepOutput_CheckedChanged);
+            // 
+            // btnDeleteAll
+            // 
+            this.btnDeleteAll.Location = new System.Drawing.Point(4, 29);
+            this.btnDeleteAll.Name = "btnDeleteAll";
+            this.btnDeleteAll.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteAll.TabIndex = 9;
+            this.btnDeleteAll.Text = "Delete &All";
+            this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
             // 
             // btnNewJob
             // 
@@ -952,36 +1050,36 @@ namespace BeHappy
             this.btnNewJob.Name = "btnNewJob";
             this.btnNewJob.Size = new System.Drawing.Size(88, 23);
             this.btnNewJob.TabIndex = 8;
-            this.btnNewJob.Text = "Add new Job";
+            this.btnNewJob.Text = "Add &new Job";
             this.btnNewJob.Click += new System.EventHandler(this.createNewJob);
             // 
             // btnAbort
             // 
             this.btnAbort.Enabled = false;
-            this.btnAbort.Location = new System.Drawing.Point(4, 92);
+            this.btnAbort.Location = new System.Drawing.Point(4, 133);
             this.btnAbort.Name = "btnAbort";
             this.btnAbort.Size = new System.Drawing.Size(75, 23);
             this.btnAbort.TabIndex = 7;
-            this.btnAbort.Text = "Abort";
+            this.btnAbort.Text = "A&bort";
             this.btnAbort.Click += new System.EventHandler(this.abortEncoding);
             // 
             // btnStop
             // 
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(4, 63);
+            this.btnStop.Location = new System.Drawing.Point(4, 104);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 6;
-            this.btnStop.Text = "Stop";
+            this.btnStop.Text = "S&top";
             this.btnStop.Click += new System.EventHandler(this.stopEncoding);
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(4, 36);
+            this.btnStart.Location = new System.Drawing.Point(4, 77);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 5;
-            this.btnStart.Text = "Start";
+            this.btnStart.Text = "&Start";
             this.btnStart.Click += new System.EventHandler(this.startJobs);
             // 
             // txtSimpleLog
@@ -995,7 +1093,7 @@ namespace BeHappy
             this.txtSimpleLog.Name = "txtSimpleLog";
             this.txtSimpleLog.ReadOnly = true;
             this.txtSimpleLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSimpleLog.Size = new System.Drawing.Size(350, 132);
+            this.txtSimpleLog.Size = new System.Drawing.Size(700, 132);
             this.txtSimpleLog.TabIndex = 4;
             this.txtSimpleLog.WordWrap = false;
             // 
@@ -1004,28 +1102,28 @@ namespace BeHappy
             this.progressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.progressBar.Location = new System.Drawing.Point(0, 164);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(434, 16);
+            this.progressBar.Size = new System.Drawing.Size(784, 16);
             this.progressBar.Step = 1;
             this.progressBar.TabIndex = 3;
             // 
             // btnMoveDownJob
             // 
             this.btnMoveDownJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveDownJob.Location = new System.Drawing.Point(354, 0);
+            this.btnMoveDownJob.Location = new System.Drawing.Point(704, 0);
             this.btnMoveDownJob.Name = "btnMoveDownJob";
             this.btnMoveDownJob.Size = new System.Drawing.Size(75, 23);
             this.btnMoveDownJob.TabIndex = 2;
-            this.btnMoveDownJob.Text = "Move Down";
+            this.btnMoveDownJob.Text = "Move Do&wn";
             this.btnMoveDownJob.Click += new System.EventHandler(this.moveDownJob);
             // 
             // btnMoveUpJob
             // 
             this.btnMoveUpJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveUpJob.Location = new System.Drawing.Point(274, 0);
+            this.btnMoveUpJob.Location = new System.Drawing.Point(624, 0);
             this.btnMoveUpJob.Name = "btnMoveUpJob";
             this.btnMoveUpJob.Size = new System.Drawing.Size(75, 23);
             this.btnMoveUpJob.TabIndex = 1;
-            this.btnMoveUpJob.Text = "Move Up";
+            this.btnMoveUpJob.Text = "Move &Up";
             this.btnMoveUpJob.Click += new System.EventHandler(this.moveUpJob);
             // 
             // btnDeleteJob
@@ -1034,7 +1132,7 @@ namespace BeHappy
             this.btnDeleteJob.Name = "btnDeleteJob";
             this.btnDeleteJob.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteJob.TabIndex = 0;
-            this.btnDeleteJob.Text = "Delete";
+            this.btnDeleteJob.Text = "&Delete";
             this.btnDeleteJob.Click += new System.EventHandler(this.deleteJob);
             // 
             // tabPageAbout
@@ -1051,16 +1149,16 @@ namespace BeHappy
             this.tabPageAbout.Controls.Add(this.label1);
             this.tabPageAbout.Location = new System.Drawing.Point(4, 22);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Size = new System.Drawing.Size(434, 247);
+            this.tabPageAbout.Size = new System.Drawing.Size(784, 347);
             this.tabPageAbout.TabIndex = 4;
             this.tabPageAbout.Text = "About";
             // 
             // button5
             // 
             this.button5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button5.Location = new System.Drawing.Point(0, 134);
+            this.button5.Location = new System.Drawing.Point(0, 234);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(434, 24);
+            this.button5.Size = new System.Drawing.Size(784, 24);
             this.button5.TabIndex = 9;
             this.button5.TabStop = true;
             this.button5.Tag = "http://forum.mediatory.ru/viewtopic.php?t=3754";
@@ -1070,9 +1168,9 @@ namespace BeHappy
             // button4
             // 
             this.button4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button4.Location = new System.Drawing.Point(0, 158);
+            this.button4.Location = new System.Drawing.Point(0, 258);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(434, 24);
+            this.button4.Size = new System.Drawing.Size(784, 24);
             this.button4.TabIndex = 8;
             this.button4.TabStop = true;
             this.button4.Tag = "http://www.avisynth.org/";
@@ -1082,9 +1180,9 @@ namespace BeHappy
             // button3
             // 
             this.button3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button3.Location = new System.Drawing.Point(0, 182);
+            this.button3.Location = new System.Drawing.Point(0, 282);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(434, 24);
+            this.button3.Size = new System.Drawing.Size(784, 24);
             this.button3.TabIndex = 7;
             this.button3.TabStop = true;
             this.button3.Tag = "http://forum.doom9.org/printthread.php?t=103069&pp=40";
@@ -1094,9 +1192,9 @@ namespace BeHappy
             // linkLabel1
             // 
             this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.linkLabel1.Location = new System.Drawing.Point(0, 206);
+            this.linkLabel1.Location = new System.Drawing.Point(0, 306);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(434, 24);
+            this.linkLabel1.Size = new System.Drawing.Size(784, 24);
             this.linkLabel1.TabIndex = 6;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Tag = "http://workspaces.gotdotnet.com/behappy";
@@ -1106,9 +1204,9 @@ namespace BeHappy
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.Location = new System.Drawing.Point(0, 230);
+            this.button1.Location = new System.Drawing.Point(0, 330);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(434, 17);
+            this.button1.Size = new System.Drawing.Size(784, 17);
             this.button1.TabIndex = 5;
             this.button1.TabStop = true;
             this.button1.Tag = "http://dimzon541.narod.ru/";
@@ -1140,7 +1238,7 @@ namespace BeHappy
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(434, 247);
+            this.tabPage1.Size = new System.Drawing.Size(784, 347);
             this.tabPage1.TabIndex = 5;
             this.tabPage1.Text = "GPL";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1153,7 +1251,7 @@ namespace BeHappy
             this.txtGPL.Name = "txtGPL";
             this.txtGPL.ReadOnly = true;
             this.txtGPL.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtGPL.Size = new System.Drawing.Size(428, 241);
+            this.txtGPL.Size = new System.Drawing.Size(778, 341);
             this.txtGPL.TabIndex = 0;
             // 
             // saveFileDialog2
@@ -1161,41 +1259,14 @@ namespace BeHappy
             this.saveFileDialog2.DefaultExt = "avs";
             this.saveFileDialog2.Filter = "AviSynth script (*.avs)|*.avs";
             // 
-            // numericUpDown4
-            // 
-            this.numericUpDown4.Enabled = false;
-            this.numericUpDown4.Location = new System.Drawing.Point(66, 117);
-            this.numericUpDown4.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(80, 20);
-            this.numericUpDown4.TabIndex = 7;
-            this.numericUpDown4.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // cbxBuffer
-            // 
-            this.cbxBuffer.Location = new System.Drawing.Point(2, 115);
-            this.cbxBuffer.Name = "cbxBuffer";
-            this.cbxBuffer.Size = new System.Drawing.Size(60, 23);
-            this.cbxBuffer.TabIndex = 6;
-            this.cbxBuffer.Text = "Buffer";
-            this.cbxBuffer.CheckedChanged += new System.EventHandler(this.cbxBuffer_CheckedChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(442, 299);
+            this.ClientSize = new System.Drawing.Size(792, 373);
             this.Controls.Add(this.tabControl1);
             this.MinimumSize = new System.Drawing.Size(450, 300);
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Closed += new System.EventHandler(this.MainForm_Closed);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
             this.tabControl1.ResumeLayout(false);
@@ -1215,6 +1286,7 @@ namespace BeHappy
             this.groupBox3.PerformLayout();
             this.gbxTweak.ResumeLayout(false);
             this.gbxTweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -1226,10 +1298,10 @@ namespace BeHappy
             this.tabPageAbout.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             this.ResumeLayout(false);
 
 		}
+		private System.Windows.Forms.CheckBox cbxEnsureMP3VBRSync;
 		#endregion
 
 		/// <summary>
@@ -1263,14 +1335,17 @@ namespace BeHappy
 			// {2} means unique string (to use as part of identifier)
 			// {3} means '{' character (to allow '{' to be used)
 			sb.AppendFormat(source.ScriptBlock, sourceFileName, targetFileName, Guid.NewGuid().ToString("N"),"{","}");
-			sb.Append(Environment.NewLine+Environment.NewLine + "EnsureVBRMP3Sync() # Some black magic to avoid desync" + Environment.NewLine+Environment.NewLine);
-
+            sb.Append(Environment.NewLine+Environment.NewLine);
+			if(cbxEnsureMP3VBRSync.Checked)
+			{
+			    sb.Append("EnsureVBRMP3Sync() # Some black magic to avoid desync" + Environment.NewLine+Environment.NewLine);
+            }
 			if(cbxDelay.Checked)
 			{
 				sb.Append(SEPARATOP);
 				sb.AppendFormat("{0}# [BeHappy: Delay Audio by {1} ms ]{0}DelayAudio( {1}.0/1000.0){0}{0}", Environment.NewLine, (long)numericUpDown1.Value);
 			}
-#warning other tweaks here !!!
+//#warning other tweaks here !!!
 
             if (cbxSplit.Checked)
             {
@@ -1356,6 +1431,25 @@ namespace BeHappy
 			sb.Append("All files (*.*)|*.*");
 			fileDialog.Filter = sb.ToString();
 			fileDialog.FilterIndex = 1 + openAs.SelectedIndex;
+
+            // make sure the control we're opening is the output/destination
+            if (ctrl.Name == "txtOutputFileName" && ctrl.Text != "")
+            {
+                // set up our delimiter to break down the path and file
+                char[] arDelim = new char[1];
+                arDelim[0] = '\\';
+
+                // split the path/file parts based on our delimiter
+                string[] arParts = txtOutputFileName.Text.Split(arDelim);
+
+                // we know the file is the last element in the array
+                string strFileName = arParts[arParts.GetUpperBound(0)];
+
+                // put the file name in so the user doesn't have to retype it
+                // make shon3i happy. :)
+                fileDialog.FileName = strFileName;
+            }
+
 			bool result;
 			if(result=DialogResult.OK==fileDialog.ShowDialog())
 			{
@@ -1368,7 +1462,7 @@ namespace BeHappy
 
 		private void selectSourceFile(object sender, System.EventArgs e)
 		{
-			if(selectFile(openFileDialog1,lstAudioSource,txtSourceFileName) && this.targetFileName.Length==0)
+			if(selectFile(openFileDialog1,lstAudioSource,txtSourceFileName) /*&& this.targetFileName.Length==0*/)
 			{
 				string target =	 Path.ChangeExtension(sourceFileName, currentEncoder.GetFirstExtension());
 				if(0==string.Compare(target, this.sourceFileName))
@@ -1399,7 +1493,9 @@ namespace BeHappy
 			AudioEncoder enc = currentEncoder;
 			job.AviSynthScript = createAvsScript(sourceFileName, targetFileName, enc);
             job.CommandLine = enc.GetExecutableArguments(System.IO.Path.GetExtension(targetFileName).ToLower());
-			job.EncoderExecutable=enc.ExecutableFileName;
+            job.EncoderExecutable=encoder_dir+enc.ExecutableFileName;
+            if(job.EncoderExecutable.Length==encoder_dir.Length )
+            	job.EncoderExecutable=null;
 			job.SourceFile=sourceFileName;
 			job.TargetFile=targetFileName;
 			job.SendRiffHeader=enc.WriteRiffHeader;
@@ -1409,8 +1505,23 @@ namespace BeHappy
 
 		private void submitJobToJobControl(object sender, System.EventArgs e)
 		{
+            // make sure we have a source and a target
+            if ((this.sourceFileName == null || this.sourceFileName == "") ||
+                 (this.targetFileName == null || this.targetFileName == ""))
+            {
+                MessageBox.Show("You must select a source and a destination file before proceeding.", "Source/Destination required",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
 			Job job = createJob();
 			ListViewItem item = createJobItem(job);
+
+            // now that we have a multi-select list, let's deselect
+            // all items prior to selecting the job that was just
+            // submitted to the job control
+            deselectAllJobs();
+
 			jobListView.Items.Add(item).Selected=true;
 
 			tabControl1.SelectedTab = tabPageJobControl;
@@ -1501,25 +1612,29 @@ namespace BeHappy
 
 		private void deleteJob(object sender, System.EventArgs e)
 		{
-			if(jobListView.SelectedItems.Count==0)
-				return;
-			ListViewItem item =	jobListView.SelectedItems[0];
-			lock(lockObject)
-			{
-				if(((Job)item.Tag).State!=JobState.Processing)
-				{
-					//					int n = item.Index;
-					jobListView.Items.Remove(item);
-#warning TODO: Select Next!
-				}
-			}
-		
-		}
+            int iIdxOfSelectedItem = 0;
+            while (jobListView.SelectedItems.Count > 0)
+            {
+                ListViewItem item = jobListView.SelectedItems[iIdxOfSelectedItem];
+                lock (lockObject)
+                {
+                    if (((Job)item.Tag).State != JobState.Processing)
+                    {
+                        jobListView.Items.Remove(item);
+                    }
+                    else
+                    {
+                        iIdxOfSelectedItem++;
+                    }
 
-		#endregion
+                    if (iIdxOfSelectedItem == jobListView.SelectedItems.Count)
+                        break;
+                }
+            }
+        }
+        #endregion
 
-
-		private void moveUpDSP(object sender, System.EventArgs e)
+        private void moveUpDSP(object sender, System.EventArgs e)
 		{
 
 			int nIndex = lstDSP.SelectedIndex;
@@ -1705,7 +1820,7 @@ namespace BeHappy
 
 		private string getPlayer()
 		{
-            return System.Configuration.ConfigurationManager.AppSettings["directShowPlayer"];
+            return this.ds_player;
 		}
 
 		private string m_tempFileName = Path.GetTempPath() + "preview-" + Guid.NewGuid().ToString("n")+".avs";
@@ -1794,25 +1909,29 @@ namespace BeHappy
 					Job job = i.Tag as Job;
 					lock(lockObject)
 					{
-						if(job.State==JobState.Waiting)
-						{
-							m_stderr = new StringBuilder();
-							m_stdout = new StringBuilder();
-							m_log = new StringBuilder();
-							m_item = i;
-							i.Selected = true;
-							job.Log = string.Empty;
-							txtSimpleLog.Text=string.Empty;
-							job.State = JobState.Processing;
-							job.StartAt = DateTime.Now;
-							updateListViewItem(i);
-							btnStart.Enabled = false;
-							appendToLog("Starting job " + job.Name);
-							m_encoder = new Encoder(job);
-							m_encoder.EncoderCallback+=new EncoderStatusCallbackDelegate(encoderCallback);
-							m_encoder.Start();
-							return;
-						}
+                        if (job.State == JobState.Waiting)
+                        {
+                            deselectAllJobs();
+
+                            m_stderr = new StringBuilder();
+                            m_stdout = new StringBuilder();
+                            m_log = new StringBuilder();
+                            m_item = i;
+                            i.Selected = true;
+                            job.Log = string.Empty;
+                            txtSimpleLog.Text = string.Empty;
+                            job.State = JobState.Processing;
+                            job.StartAt = DateTime.Now;
+                            job.bKeepOutput = m_bKeepOutput;
+                            updateListViewItem(i);
+                            btnStart.Enabled = false;
+                            appendToLog("Starting job " + job.Name);
+                            m_encoder = new Encoder(job);
+                            m_encoder.SetKeepOutput(m_bKeepOutput);
+                            m_encoder.EncoderCallback += new EncoderStatusCallbackDelegate(encoderCallback);
+                            m_encoder.Start();
+                            return;
+                        }
 					}
 				}
 			}
@@ -1820,6 +1939,11 @@ namespace BeHappy
 			btnAbort.Enabled = btnStop.Enabled = false;
 		}
 
+        private void deselectAllJobs()
+        {
+            foreach (ListViewItem li in jobListView.Items)
+                li.Selected = false;
+        }
 
 		private void encoderCallback(EncoderCallbackEventArgs s)
 		{
@@ -1854,6 +1978,8 @@ namespace BeHappy
 					case EncoderCallbackEventArgs.EventType.StdOut:
 						m_stdout.Append(s.Message);
 						break;
+                    case EncoderCallbackEventArgs.EventType.KeepOutput:
+                        break;
 				}
 			}
 			else
@@ -1892,12 +2018,46 @@ namespace BeHappy
 		private void jobListView_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			string log = string.Empty;
-			if(0!=jobListView.SelectedItems.Count)
-				log = (jobListView.SelectedItems[0].Tag as Job).Log;
-			txtSimpleLog.Text= string.Empty + log;		
+            if (jobListView.SelectedItems.Count == 1)
+            {
+                log = (jobListView.SelectedItems[0].Tag as Job).Log;
+                txtSimpleLog.Text = string.Empty + log;
+            }
+            else
+            {
+                txtSimpleLog.Text = string.Empty;
+            }
+
+            SetJobMoveButtonState();
 		}
 		
 		#endregion
+
+        private void SetJobMoveButtonState()
+        {
+            // set move button states
+            if (jobListView.SelectedItems.Count == 0 ||
+                jobListView.SelectedItems.Count > 1)
+            {
+                this.btnMoveUpJob.Enabled = false;
+                this.btnMoveDownJob.Enabled = false;
+            }
+            else if (jobListView.SelectedItems[0].Index == 0)
+            {
+                this.btnMoveUpJob.Enabled = false;
+                this.btnMoveDownJob.Enabled = jobListView.Items.Count > 1;
+            }
+            else if (jobListView.SelectedItems[0].Index == jobListView.Items.Count - 1)
+            {
+                this.btnMoveUpJob.Enabled = true;
+                this.btnMoveDownJob.Enabled = false;
+            }
+            else
+            {
+                this.btnMoveUpJob.Enabled = true;
+                this.btnMoveDownJob.Enabled = true;
+            }
+        }
 
         private void linkLabel1_Click(object sender, LinkLabelLinkClickedEventArgs e)
 		{
@@ -1923,6 +2083,42 @@ namespace BeHappy
         private void cbxBuffer_CheckedChanged(object sender, EventArgs e)
         {
             numericUpDown4.Enabled = cbxBuffer.Checked;
+        }
+
+        private void btnDeleteAll_Click(object sender, EventArgs e)
+        {
+            if (jobListView.Items.Count == 0)
+                return;
+
+            lock (lockObject)
+            {
+                int idxOfItemInProcess = 0;
+                while (jobListView.Items.Count > 0)
+                {
+                    ListViewItem li = jobListView.Items[idxOfItemInProcess];
+                    if (((Job)li.Tag).State == JobState.Postponed ||
+                        ((Job)li.Tag).State == JobState.Processing ||
+                        ((Job)li.Tag).State == JobState.Waiting)
+                    {
+                        idxOfItemInProcess++;
+                    }
+                    else
+                    {
+                        jobListView.Items.Remove(li);
+                    }
+
+                    if (idxOfItemInProcess == jobListView.Items.Count)
+                        break;
+                }
+            }
+        }
+
+        private void chkKeepOutput_CheckedChanged(object sender, EventArgs e)
+        {
+            m_bKeepOutput = chkKeepOutput.Checked;
+
+            if (m_encoder != null)
+                m_encoder.SetKeepOutput(m_bKeepOutput);
         }
 
 	}

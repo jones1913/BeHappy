@@ -425,7 +425,9 @@ namespace BeHappy.LameMP3
         /// <returns>AviSynth script block</returns>
         public string GetScript()
         {
-            return "2==AudioChannels(last)?last:ConvertToMono(last)";
+// Better a error than a wrong result when multichannel
+//            return "2==AudioChannels(last)?last:ConvertToMono(last)";
+            return "32==Audiobits(last)?ConvertAudioTo32bit(last):last";
         }
 
         /// <summary>

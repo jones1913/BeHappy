@@ -383,7 +383,7 @@ namespace BeHappy.Extensions
 			get
 			{
 				AudioSource source = new AudioSource();
-				source.Script="DirectShowSource(\"{0}\")";
+				source.Script="DirectShowSource(\"{0}\", video=false)";
 				source.m_listOfSupportedFileExtensions = new string[]{"*"};
 				source.m_title="DirectShowSource";
 				source.UniqueID=new Guid("{7457AF8E-600F-49fe-8AAE-710227D68DE6}");

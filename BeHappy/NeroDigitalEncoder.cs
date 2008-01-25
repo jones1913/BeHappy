@@ -21,13 +21,13 @@ namespace BeHappy
     {
         [EnumTitle("Automatic", "AAC")]
         Auto,
-        [EnumTitle("aacPlus v2", "aacPlus v2")]
+        [EnumTitle("HE-AAC+PS", "HE-AAC+PS")]
         PS,
-        [EnumTitle("aacPlus", "aacPlus")]
+        [EnumTitle("HE-AAC", "HE-AAC")]
         HE,
-        [EnumTitle("AAC-LC", "AAC-LC")]
+        [EnumTitle("LC-AAC", "LC-AAC")]
         LC,
-        [EnumTitle("aacPlusHigh", "aacPlusHigh")]
+        [EnumTitle("HE-AAC High", "HE-AAC High")]
         High
     }
     namespace NeroDigitalAAC
@@ -445,15 +445,19 @@ namespace BeHappy
             {
                 return true;
             }
-
-            public static readonly string[] MP4Extensions;
-
-            static Encoder()
+            
+            private static readonly string[] MP4PREF = new string[]{ "mp4", "m4a" };
+            private static readonly string[] M4APREF = new string[]{ "m4a", "mp4" };
+            public static bool preferMP4overM4A = true;
+            public static string[] MP4Extensions	
             {
-                if ("true" == System.Configuration.ConfigurationManager.AppSettings["preferMP4overM4A"])
-                    MP4Extensions = new string[] { "mp4", "m4a" };
-                else
-                    MP4Extensions = new string[] { "m4a", "mp4" };
+            	get
+            	{
+            		if (preferMP4overM4A)
+            			return MP4PREF;
+            		else
+            			return M4APREF;
+            	}
             }
 
             /// <summary>

@@ -56,7 +56,7 @@ namespace BeHappy
 		public bool SendRiffHeader;
 		public DateTime StartAt;
 		public DateTime StopAt;
-
+        public bool bKeepOutput;
 
 		public Job()
 		{
@@ -69,10 +69,12 @@ namespace BeHappy
 
 	}
 
-	[XmlRoot(Namespace = Constants.DefaultXmlNamespace, ElementName = "BeHappy.JobList")]
-	public sealed class JobList
-	{
-		[XmlElement("Job") ]
-		public Job[] Jobs;
-	}
+    [XmlRoot(Namespace = Constants.DefaultXmlNamespace, ElementName = "BeHappy.JobList")]
+    public sealed class JobList
+    {
+        [XmlElement("Job")]
+        public Job[] Jobs;
+    }
+
+
 }

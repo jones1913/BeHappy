@@ -16,7 +16,13 @@ namespace BeHappy.TimeStretch
         public RadioButton rbtnFrameRate;
         public RadioButton rbtnCustom;
         internal NumericUpDown numCustom;
+        private GroupBox gbRateControl;
+        public RadioButton rdoCtlRate;
+        public RadioButton rdoCtlTempo;
+        public RadioButton rdoCtlPitch;
         private System.ComponentModel.IContainer components = null;
+        public string m_strTimeStretchMethod;
+        private ToolTip m_tt;
 
         public ConfigurationDialog()
         {
@@ -24,6 +30,9 @@ namespace BeHappy.TimeStretch
             InitializeComponent();
 
             // TODO: Add any initialization after the InitializeComponent call
+            // init default
+            m_strTimeStretchMethod = "tempo";
+
             rbtnFrameRate_CheckedChanged(null, null);
         }
 
@@ -50,24 +59,32 @@ namespace BeHappy.TimeStretch
         /// </summary>
         private void InitializeComponent()
         {
+            m_tt = new ToolTip();
+            m_tt.AutoPopDelay = 10000; // show for 10 seconds while mouse is over item
+
             this.numRateFrom = new System.Windows.Forms.NumericUpDown();
             this.numRateTo = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.rbtnFrameRate = new System.Windows.Forms.RadioButton();
             this.rbtnCustom = new System.Windows.Forms.RadioButton();
             this.numCustom = new System.Windows.Forms.NumericUpDown();
+            this.gbRateControl = new System.Windows.Forms.GroupBox();
+            this.rdoCtlRate = new System.Windows.Forms.RadioButton();
+            this.rdoCtlPitch = new System.Windows.Forms.RadioButton();
+            this.rdoCtlTempo = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numRateFrom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRateTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCustom)).BeginInit();
+            this.gbRateControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(90, 131);
+            this.button1.Location = new System.Drawing.Point(113, 228);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(166, 131);
+            this.button2.Location = new System.Drawing.Point(189, 228);
             // 
             // numRateFrom
             // 
@@ -154,9 +171,9 @@ namespace BeHappy.TimeStretch
             this.rbtnCustom.AutoSize = true;
             this.rbtnCustom.Location = new System.Drawing.Point(12, 72);
             this.rbtnCustom.Name = "rbtnCustom";
-            this.rbtnCustom.Size = new System.Drawing.Size(106, 17);
+            this.rbtnCustom.Size = new System.Drawing.Size(222, 17);
             this.rbtnCustom.TabIndex = 14;
-            this.rbtnCustom.Text = "Custom transform";
+            this.rbtnCustom.Text = "Custom (actual_time / desired_time) x 100";
             this.rbtnCustom.UseVisualStyleBackColor = true;
             this.rbtnCustom.CheckedChanged += new System.EventHandler(this.rbtnFrameRate_CheckedChanged);
             // 
@@ -189,10 +206,65 @@ namespace BeHappy.TimeStretch
             0,
             393216});
             // 
+            // gbRateControl
+            // 
+            this.gbRateControl.Controls.Add(this.rdoCtlTempo);
+            this.gbRateControl.Controls.Add(this.rdoCtlPitch);
+            this.gbRateControl.Controls.Add(this.rdoCtlRate);
+            this.gbRateControl.ForeColor = System.Drawing.Color.MediumBlue;
+            this.gbRateControl.Location = new System.Drawing.Point(12, 131);
+            this.gbRateControl.Name = "gbRateControl";
+            this.gbRateControl.Size = new System.Drawing.Size(241, 91);
+            this.gbRateControl.TabIndex = 15;
+            this.gbRateControl.TabStop = false;
+            this.gbRateControl.Text = "Rate Control";
+            // 
+            // rdoCtlRate
+            // 
+            this.rdoCtlRate.AutoSize = true;
+            this.rdoCtlRate.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.rdoCtlRate.Location = new System.Drawing.Point(7, 20);
+            this.rdoCtlRate.Name = "rdoCtlRate";
+            this.rdoCtlRate.Size = new System.Drawing.Size(134, 17);
+            this.rdoCtlRate.TabIndex = 0;
+            this.rdoCtlRate.Text = "&Rate, tempo and no pitch correction";
+            this.m_tt.SetToolTip(this.rdoCtlRate, "Change playback RATE that affects both tempo and pitch at the same time");
+            this.rdoCtlRate.UseVisualStyleBackColor = true;
+            this.rdoCtlRate.CheckedChanged += new System.EventHandler(this.rdoCtlRate_CheckedChanged);
+            // 
+            // rdoCtlPitch
+            // 
+            this.rdoCtlPitch.AutoSize = true;
+            this.rdoCtlPitch.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.rdoCtlPitch.Location = new System.Drawing.Point(7, 44);
+            this.rdoCtlPitch.Name = "rdoCtlPitch";
+            this.rdoCtlPitch.Size = new System.Drawing.Size(110, 17);
+            this.rdoCtlPitch.TabIndex = 1;
+            this.rdoCtlPitch.Text = "&Pitch changed preserving tempo";
+            this.m_tt.SetToolTip(this.rdoCtlPitch, "Sound PITCH can be increased or decreased while maintaining the original tempo");
+            this.rdoCtlPitch.UseVisualStyleBackColor = true;
+            this.rdoCtlPitch.CheckedChanged += new System.EventHandler(this.rdoCtlRate_CheckedChanged);
+            // 
+            // rdoCtlTempo
+            // 
+            this.rdoCtlTempo.AutoSize = true;
+            this.rdoCtlTempo.Checked = true;
+            this.rdoCtlTempo.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.rdoCtlTempo.Location = new System.Drawing.Point(7, 68);
+            this.rdoCtlTempo.Name = "rdoCtlTempo";
+            this.rdoCtlTempo.Size = new System.Drawing.Size(159, 17);
+            this.rdoCtlTempo.TabIndex = 2;
+            this.rdoCtlTempo.TabStop = true;
+            this.rdoCtlTempo.Text = "&Tempo changed, pitch correction";
+            this.m_tt.SetToolTip(this.rdoCtlTempo, "Sound TEMPO can be increased or decreased while maintaining the original pitch");
+            this.rdoCtlTempo.UseVisualStyleBackColor = true;
+            this.rdoCtlTempo.CheckedChanged += new System.EventHandler(this.rdoCtlRate_CheckedChanged);
+            // 
             // ConfigurationDialog
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(242, 156);
+            this.ClientSize = new System.Drawing.Size(265, 253);
+            this.Controls.Add(this.gbRateControl);
             this.Controls.Add(this.rbtnCustom);
             this.Controls.Add(this.numCustom);
             this.Controls.Add(this.rbtnFrameRate);
@@ -210,9 +282,12 @@ namespace BeHappy.TimeStretch
             this.Controls.SetChildIndex(this.rbtnFrameRate, 0);
             this.Controls.SetChildIndex(this.numCustom, 0);
             this.Controls.SetChildIndex(this.rbtnCustom, 0);
+            this.Controls.SetChildIndex(this.gbRateControl, 0);
             ((System.ComponentModel.ISupportInitialize)(this.numRateFrom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRateTo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCustom)).EndInit();
+            this.gbRateControl.ResumeLayout(false);
+            this.gbRateControl.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,6 +299,28 @@ namespace BeHappy.TimeStretch
             numCustom.Enabled = !(numRateFrom.Enabled=(numRateTo.Enabled=rbtnFrameRate.Checked));
         }
 
+        private void rdoCtlRate_CheckedChanged(object sender, EventArgs e)
+        {
+            /*
+                AVISynth docs define the following:
+                Sound TEMPO can be increased or decreased while maintaining the original pitch.
+                Sound PITCH can be increased or decreased while maintaining the original tempo.
+                Change playback RATE that affects both tempo and pitch at the same time.
+
+            (1) Tempo changed, pitch correction.
+                (hint: changes the length of the audio track while preserving the original pitch)
+            (2) Pitch changed preserving tempo.
+                (hint: manipulates pitch, but Track length will kept unchanged)
+            (3) Rate, tempo and no pitch correction.
+                (hint: changes the length of the audio track without preserving the original pitch )
+            */
+            if (rdoCtlRate.Checked == true)
+                m_strTimeStretchMethod = "rate";
+            else if (rdoCtlPitch.Checked == true)
+                m_strTimeStretchMethod = "pitch";
+            else
+                m_strTimeStretchMethod = "tempo";
+        }
     }
 
     [XmlRoot("TimeStretchDSP", Namespace = Constants.DefaultXmlNamespace)]
@@ -232,7 +329,6 @@ namespace BeHappy.TimeStretch
         [XmlRoot("TimeStretchDSP.Configuration", Namespace = Constants.DefaultXmlNamespace)]
         public sealed class Config
         {
-
             public enum Mode
             {
                 FrameRate,
@@ -243,12 +339,13 @@ namespace BeHappy.TimeStretch
             public float FromRate = 25.0F;
             public float ToRate = 23.976F;
             public float Tempo = 105F;
+            public string Control = "tempo";
 
             internal float ActualTempo
             {
                 get
                 {
-                    return Custom ? Tempo : (100.0F * ToRate) / FromRate; 
+                    return Custom ? Tempo : (100.0F * ToRate) / FromRate;
                 }
             }
 
@@ -277,7 +374,8 @@ namespace BeHappy.TimeStretch
 
         string IExtensionItemCommon.GetScript()
         {
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "TimeStretch(last, tempo={0})", this.c.ActualTempo);
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "TimeStretch(last, {0}={1})", this.c.Control, this.c.ActualTempo);
         }
 
         #endregion
@@ -291,13 +389,20 @@ namespace BeHappy.TimeStretch
                 f.numCustom.Value = (decimal)this.c.Tempo;
                 f.numRateFrom.Value = (decimal)this.c.FromRate;
                 f.numRateTo.Value = (decimal)this.c.ToRate;
+                f.rdoCtlTempo.Checked = true;
                 f.rbtnFrameRate.Checked = !(f.rbtnCustom.Checked = this.c.Custom);
+
+                f.rdoCtlRate.Checked = (this.c.Control == "rate");
+                f.rdoCtlPitch.Checked = (this.c.Control == "pitch");
+                f.rdoCtlTempo.Checked = (this.c.Control == "tempo");
+
                 if (DialogResult.OK != f.ShowDialog(owner))
                     return ConfigurationResult.Cancel;
                 this.c.Tempo = (float)f.numCustom.Value;
                 this.c.FromRate = (float)f.numRateFrom.Value;
                 this.c.ToRate = (float)f.numRateTo.Value;
                 this.c.Custom = f.rbtnCustom.Checked;
+                this.c.Control = f.m_strTimeStretchMethod;
                 return ConfigurationResult.OK;
             }
         }

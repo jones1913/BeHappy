@@ -20,7 +20,8 @@ namespace BeHappy
 			Notify,
 			Progress,
 			StdErr,
-			StdOut
+			StdOut,
+            KeepOutput
 		}
 
 		internal string Message = null;
@@ -56,6 +57,7 @@ namespace BeHappy
 		private string	m_encoder;
 		private string	m_commandLine;
 		private bool	m_sendHeader;
+        private bool m_bKeepOutput;
 
 		private long m_nSampleCount;
 		private long m_nSizeInBytes;
@@ -86,19 +88,28 @@ namespace BeHappy
 
 		private void audioStreamInfo(AviSynthClip x)
 		{
-			raiseEvent(new EncoderCallbackEventArgs(string.Format("Channels={0}, BitsPerSample={1}, SampleRate={2}Hz", x.ChannelsCount, x.BitsPerSample, x.AudioSampleRate)));
+// New for float output
+       			if(x.SampleType==AudioSampleType.FLOAT)
+       			{
+                 		raiseEvent(new EncoderCallbackEventArgs(string.Format("Channels={0}, BitsPerSample={1} float, SampleRate={2}Hz", x.ChannelsCount, x.BitsPerSample, x.AudioSampleRate)));
+       			}
+       			else
+       			{
+       	                	raiseEvent(new EncoderCallbackEventArgs(string.Format("Channels={0}, BitsPerSample={1} int, SampleRate={2}Hz", x.ChannelsCount, x.BitsPerSample, x.AudioSampleRate)));
+       			}
 		}
 
 
 
-		internal Encoder(string script, string output, string encoder, string commandLine, bool sendHeader)
+        internal Encoder(string script, string output, string encoder, string commandLine, bool sendHeader, bool bKeepOutput)
 		{
 			this.m_script = script;
 			this.m_output = output;
 			this.m_encoder = encoder;
 			this.m_commandLine = commandLine;
 			this.m_sendHeader = sendHeader;
-			m_process = null;
+            this.m_bKeepOutput = bKeepOutput;
+            m_process = null;
 			if(null!=m_encoder)
 				if(0==m_encoder.Length)
 					m_encoder=null;
@@ -106,12 +117,13 @@ namespace BeHappy
 
 		internal Encoder(
 			Job job):this(
-			job.AviSynthScript, 
-			job.TargetFile, 
-			job.EncoderExecutable, 
-			job.CommandLine, 
-			job.SendRiffHeader)
-		{
+			job.AviSynthScript,
+			job.TargetFile,
+			job.EncoderExecutable,
+			job.CommandLine,
+            job.SendRiffHeader,
+            job.bKeepOutput)
+        {
 		}
 
 		private void readStdOut()
@@ -220,8 +232,9 @@ namespace BeHappy
 									}
 
 									setProgress(100);
-									if(m_sendHeader && (x.SampleType==AudioSampleType.INT24 || x.SampleType==AudioSampleType.INT8))
-										target.WriteByte(0);
+// Next lines commented. New to allow output all samples. I can't understand for what write a extrabyte 0 at end of 8 and 24 int samples, cancelled.
+//									if(m_sendHeader && (x.SampleType==AudioSampleType.INT24 || x.SampleType==AudioSampleType.INT8))
+//										target.WriteByte(0);
 
 								}
 								if(m_process!=null)
@@ -276,8 +289,15 @@ namespace BeHappy
 		{
 			try
 			{
-				File.Delete(m_output);
-			}
+                if (m_bKeepOutput)
+                {
+                    raiseEvent(new EncoderCallbackEventArgs("Any output was kept for you to inspect."));
+                }
+                else
+                {
+                    File.Delete(m_output);
+                }
+            }
 			catch(Exception e2)
 			{
 				raiseEvent(new EncoderCallbackEventArgs(e2));
@@ -303,9 +323,9 @@ namespace BeHappy
 				// {3} means channel count
 				// {4} means samplecount
 				// {5} means size in bytes
-				info.Arguments = string.Format(m_commandLine, 
+				info.Arguments = string.Format(m_commandLine,
 					m_output, x.AudioSampleRate, x.BitsPerSample, x.ChannelsCount,m_nSampleCount,m_nSizeInBytes);
-				info.FileName = m_encoder;
+				info.FileName = m_encoder;				
 				raiseEvent(new EncoderCallbackEventArgs(string.Format("{0} {1}", m_encoder, info.Arguments)));
 				info.UseShellExecute = false;
 				info.RedirectStandardInput = true;
@@ -331,7 +351,7 @@ namespace BeHappy
 		private string saveScriptToTempFile()
 		{
 			string sTempFileName = System.IO.Path.GetTempPath() + "encode-" + Guid.NewGuid().ToString("n") + ".avs";
-	
+
 			using( Stream tempAVS = new FileStream(sTempFileName, System.IO.FileMode.CreateNew))
 			{
 				using( TextWriter avswr = new StreamWriter(tempAVS, System.Text.Encoding.Default))
@@ -351,12 +371,14 @@ namespace BeHappy
 			target.Write(BitConverter.GetBytes(useFaadTrick?FAAD_MAGIC_VALUE:(uint)(m_nSizeInBytes + WAV_HEADER_SIZE)),0,4);
 			target.Write(System.Text.Encoding.ASCII.GetBytes("WAVEfmt "),0,8);
 			target.Write(BitConverter.GetBytes((uint)0x10),0,4);
-#warning Format Tag
-			target.Write(BitConverter.GetBytes((short)0x01),0,2);
+//#warning Format Tag
+// New for float output, now is ok for allowed AudioSampleType. Pending FLOAT_64 and WAVE_FORMAT_EXTENSIBLE header.
+			target.Write(BitConverter.GetBytes((x.SampleType==AudioSampleType.FLOAT) ? ((short)0x03) : ((short)0x01)),0,2);
+// old			target.Write(BitConverter.GetBytes((short)0x01),0,2);
 			target.Write(BitConverter.GetBytes(x.ChannelsCount),0,2);
 			target.Write(BitConverter.GetBytes(x.AudioSampleRate),0,4);
 			target.Write(BitConverter.GetBytes(x.BitsPerSample*x.AudioSampleRate*x.ChannelsCount/8),0,4);
-			target.Write(BitConverter.GetBytes( x.ChannelsCount * x.BitsPerSample/8),0,2);
+			target.Write(BitConverter.GetBytes(x.ChannelsCount * x.BitsPerSample/8),0,2);
 			target.Write(BitConverter.GetBytes(x.BitsPerSample),0,2);
 			target.Write(System.Text.Encoding.ASCII.GetBytes("data"),0,4);
             target.Write(BitConverter.GetBytes(useFaadTrick ? (FAAD_MAGIC_VALUE - WAV_HEADER_SIZE) : (uint)m_nSizeInBytes), 0, 4);
@@ -392,6 +414,11 @@ namespace BeHappy
 				return m_encoderThread!=null && m_encoderThread.IsAlive;
 			}
 		}
+
+        internal void SetKeepOutput(bool bKeepOutput)
+        {
+            m_bKeepOutput = bKeepOutput;
+        }
 	}
 }
 /*

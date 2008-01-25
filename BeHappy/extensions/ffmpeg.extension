@@ -4,6 +4,7 @@
 		<Plugin>
 			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
 				<DialogWidth>250</DialogWidth>
+				<Script>32==Audiobits(last)?ConvertAudioTo32bit(last):last</Script>
 				<ExecutableFileName>ffmpeg.exe</ExecutableFileName>
 				<TitleFormatString>ffmpeg MP2 @ {0}</TitleFormatString>
 				<SupportedFileExtension>mp2</SupportedFileExtension>
@@ -39,7 +40,8 @@
 		<Plugin>
 			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
 				<DialogWidth>250</DialogWidth>
-				<Script>6==Audiochannels(last)?GetChannel(last,1,3,2,5,6,4):last</Script>
+				<Script>6==Audiochannels(last)?GetChannel(last,1,3,2,5,6,4):last
+					32==Audiobits(last)?ConvertAudioTo32bit(last):last</Script>
 				<ExecutableFileName>ffmpeg.exe</ExecutableFileName>
 				<TitleFormatString>ffmpeg AC3 @ {0}</TitleFormatString>
 				<SupportedFileExtension>ac3</SupportedFileExtension>
@@ -75,7 +77,7 @@
 		<Plugin>
 			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
 				<DialogWidth>250</DialogWidth>
-				<!--Script>6==Audiochannels(last)?GetChannel(last,1,3,2,5,6,4):last</Script-->
+				<Script>32==Audiobits(last)?ConvertAudioTo32bit(last):last</Script>
 				<ExecutableFileName>ffmpeg.exe</ExecutableFileName>
 				<TitleFormatString>ffmpeg AAC @ {0}</TitleFormatString>
 				<SupportedFileExtension>m4a</SupportedFileExtension>

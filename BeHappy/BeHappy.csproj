@@ -96,34 +96,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="aud-x.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="AvisynthWrapper.zip" />
     <None Include="compile.bat">
     </None>
-    <None Include="DownMix.extension">
+    <None Include="extensions\aud-x.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="DuplicateChannels.extension">
+    <None Include="extensions\BassAudio.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ffmpeg.extension">
+    <None Include="extensions\ConvertSample.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="flac.extension">
+    <None Include="extensions\DownMix.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="NicAudio.extension">
+    <None Include="extensions\DuplicateChannels.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SSRC.extension">
+    <None Include="extensions\ffmpeg.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UpMix.extension">
+    <None Include="extensions\flac.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="wavpack.extension">
+    <None Include="extensions\FraunhoferMp3.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\MusePack.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\NicAudio.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\RaWav.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\SSRC.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\twolame.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\UpMix.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\wavpack.extension">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="extensions\wavSplit.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="AftenEncoder.resx">

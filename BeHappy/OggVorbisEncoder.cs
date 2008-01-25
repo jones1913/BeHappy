@@ -24,6 +24,7 @@ namespace BeHappy.OggVorbis
         public RadioButton rbtnABR;
         private GroupBox groupBox3;
         public TextBox txtCLI;
+        double ApproximateBitrate;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -81,7 +82,7 @@ namespace BeHappy.OggVorbis
             ((System.ComponentModel.ISupportInitialize)(this.vBitrate)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -124,7 +125,7 @@ namespace BeHappy.OggVorbis
             this.groupBox1.Controls.Add(this.rbtnABR);
             this.groupBox1.Location = new System.Drawing.Point(138, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(353, 157);
+            this.groupBox1.Size = new System.Drawing.Size(353, 183);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bitrate management";
@@ -132,11 +133,11 @@ namespace BeHappy.OggVorbis
             // vQuality
             // 
             this.vQuality.Dock = System.Windows.Forms.DockStyle.Top;
-            this.vQuality.Location = new System.Drawing.Point(3, 106);
+            this.vQuality.Location = new System.Drawing.Point(3, 122);
             this.vQuality.Maximum = 1000;
             this.vQuality.Minimum = -200;
             this.vQuality.Name = "vQuality";
-            this.vQuality.Size = new System.Drawing.Size(347, 42);
+            this.vQuality.Size = new System.Drawing.Size(347, 58);
             this.vQuality.TabIndex = 17;
             this.vQuality.TickFrequency = 20;
             this.vQuality.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
@@ -146,7 +147,7 @@ namespace BeHappy.OggVorbis
             // rbtnVBR
             // 
             this.rbtnVBR.Dock = System.Windows.Forms.DockStyle.Top;
-            this.rbtnVBR.Location = new System.Drawing.Point(3, 82);
+            this.rbtnVBR.Location = new System.Drawing.Point(3, 98);
             this.rbtnVBR.Name = "rbtnVBR";
             this.rbtnVBR.Size = new System.Drawing.Size(347, 24);
             this.rbtnVBR.TabIndex = 14;
@@ -160,7 +161,7 @@ namespace BeHappy.OggVorbis
             this.vBitrate.Maximum = 496;
             this.vBitrate.Minimum = 8;
             this.vBitrate.Name = "vBitrate";
-            this.vBitrate.Size = new System.Drawing.Size(347, 42);
+            this.vBitrate.Size = new System.Drawing.Size(347, 58);
             this.vBitrate.TabIndex = 15;
             this.vBitrate.TickFrequency = 8;
             this.vBitrate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
@@ -247,8 +248,14 @@ namespace BeHappy.OggVorbis
 
         private void vBitrate_ValueChanged(object sender, EventArgs e)
         {
+
             rbtnABR.Text = string.Format("Average Bitrate @ {0} kbit/s", vBitrate.Value);
-            rbtnVBR.Text = string.Format("Variable Bitrate Q={0}", Quality);
+            if (Quality <= 4) ApproximateBitrate = (double)(Quality + 2)*16 + 32;
+            if ((Quality > 4) && (Quality <= 8)) ApproximateBitrate = (double)(Quality - 4) * 32 + 128;
+            if (Quality > 8 && Quality <= 9) ApproximateBitrate = (double)(Quality - 8) * 64 + 256;
+            if (Quality > 9) ApproximateBitrate = (double)((Quality - 9)) * 179.8 + 320;
+            rbtnVBR.Text = string.Format("Variable Bitrate Q={0} approx. {1} kb/s for stereo", Quality,ApproximateBitrate);
+
         }
 	}
 
@@ -306,9 +313,11 @@ namespace BeHappy.OggVorbis
         public string GetCommandLineArguments(string targetFileExtension)
         {
             if(m_options.VBR)
-                return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+// raw            return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+                return ("-Q --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
             else
-                return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+// raw            return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+                return ("-Q --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
         }
 
         /// <summary>
@@ -318,7 +327,8 @@ namespace BeHappy.OggVorbis
         /// <returns></returns>
         public bool MustSendRiffHeader()
         {
-            return false;
+// raw        return false;
+            return true;
         }
 
         /// <summary>

@@ -1,12 +1,25 @@
 <?xml version="1.0"?>
 <BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
-	<AudioSource Name="NicMPG123Source" UniqueID="5907BF6D-7328-4951-BD37-9B800872E409">
-		<Script>NicMPG123Source("{0}")</Script>
-		<SupportedFileExtension>mpg</SupportedFileExtension>
-		<SupportedFileExtension>mpeg</SupportedFileExtension>
-		<SupportedFileExtension>mpa</SupportedFileExtension>
-		<SupportedFileExtension>mp3</SupportedFileExtension>
-		<SupportedFileExtension>mp2</SupportedFileExtension>
+	<AudioSource UniqueID="1B1E7952-5316-4C88-88DF-24EDCCD8A8C7">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>200</DialogWidth>
+				<TitleFormatString>{0}</TitleFormatString>
+				<SupportedFileExtension>mpg</SupportedFileExtension>
+				<SupportedFileExtension>mpeg</SupportedFileExtension>
+				<SupportedFileExtension>mpa</SupportedFileExtension>
+				<SupportedFileExtension>mp3</SupportedFileExtension>
+				<SupportedFileExtension>mp2</SupportedFileExtension>
+				<Option>
+					<Name>NicMPG123Source</Name>
+					<Value>NicMPG123Source("{0}")</Value>
+				</Option>
+				<Option>
+					<Name>NicMPG123Source (Normalize)</Name>
+					<Value>NicMPG123Source("{0}", true )</Value>
+				</Option>
+			</MultiOptionSource>
+		</Plugin>
 	</AudioSource>
 	<AudioSource UniqueID="ff49a26c-7348-4674-a28f-17bf7fcb38cc">
 		<Plugin>
@@ -45,4 +58,3 @@
 	</AudioSource>
 
 </BeHappy.Extension>
-

@@ -4,6 +4,7 @@
 		<Plugin>
 			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
 				<DialogWidth>300</DialogWidth>
+				<Script>16==Audiobits(last)?last:ConvertAudioTo24bit(last)</Script>
 				<ExecutableFileName>flac.exe</ExecutableFileName>
 				<TitleFormatString>FLAC 1.1.x - {0}</TitleFormatString>
 				<SupportedFileExtension>flac</SupportedFileExtension>
