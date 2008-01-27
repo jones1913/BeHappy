@@ -139,7 +139,10 @@ namespace BeHappy
 			lstEncoder.SelectedIndexChanged += new EventHandler(lstEncoder_SelectedIndexChanged);
 			lstAudioSource.SelectedIndexChanged+=new EventHandler(lstAudioSource_SelectedIndexChanged);
 			
-			// MessageBox.Show(@"res://" + Application.ExecutablePath + "/#32512");
+            // 20080126 Chumbo mod
+            SetDSPMoveButtonState();
+
+            // MessageBox.Show(@"res://" + Application.ExecutablePath + "/#32512");
 			// this.Icon = new Icon(@"res://BeHappy.exe/32512");//@"res://" + Application.ExecutablePath + "/#32512"); //("res://BeHappy.exe/#32512"); // null; // Application.Icon;
 		}
 
@@ -1653,6 +1656,8 @@ namespace BeHappy
 				}
 			}
 
+            // 20080126 Chumbo mod
+            SetDSPMoveButtonState();
 		}
 
 		private void moveDownDSP(object sender, System.EventArgs e)
@@ -1676,6 +1681,9 @@ namespace BeHappy
 				lstDSP.SetItemChecked(nIndex, ch);
 				lstDSP.SelectedIndex = nIndex;
 			}
+
+            // 20080126 Chumbo mod
+            SetDSPMoveButtonState();
 		}
 
 		private string getExeDirectory()
@@ -1798,10 +1806,13 @@ namespace BeHappy
 		private void lstDSP_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			ExtensionItemBase item = lstDSP.SelectedItem as ExtensionItemBase;
-			if(item!=null)
+			if (item != null)
 				btnConfigureDSP.Enabled = item.IsSupportConfiguration;
 			else
 				btnConfigureDSP.Enabled = false;
+
+            // 20080126 Chumbo mod
+            SetDSPMoveButtonState();
 		}
 
 		private void configureDSP(object sender, System.EventArgs e)
@@ -2033,6 +2044,33 @@ namespace BeHappy
 		
 		#endregion
 
+        // 20080126 Chumbo mod
+        private void SetDSPMoveButtonState()
+        {
+            // set move button states
+            if (lstDSP.SelectedItems.Count == 0 ||
+                lstDSP.SelectedItems.Count > 1)
+            {
+                this.btnMoveUpDSP.Enabled = false;
+                this.btnMoveDownDSP.Enabled = false;
+            }
+            else if (lstDSP.SelectedIndices.Contains(0))
+            {
+                this.btnMoveUpDSP.Enabled = false;
+                this.btnMoveDownDSP.Enabled = lstDSP.Items.Count > 1;
+            }
+            else if (lstDSP.SelectedIndices.Contains(lstDSP.Items.Count - 1))
+            {
+                this.btnMoveUpDSP.Enabled = true;
+                this.btnMoveDownDSP.Enabled = false;
+            }
+            else
+            {
+                this.btnMoveUpDSP.Enabled = true;
+                this.btnMoveDownDSP.Enabled = true;
+            }
+        }
+
         private void SetJobMoveButtonState()
         {
             // set move button states
@@ -2118,7 +2156,9 @@ namespace BeHappy
             m_bKeepOutput = chkKeepOutput.Checked;
 
             if (m_encoder != null)
+            {
                 m_encoder.SetKeepOutput(m_bKeepOutput);
+            }
         }
 
 	}
