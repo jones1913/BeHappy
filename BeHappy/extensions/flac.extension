@@ -6,7 +6,7 @@
 				<DialogWidth>300</DialogWidth>
 				<Script>16==Audiobits(last)?last:ConvertAudioTo24bit(last)</Script>
 				<ExecutableFileName>flac.exe</ExecutableFileName>
-				<TitleFormatString>FLAC 1.1.x - {0}</TitleFormatString>
+				<TitleFormatString>FLAC 1.2.x - {0}</TitleFormatString>
 				<SupportedFileExtension>flac</SupportedFileExtension>
 				<SupportedFileExtension>fla</SupportedFileExtension>
 				<SupportedFileExtension>ogg</SupportedFileExtension>

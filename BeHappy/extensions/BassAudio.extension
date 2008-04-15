@@ -2,20 +2,21 @@
 <BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
   <AudioSource Name="BassAudio" UniqueID="368e0760-ae08-11da-a746-0800200c9a66">
     <Script>bassAudioSource("{0}")</Script>
-    <SupportedFileExtension>wav</SupportedFileExtension>
-    <SupportedFileExtension>ogg</SupportedFileExtension>
-    <SupportedFileExtension>wma</SupportedFileExtension>
-    <SupportedFileExtension>flac</SupportedFileExtension>
-    <SupportedFileExtension>wv</SupportedFileExtension>
-    <SupportedFileExtension>aiff</SupportedFileExtension>
-    <SupportedFileExtension>mp3</SupportedFileExtension>
-    <SupportedFileExtension>mp2</SupportedFileExtension>
-    <SupportedFileExtension>mp1</SupportedFileExtension>
-    <SupportedFileExtension>ape</SupportedFileExtension>
-    <SupportedFileExtension>mpc</SupportedFileExtension>
     <SupportedFileExtension>aac</SupportedFileExtension>
-    <SupportedFileExtension>m4a</SupportedFileExtension>
-    <SupportedFileExtension>mp4</SupportedFileExtension>
+    <SupportedFileExtension>aiff</SupportedFileExtension>
+    <SupportedFileExtension>ape</SupportedFileExtension>
     <SupportedFileExtension>cda</SupportedFileExtension>
+    <SupportedFileExtension>flac</SupportedFileExtension>
+    <SupportedFileExtension>m4a</SupportedFileExtension>
+    <SupportedFileExtension>mp1</SupportedFileExtension>
+    <SupportedFileExtension>mp2</SupportedFileExtension>
+    <SupportedFileExtension>mp3</SupportedFileExtension>
+    <SupportedFileExtension>mp4</SupportedFileExtension>
+    <SupportedFileExtension>mpc</SupportedFileExtension>
+    <SupportedFileExtension>ogg</SupportedFileExtension>
+    <SupportedFileExtension>tta</SupportedFileExtension>
+    <SupportedFileExtension>wav</SupportedFileExtension>
+    <SupportedFileExtension>wma</SupportedFileExtension>
+    <SupportedFileExtension>wv</SupportedFileExtension>
   </AudioSource>
 </BeHappy.Extension>

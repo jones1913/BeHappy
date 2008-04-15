@@ -313,11 +313,11 @@ namespace BeHappy.OggVorbis
         public string GetCommandLineArguments(string targetFileExtension)
         {
             if(m_options.VBR)
-// raw            return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
-                return ("-Q --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+                return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+// not raw                return ("-Q --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
             else
-// raw            return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
-                return ("-Q --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+                return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+// not raw                return ("-Q --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
         }
 
         /// <summary>
@@ -327,8 +327,8 @@ namespace BeHappy.OggVorbis
         /// <returns></returns>
         public bool MustSendRiffHeader()
         {
-// raw        return false;
-            return true;
+            return false;
+// not raw            return true;
         }
 
         /// <summary>

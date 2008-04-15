@@ -96,7 +96,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AvisynthWrapper.zip" />
     <None Include="compile.bat">
     </None>
     <None Include="extensions\aud-x.extension">
@@ -129,10 +128,10 @@
     <None Include="extensions\NicAudio.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="extensions\RaWav.extension">
+    <None Include="extensions\SSRC.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="extensions\SSRC.extension">
+    <None Include="extensions\ttaenc.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="extensions\twolame.extension">
