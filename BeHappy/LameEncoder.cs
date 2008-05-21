@@ -25,7 +25,7 @@ namespace BeHappy.LameMP3
         public TrackBar vBitrate;
         public RadioButton rbtnABR;
         public TrackBar vQuality;
-        public CheckBox cbxStrictISO;
+//      public CheckBox cbxStrictISO;
         public CheckBox cbxUseNewVbr;
         public TextBox txtCLI;
         /// <summary>
@@ -80,16 +80,16 @@ namespace BeHappy.LameMP3
             this.rbtnCBR = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtCLI = new System.Windows.Forms.TextBox();
-            this.cbxStrictISO = new System.Windows.Forms.CheckBox();
+//          this.cbxStrictISO = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vQuality)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vBitrate)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(4, 8);
             this.pictureBox1.Name = "pictureBox1";
@@ -97,9 +97,9 @@ namespace BeHappy.LameMP3
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Location = new System.Drawing.Point(336, 306);
@@ -107,9 +107,9 @@ namespace BeHappy.LameMP3
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "OK";
-            // 
+            //
             // button2
-            // 
+            //
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(416, 306);
@@ -117,9 +117,9 @@ namespace BeHappy.LameMP3
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
             this.button2.Text = "Cancel";
-            // 
+            //
             // groupBox1
-            // 
+            //
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.cbxUseNewVbr);
@@ -134,18 +134,18 @@ namespace BeHappy.LameMP3
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bitrate management";
-            // 
+            //
             // cbxUseNewVbr
-            // 
+            //
             this.cbxUseNewVbr.Dock = System.Windows.Forms.DockStyle.Top;
             this.cbxUseNewVbr.Location = new System.Drawing.Point(3, 172);
             this.cbxUseNewVbr.Name = "cbxUseNewVbr";
             this.cbxUseNewVbr.Size = new System.Drawing.Size(347, 30);
             this.cbxUseNewVbr.TabIndex = 18;
-            this.cbxUseNewVbr.Text = "use new variable bitrate (VBR) routine";
-            // 
+            this.cbxUseNewVbr.Text = "use new VBR routine (else vbr-old)";
+            //
             // vQuality
-            // 
+            //
             this.vQuality.Dock = System.Windows.Forms.DockStyle.Top;
             this.vQuality.Location = new System.Drawing.Point(3, 130);
             this.vQuality.Maximum = 9;
@@ -155,9 +155,9 @@ namespace BeHappy.LameMP3
             this.vQuality.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.vQuality.Value = 6;
             this.vQuality.ValueChanged += new System.EventHandler(this.vQuality_ValueChanged);
-            // 
+            //
             // rbtnVBR
-            // 
+            //
             this.rbtnVBR.Dock = System.Windows.Forms.DockStyle.Top;
             this.rbtnVBR.Location = new System.Drawing.Point(3, 106);
             this.rbtnVBR.Name = "rbtnVBR";
@@ -165,9 +165,9 @@ namespace BeHappy.LameMP3
             this.rbtnVBR.TabIndex = 14;
             this.rbtnVBR.Text = "Variable bit rate";
             this.rbtnVBR.CheckedChanged += new System.EventHandler(this.rbtnCBR_CheckedChanged);
-            // 
+            //
             // vBitrate
-            // 
+            //
             this.vBitrate.Dock = System.Windows.Forms.DockStyle.Top;
             this.vBitrate.Location = new System.Drawing.Point(3, 64);
             this.vBitrate.Maximum = 320;
@@ -179,9 +179,9 @@ namespace BeHappy.LameMP3
             this.vBitrate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.vBitrate.Value = 12;
             this.vBitrate.ValueChanged += new System.EventHandler(this.vBitrate_ValueChanged);
-            // 
+            //
             // rbtnABR
-            // 
+            //
             this.rbtnABR.Dock = System.Windows.Forms.DockStyle.Top;
             this.rbtnABR.Location = new System.Drawing.Point(3, 40);
             this.rbtnABR.Name = "rbtnABR";
@@ -189,9 +189,9 @@ namespace BeHappy.LameMP3
             this.rbtnABR.TabIndex = 16;
             this.rbtnABR.Text = "Average bit rate";
             this.rbtnABR.CheckedChanged += new System.EventHandler(this.rbtnCBR_CheckedChanged);
-            // 
+            //
             // rbtnCBR
-            // 
+            //
             this.rbtnCBR.Dock = System.Windows.Forms.DockStyle.Top;
             this.rbtnCBR.Location = new System.Drawing.Point(3, 16);
             this.rbtnCBR.Name = "rbtnCBR";
@@ -199,9 +199,9 @@ namespace BeHappy.LameMP3
             this.rbtnCBR.TabIndex = 13;
             this.rbtnCBR.Text = "Constant bit rate";
             this.rbtnCBR.CheckedChanged += new System.EventHandler(this.rbtnCBR_CheckedChanged);
-            // 
+            //
             // groupBox3
-            // 
+            //
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.txtCLI);
@@ -211,30 +211,30 @@ namespace BeHappy.LameMP3
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Additional CLI arguments";
-            // 
+            //
             // txtCLI
-            // 
+            //
             this.txtCLI.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtCLI.Location = new System.Drawing.Point(3, 16);
             this.txtCLI.Name = "txtCLI";
             this.txtCLI.Size = new System.Drawing.Size(347, 20);
             this.txtCLI.TabIndex = 0;
-            // 
+            //
             // cbxStrictISO
-            // 
-            this.cbxStrictISO.Location = new System.Drawing.Point(141, 218);
-            this.cbxStrictISO.Name = "cbxStrictISO";
-            this.cbxStrictISO.Size = new System.Drawing.Size(284, 26);
-            this.cbxStrictISO.TabIndex = 14;
-            this.cbxStrictISO.Text = "comply as much as possible to ISO MPEG spec";
-            // 
+            //
+//          this.cbxStrictISO.Location = new System.Drawing.Point(141, 218);
+//          this.cbxStrictISO.Name = "cbxStrictISO";
+//          this.cbxStrictISO.Size = new System.Drawing.Size(284, 26);
+//          this.cbxStrictISO.TabIndex = 14;
+//          this.cbxStrictISO.Text = "comply as much as possible to ISO MPEG spec";
+            //
             // EncoderConfigurationForm
-            // 
+            //
             this.AcceptButton = this.button1;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(494, 332);
-            this.Controls.Add(this.cbxStrictISO);
+//          this.Controls.Add(this.cbxStrictISO);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
@@ -308,7 +308,7 @@ namespace BeHappy.LameMP3
 
                 f.cbxUseNewVbr.Checked = m_config.UseVbrNew;
 
-                f.cbxStrictISO.Checked = m_config.StrictISO;
+//              f.cbxStrictISO.Checked = m_config.StrictISO;
 
                 f.txtCLI.Text = m_config.CLI;
 
@@ -323,7 +323,7 @@ namespace BeHappy.LameMP3
                     if (f.rbtnCBR.Checked) m_config.Mode = BitrateManagementMode.CBR;
                     if (f.rbtnVBR.Checked) m_config.Mode = BitrateManagementMode.VBR;
 
-                    m_config.StrictISO = f.cbxStrictISO.Checked;
+//                  m_config.StrictISO = f.cbxStrictISO.Checked;
 
                     m_config.CLI = f.txtCLI.Text;
 
@@ -466,7 +466,7 @@ namespace BeHappy.LameMP3
             public BitrateManagementMode Mode;
             public int Quality;
             public bool UseVbrNew;
-            public bool StrictISO;
+//          public bool StrictISO;
             public string CLI;
 
             public Config()
@@ -475,7 +475,7 @@ namespace BeHappy.LameMP3
                 Quality = 4;
                 Mode = BitrateManagementMode.VBR;
                 UseVbrNew = true;
-                StrictISO = true;
+//              StrictISO = true;
                 CLI = "-h";
             }
 
@@ -486,6 +486,10 @@ namespace BeHappy.LameMP3
                 {
                     case BitrateManagementMode.VBR:
                         encoder += string.Format("VBR {0}", Quality);
+                        if (UseVbrNew) encoder += " (vbr-new)";
+                        else encoder += " (vbr-old)";
+//                      if (StrictISO)
+//                          encoder += ", ISO";
                         break;
                     case BitrateManagementMode.ABR:
                         encoder += string.Format("ABR @ {0} kbit/s", Bitrate);
@@ -494,10 +498,6 @@ namespace BeHappy.LameMP3
                         encoder += string.Format("CBR @ {0} kbit/s", NormalizeBitrate(Bitrate));
                         break;
                 }
-                if (UseVbrNew && Mode == BitrateManagementMode.VBR)
-                    encoder += " (vbr-new)";
-                if (StrictISO)
-                    encoder += ", ISO";
                 return encoder;
             }
 
@@ -517,6 +517,7 @@ namespace BeHappy.LameMP3
                     case BitrateManagementMode.VBR:
                         sb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, " -v -V {0} --nohist", this.Quality);
                         if (this.UseVbrNew) sb.Append(" --vbr-new");
+                        else sb.Append(" --vbr-old");
                         break;
                 }
 

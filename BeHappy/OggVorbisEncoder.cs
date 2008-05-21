@@ -308,15 +308,16 @@ namespace BeHappy.OggVorbis
         /// {3} means channel count
         /// {4} means samplecount
         /// {5} means size in bytes
+        /// {6} means format tag (1 = int, 3 = float)
         /// </summary>
         /// <returns>arguments</returns>
         public string GetCommandLineArguments(string targetFileExtension)
         {
             if(m_options.VBR)
-                return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+                return ("-Q --raw --raw-format={6} --raw-bits={2} --raw-chan={3} --raw-rate={1} --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
 // not raw                return ("-Q --quality " + m_options.Quality.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
             else
-                return ("-Q --raw --raw-bits={2} --raw-chan={3} --raw-rate={1} --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
+                return ("-Q --raw --raw-format={6} --raw-bits={2} --raw-chan={3} --raw-rate={1} --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
 // not raw                return ("-Q --bitrate " + m_options.Bitrate.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + m_options.CLI).Trim() + " -o \"{0}\" -";
         }
 
