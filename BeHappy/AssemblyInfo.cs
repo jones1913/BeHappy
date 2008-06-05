@@ -31,7 +31,7 @@ using System.Runtime.InteropServices;
 // Please, keep last value by * to distingwish between different compiles ;)
 // Please, don't forget to update version before every release
 // ********************************************************************************
-[assembly: AssemblyVersion("0.2.1.*")]
+[assembly: AssemblyVersion("0.2.2.*")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
