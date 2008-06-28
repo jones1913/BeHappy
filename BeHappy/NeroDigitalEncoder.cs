@@ -255,7 +255,7 @@ namespace BeHappy
                 this.cbxSSE2.Name = "cbxSSE2";
                 this.cbxSSE2.Size = new System.Drawing.Size(156, 17);
                 this.cbxSSE2.TabIndex = 14;
-                this.cbxSSE2.Text = "Use SSE2 CPU instructions";
+                this.cbxSSE2.Text = "Use SSE CPU instructions";
                 // 
                 // linkLabel1
                 // 
@@ -418,7 +418,7 @@ namespace BeHappy
             /// <returns>executable name</returns>
             public string GetExecutableName()
             {
-                return m_config.SSE2 ? "neroAacEnc_sse2.exe" : "neroAacEnc.exe";
+                return m_config.SSE2 ? "neroAacEnc_sse.exe" : "neroAacEnc.exe";
             }
 
             /// <summary>
@@ -531,7 +531,7 @@ namespace BeHappy
                     if (CreateHintTrack)
                         encoder += ", Hint";
                     if (SSE2)
-                        encoder += ", SSE2";
+                        encoder += ", SSE";
                     return encoder;
                 }
 

@@ -150,7 +150,7 @@ namespace BeHappy.CodingTechnologiesAAC
             this.vBitrate.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.vBitrate.Location = new System.Drawing.Point(3, 44);
             this.vBitrate.Maximum = 320;
-            this.vBitrate.Minimum = 8;
+            this.vBitrate.Minimum = 16;
             this.vBitrate.Name = "vBitrate";
             this.vBitrate.Size = new System.Drawing.Size(352, 58);
             this.vBitrate.TabIndex = 15;
