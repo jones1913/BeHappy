@@ -310,46 +310,107 @@ namespace BeHappy
                                 audioSources.AddRange(extension.AudioSources);
                 }
 
-
+                // 20090216 Chumbo mod
+                // added exception handling to make sure items already
+                // added to collections do not crash the application
                 private void saveConfiguration()
                 {
+                    // 20090216 Chumbo mod
+                    try
+                    {
                         Configuration c = new Configuration();
                         ArrayList col = new ArrayList();
-                        col.AddRange(lstEncoder.Items);
-                        col.AddRange(lstAudioSource.Items);
-                        col.AddRange(lstDSP.Items);
-                        foreach(ExtensionItemBase i in col )
+
+                        // 20090216 Chumbo mod
+                        try
                         {
-                                if(i.IsSupportConfiguration)
+                            col.AddRange(lstEncoder.Items);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("The following exception occurred while adding the encoder items:\r\n" +
+                                ex.Message, "Save Configuration Exception");
+                        }
+
+                        // 20090216 Chumbo mod
+                        try
+                        {
+                            col.AddRange(lstAudioSource.Items);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("The following exception occurred while adding the audio source items:\r\n" +
+                                ex.Message, "Save Configuration Exception");
+                        }
+
+                        // 20090216 Chumbo mod
+                        try
+                        {
+                            col.AddRange(lstDSP.Items);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("The following exception occurred while adding the DSP items:\r\n" +
+                                ex.Message, "Save Configuration Exception");
+                        }
+
+                        foreach (ExtensionItemBase i in col)
+                        {
+                            if (i.IsSupportConfiguration)
+                            {
+                                XmlElement e = i.SaveConfiguration();
+                                if (e != null)
                                 {
-                                        XmlElement e = i.SaveConfiguration();
-                                        if(e!=null)
-                                                c.Settings.Add(i.UniqueID,e);
+                                    // 20090216 Chumbo mod
+                                    if (!c.Settings.Contains(i.UniqueID))
+                                    {
+                                        c.Settings.Add(i.UniqueID, e);
+                                    }
                                 }
+                            }
                         }
 
                         col.Clear();
-                        foreach(ListViewItem i in jobListView.Items)
+                        foreach (ListViewItem i in jobListView.Items)
                         {
+                            // 20090216 Chumbo mod
+                            if (!col.Contains(i.Tag))
+                            {
                                 col.Add(i.Tag);
+                            }
                         }
+
                         c.JobList = new JobList();
                         c.JobList.Jobs = (Job[])col.ToArray(typeof(Job));
                         col.Clear();
-                        foreach(ExtensionItemBase i in lstDSP.Items)
+
+                        foreach (ExtensionItemBase i in lstDSP.Items)
+                        {
+                            // 20090216 Chumbo mod
+                            if (!col.Contains(i.UniqueID))
+                            {
                                 col.Add(i.UniqueID);
+                            }
+                        }
+
                         c.DspOrder = (Guid[])col.ToArray(typeof(Guid));
                         c.CurrentEncoder = currentEncoder.UniqueID;
 
                         c.GuiPosition = new GuiPosition();
-                        c.GuiPosition.iTop      = this.Top;
-                        c.GuiPosition.iLeft     = this.Left;
-                        c.GuiPosition.iWidth    = this.Width;
-                        c.GuiPosition.iHeight   = this.Height;
+                        c.GuiPosition.iTop = this.Top;
+                        c.GuiPosition.iLeft = this.Left;
+                        c.GuiPosition.iWidth = this.Width;
+                        c.GuiPosition.iHeight = this.Height;
                         c.MiscSettings = new MiscSettings();
                         c.MiscSettings.directShowPlayer = this.ds_player;
                         c.MiscSettings.preferMP4overM4A = BeHappy.NeroDigitalAAC.Encoder.preferMP4overM4A;
                         c.SaveToFile(getConfigFileName());
+                    }
+                    // 20090216 Chumbo mod
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Save Configuration Exception");
+                    }
                 }
 
                 private string getConfigFileName()
