@@ -1,6 +1,7 @@
 using System;
 using System.Xml.Serialization;
 using BeHappy.Extensibility;
+using System.Diagnostics;
 
 namespace BeHappy {
         public enum JobState {
@@ -50,6 +51,7 @@ namespace BeHappy {
                 public DateTime StartAt;
                 public DateTime StopAt;
                 public bool bKeepOutput;
+                public int iPriority;
 
                 public Job() {
                 }

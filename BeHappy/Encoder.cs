@@ -5,10 +5,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace BeHappy {
+namespace BeHappy 
+{
     internal delegate void EncoderStatusCallbackDelegate(EncoderCallbackEventArgs s);
-
-
     internal sealed class EncoderCallbackEventArgs {
         internal enum EventType {
             Error,
@@ -44,6 +43,7 @@ namespace BeHappy {
     internal sealed class Encoder {
 
         private Process m_process;
+        private ProcessPriorityClass m_processPriority;
         private string  m_script;
         private string  m_output;
         private string  m_encoder;
@@ -87,7 +87,8 @@ namespace BeHappy {
             }
         }
 
-        internal Encoder(string script, string output, string encoder, string commandLine, bool sendHeader, int HeaderType, int ChannelMask, bool bKeepOutput) {
+        internal Encoder(string script, string output, string encoder, string commandLine, bool sendHeader, int HeaderType, int ChannelMask, bool bKeepOutput,
+            int iPriority) {
             this.m_script = script;
             this.m_output = output;
             this.m_encoder = encoder;
@@ -96,6 +97,7 @@ namespace BeHappy {
             this.m_HeaderType = HeaderType;
             this.m_ChannelMask = ChannelMask;
             this.m_bKeepOutput = bKeepOutput;
+            this.m_processPriority = (ProcessPriorityClass)iPriority;
             m_process = null;
             if(null!=m_encoder)
                 if(0==m_encoder.Length)
@@ -111,7 +113,8 @@ namespace BeHappy {
             job.SendRiffHeader,
             job.HeaderType,
             job.ChannelMask,
-            job.bKeepOutput) {
+            job.bKeepOutput,
+            job.iPriority) {
         }
 
         private void readStdOut() {
@@ -302,7 +305,7 @@ namespace BeHappy {
                 info.CreateNoWindow = true;
                 m_process.StartInfo = info;
                 m_process.Start();
-                m_process.PriorityClass=ProcessPriorityClass.Idle;
+                m_process.PriorityClass = m_processPriority;
                 m_readFromStdOutThread = new Thread(new ThreadStart( readStdOut));
                 m_readFromStdErrThread = new Thread(new ThreadStart( readStdErr));
                 m_readFromStdOutThread.Start();
@@ -417,6 +420,19 @@ namespace BeHappy {
         internal void Abort() {
             m_encoderThread.Abort();
             m_encoderThread = null;
+        }
+
+        internal void SetPriority(ProcessPriorityClass oPriority)
+        {
+            m_processPriority = oPriority;
+            
+            if (m_process != null)
+            {
+                if (!m_process.HasExited)
+                {
+                    m_process.PriorityClass = oPriority;
+                }
+            }
         }
 
         private void readAudioStreamInfo(AviSynthClip x) {
