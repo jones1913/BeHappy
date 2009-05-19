@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
-	<AudioEncoder Name="WavPack 4.x" UniqueID="CA5FD3A2-638D-4D73-951F-1B745B02C1C5">
-		<ExecutableFileName>wavpack.exe</ExecutableFileName>
-		<ExecutableArguments>-h -i -l -m -r -q -y - "{0}"</ExecutableArguments>
-		<SupportedFileExtension>wv</SupportedFileExtension>
-	</AudioEncoder>
-</BeHappy.Extension>
