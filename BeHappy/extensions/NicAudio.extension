@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioSource UniqueID="1B1E7952-5316-4C88-88DF-24EDCCD8A8C7">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>200</DialogWidth>
+				<TitleFormatString>{0}</TitleFormatString>
+				<SupportedFileExtension>mpg</SupportedFileExtension>
+				<SupportedFileExtension>mpeg</SupportedFileExtension>
+				<SupportedFileExtension>mpa</SupportedFileExtension>
+				<SupportedFileExtension>mp3</SupportedFileExtension>
+				<SupportedFileExtension>mp2</SupportedFileExtension>
+				<Option>
+					<Name>NicMPG123Source</Name>
+					<Value>NicMPG123Source("{0}")</Value>
+				</Option>
+				<Option>
+					<Name>NicMPG123Source (Normalize)</Name>
+					<Value>NicMPG123Source("{0}", true )</Value>
+				</Option>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+	<AudioSource UniqueID="ff49a26c-7348-4674-a28f-17bf7fcb38cc">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>200</DialogWidth>
+				<TitleFormatString>{0}</TitleFormatString>
+				<SupportedFileExtension>ac3</SupportedFileExtension>
+				<Option>
+					<Name>NicAc3Source</Name>
+					<Value>NicAc3Source("{0}")</Value>
+				</Option>
+				<Option>
+					<Name>NicAc3Source (DRC)</Name>
+					<Value>NicAc3Source("{0}", DRC=1)</Value>
+				</Option>
+				<Option>
+					<Name>NicAc3Source (Down2)</Name>
+					<Value>NicAc3Source("{0}", 2)</Value>
+				</Option>
+				<Option>
+					<Name>NicAc3Source (Down2, DRC)</Name>
+					<Value>NicAc3Source("{0}", 2, DRC=1)</Value>
+				</Option>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+	<AudioSource UniqueID="bd3ac54a-5c6a-4f9f-9d42-2d3990a0fafd">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>0</DialogWidth>
+
+				<TitleFormatString>{0}</TitleFormatString>
+				<SupportedFileExtension>dts</SupportedFileExtension>
+				<Option>
+					<Name>NicDtsSource</Name>
+					<Value>NicDtsSource("{0}")</Value>
+				</Option>
+				<Option>
+					<Name>NicDtsSource (DRC)</Name>
+					<Value>NicDtsSource("{0}", DRC=1)</Value>
+				</Option>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+	<AudioSource UniqueID="e44ed4c0-e096-11dc-95ff-0800200c9a66">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>250</DialogWidth>
+				<TitleFormatString>{0}</TitleFormatString>
+				<SupportedFileExtension>pcm</SupportedFileExtension>
+				<SupportedFileExtension>lpcm</SupportedFileExtension>
+				<Option>
+					<Name>LPCM BluRay 48000Hz, 16int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, -16, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM BluRay 48000Hz, 24int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, -24, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM BluRay 48000Hz, 16int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, -16, 6)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM BluRay 48000Hz, 24int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, -24, 6)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM BluRay 48000Hz, 16int, 8ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, -16, 8)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM BluRay 48000Hz, 24int, 8ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, -24, 8)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 48000Hz, 16int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, 16, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 48000Hz, 20int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, 20, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 48000Hz, 24int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, 24, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 48000Hz, 16int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, 16, 6)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 48000Hz, 20int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, 20, 6)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 48000Hz, 24int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 48000, 24, 6)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 44100Hz, 16int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 44100, 16, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 44100Hz, 20int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 44100, 20, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 44100Hz, 24int, 2ch</Name>
+					<Value>NicLPCMSource("{0}", 44100, 24, 2)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 44100Hz, 16int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 44100, 16, 6)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 44100Hz, 20int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 44100, 20, 6)</Value>
+				</Option>
+				<Option>
+					<Name>LPCM 44100Hz, 24int, 6ch</Name>
+					<Value>NicLPCMSource("{0}", 44100, 24, 6)</Value>
+				</Option>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+	<AudioSource UniqueID="58ab9132-50c8-11dc-8314-0800200c9a66">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>250</DialogWidth>
+				<TitleFormatString>{0}</TitleFormatString>
+				<SupportedFileExtension>raw</SupportedFileExtension>
+				<SupportedFileExtension>wav</SupportedFileExtension>
+				<SupportedFileExtension>w64</SupportedFileExtension>
+				<SupportedFileExtension>aif</SupportedFileExtension>
+				<SupportedFileExtension>au</SupportedFileExtension>
+				<SupportedFileExtension>caf</SupportedFileExtension>
+				<SupportedFileExtension>bwf</SupportedFileExtension>
+				<Option>
+					<Name>RaWav IgnoreLength always</Name>
+					<Value>RaWavSource("{0}", 1)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav IgnoreLength if wav > 2GB</Name>
+					<Value>RaWavSource("{0}", 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav IgnoreLength if wav > 4GB</Name>
+					<Value>RaWavSource("{0}", 4)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 16int, 2ch</Name>
+					<Value>RaWavSource("{0}", 48000, 16, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 24int, 2ch</Name>
+					<Value>RaWavSource("{0}", 48000, 24, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 32int, 2ch</Name>
+					<Value>RaWavSource("{0}", 48000, 32, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 32float, 2ch</Name>
+					<Value>RaWavSource("{0}", 48000, 0, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 16int, 6ch</Name>
+					<Value>RaWavSource("{0}", 48000, 16, 6)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 24int, 6ch</Name>
+					<Value>RaWavSource("{0}", 48000, 24, 6)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 32int, 6ch</Name>
+					<Value>RaWavSource("{0}", 48000, 32, 6)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 48000Hz, 32float, 6ch</Name>
+					<Value>RaWavSource("{0}", 48000, 0, 6)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 16int, 2ch</Name>
+					<Value>RaWavSource("{0}", 44100, 16, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 24int, 2ch</Name>
+					<Value>RaWavSource("{0}", 44100, 24, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 32int, 2ch</Name>
+					<Value>RaWavSource("{0}", 44100, 32, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 32float, 2ch</Name>
+					<Value>RaWavSource("{0}", 44100, 0, 2)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 16int, 6ch</Name>
+					<Value>RaWavSource("{0}", 44100, 16, 6)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 24int, 6ch</Name>
+					<Value>RaWavSource("{0}", 44100, 24, 6)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 32int, 6ch</Name>
+					<Value>RaWavSource("{0}", 44100, 32, 6)</Value>
+				</Option>
+				<Option>
+					<Name>RaWav 44100Hz, 32float, 6ch</Name>
+					<Value>RaWavSource("{0}", 44100, 0, 6)</Value>
+				</Option>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+</BeHappy.Extension>
