@@ -152,6 +152,7 @@
 				<DialogWidth>250</DialogWidth>
 				<TitleFormatString>{0}</TitleFormatString>
 				<SupportedFileExtension>raw</SupportedFileExtension>
+				<SupportedFileExtension>dat</SupportedFileExtension>
 				<SupportedFileExtension>wav</SupportedFileExtension>
 				<SupportedFileExtension>w64</SupportedFileExtension>
 				<SupportedFileExtension>aif</SupportedFileExtension>
@@ -184,7 +185,7 @@
 				</Option>
 				<Option>
 					<Name>RaWav 48000Hz, 32float, 2ch</Name>
-					<Value>RaWavSource("{0}", 48000, 0, 2)</Value>
+					<Value>RaWavSource("{0}", 48000, 33, 2)</Value>
 				</Option>
 				<Option>
 					<Name>RaWav 48000Hz, 16int, 6ch</Name>
@@ -200,7 +201,7 @@
 				</Option>
 				<Option>
 					<Name>RaWav 48000Hz, 32float, 6ch</Name>
-					<Value>RaWavSource("{0}", 48000, 0, 6)</Value>
+					<Value>RaWavSource("{0}", 48000, 33, 6)</Value>
 				</Option>
 				<Option>
 					<Name>RaWav 44100Hz, 16int, 2ch</Name>
@@ -216,7 +217,7 @@
 				</Option>
 				<Option>
 					<Name>RaWav 44100Hz, 32float, 2ch</Name>
-					<Value>RaWavSource("{0}", 44100, 0, 2)</Value>
+					<Value>RaWavSource("{0}", 44100, 33, 2)</Value>
 				</Option>
 				<Option>
 					<Name>RaWav 44100Hz, 16int, 6ch</Name>
@@ -232,7 +233,7 @@
 				</Option>
 				<Option>
 					<Name>RaWav 44100Hz, 32float, 6ch</Name>
-					<Value>RaWavSource("{0}", 44100, 0, 6)</Value>
+					<Value>RaWavSource("{0}", 44100, 33, 6)</Value>
 				</Option>
 			</MultiOptionSource>
 		</Plugin>

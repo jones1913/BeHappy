@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using BeHappy.Extensibility;
+using System.Windows.Forms;
 
 namespace BeHappy
 {
@@ -85,10 +86,17 @@ namespace BeHappy
 
 		public void SaveToFile(string fileName)
 		{
-			using(Stream f= new FileStream(fileName, FileMode.Create))
-			{
-				Utility.GetXmlSerializer(this.GetType()).Serialize(f,this);
-			}
+            try
+            {
+                using (Stream f = new FileStream(fileName, FileMode.Create))
+                {
+                    Utility.GetXmlSerializer(this.GetType()).Serialize(f, this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n" + ex.InnerException, "Save To File Exception");
+            }
 		}
 	}
 	[XmlRoot(Namespace = Constants.DefaultXmlNamespace, ElementName = "BeHappy.GUIPosition")]
