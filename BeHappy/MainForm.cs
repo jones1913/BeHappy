@@ -114,6 +114,9 @@ namespace BeHappy
 
                 private ToolTip m_tt;
 
+                private ProcessPriorityClass CurrentPriority { get; set; }
+                private int CurrentPriorityIndex { get; set; }
+
                 public MainForm()
                 {
                     m_tt = new ToolTip();
@@ -507,12 +510,12 @@ namespace BeHappy
                     this.btnAddToJobList = new System.Windows.Forms.Button();
                     this.tabPageJobControl = new System.Windows.Forms.TabPage();
                     this.jobListView = new System.Windows.Forms.ListView();
-                    this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-                    this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-                    this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-                    this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-                    this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
-                    this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+                    this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+                    this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+                    this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+                    this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+                    this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+                    this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
                     this.containerControl6 = new System.Windows.Forms.ContainerControl();
                     this.cboPriority = new System.Windows.Forms.ComboBox();
                     this.lblPriority = new System.Windows.Forms.Label();
@@ -601,7 +604,7 @@ namespace BeHappy
                     this.containerControl2.TabIndex = 1;
                     // 
                     // containerControl4
-                    //
+                    // 
                     this.containerControl4.BackColor = System.Drawing.SystemColors.Control;
                     this.containerControl4.Controls.Add(this.groupBox5);
                     this.containerControl4.Controls.Add(this.groupBox4);
@@ -657,7 +660,7 @@ namespace BeHappy
                     this.btnConfigureDSP.TabIndex = 3;
                     this.btnConfigureDSP.Text = "&Configure";
                     this.btnConfigureDSP.Click += new System.EventHandler(this.configureDSP);
-                    //
+                    // 
                     // btnMoveDownDSP
                     // 
                     this.btnMoveDownDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -727,7 +730,7 @@ namespace BeHappy
                     this.toolStripMenuItem2.Size = new System.Drawing.Size(119, 22);
                     this.toolStripMenuItem2.Text = "Configure";
                     this.toolStripMenuItem2.Click += new System.EventHandler(this.configureEncoder);
-                    //
+                    // 
                     // toolStripMenuItem3
                     // 
                     this.toolStripMenuItem3.Name = "toolStripMenuItem3";
@@ -741,7 +744,7 @@ namespace BeHappy
                     this.toolStripMenuItem5.Size = new System.Drawing.Size(116, 6);
                     // 
                     // cancelToolStripMenuItem1
-                    //
+                    // 
                     this.cancelToolStripMenuItem1.Name = "cancelToolStripMenuItem1";
                     this.cancelToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
                     this.cancelToolStripMenuItem1.Text = "Cancel";
@@ -797,7 +800,7 @@ namespace BeHappy
                     this.btnConfigureAudioSource.Click += new System.EventHandler(this.btnConfigureEncoder_Click);
                     // 
                     // contextMenuStrip1
-                    //
+                    // 
                     this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.configureToolStripMenuItem,
             this.resetToolStripMenuItem,
@@ -867,43 +870,43 @@ namespace BeHappy
                     this.containerControl3.Name = "containerControl3";
                     this.containerControl3.Size = new System.Drawing.Size(152, 319);
                     this.containerControl3.TabIndex = 0;
-                    //
+                    // 
                     // groupBox3
-                    //
+                    // 
                     this.groupBox3.Controls.Add(this.btnPreview);
                     this.groupBox3.Controls.Add(this.cbxOmitEncoderScript);
                     this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-                    this.groupBox3.Location = new System.Drawing.Point(0, 198);
+                    this.groupBox3.Location = new System.Drawing.Point(0, 208);
                     this.groupBox3.Name = "groupBox3";
-                    this.groupBox3.Size = new System.Drawing.Size(152, 135);
+                    this.groupBox3.Size = new System.Drawing.Size(152, 111);
                     this.groupBox3.TabIndex = 6;
                     this.groupBox3.TabStop = false;
                     this.groupBox3.Text = "Preview";
-                    //
+                    // 
                     // btnPreview
-                    //
+                    // 
                     this.btnPreview.Dock = System.Windows.Forms.DockStyle.Fill;
                     this.btnPreview.Location = new System.Drawing.Point(3, 16);
                     this.btnPreview.Name = "btnPreview";
-                    this.btnPreview.Size = new System.Drawing.Size(146, 94);
+                    this.btnPreview.Size = new System.Drawing.Size(146, 75);
                     this.btnPreview.TabIndex = 1;
                     this.btnPreview.Text = "&Preview";
                     this.btnPreview.Click += new System.EventHandler(this.startPreview);
-                    //
+                    // 
                     // cbxOmitEncoderScript
-                    //
+                    // 
                     this.cbxOmitEncoderScript.AutoSize = true;
                     this.cbxOmitEncoderScript.Checked = true;
                     this.cbxOmitEncoderScript.CheckState = System.Windows.Forms.CheckState.Checked;
                     this.cbxOmitEncoderScript.Dock = System.Windows.Forms.DockStyle.Bottom;
-                    this.cbxOmitEncoderScript.Location = new System.Drawing.Point(3, 115);
+                    this.cbxOmitEncoderScript.Location = new System.Drawing.Point(3, 91);
                     this.cbxOmitEncoderScript.Name = "cbxOmitEncoderScript";
                     this.cbxOmitEncoderScript.Size = new System.Drawing.Size(146, 17);
                     this.cbxOmitEncoderScript.TabIndex = 0;
                     this.cbxOmitEncoderScript.Text = "Omit encoder script";
-                    //
+                    // 
                     // gbxTweak
-                    //
+                    // 
                     this.gbxTweak.Controls.Add(this.numericUpDown6);
                     this.gbxTweak.Controls.Add(this.cbxHeader);
                     this.gbxTweak.Controls.Add(this.numericUpDown5);
@@ -923,9 +926,9 @@ namespace BeHappy
                     this.gbxTweak.TabIndex = 5;
                     this.gbxTweak.TabStop = false;
                     this.gbxTweak.Text = "[2] Tweak";
-                    //
+                    // 
                     // numericUpDown6
-                    //
+                    // 
                     this.numericUpDown6.Enabled = false;
                     this.numericUpDown6.Location = new System.Drawing.Point(106, 174);
                     this.numericUpDown6.Maximum = new decimal(new int[] {
@@ -936,18 +939,18 @@ namespace BeHappy
                     this.numericUpDown6.Name = "numericUpDown6";
                     this.numericUpDown6.Size = new System.Drawing.Size(40, 20);
                     this.numericUpDown6.TabIndex = 11;
-                    //
+                    // 
                     // cbxHeader
-                    //
+                    // 
                     this.cbxHeader.Location = new System.Drawing.Point(2, 164);
                     this.cbxHeader.Name = "cbxHeader";
                     this.cbxHeader.Size = new System.Drawing.Size(100, 40);
                     this.cbxHeader.TabIndex = 10;
                     this.cbxHeader.Text = "Head 0:WAV 1:W64 2:RF64";
                     this.cbxHeader.CheckedChanged += new System.EventHandler(this.cbxHeader_CheckedChanged);
-                    //
+                    // 
                     // numericUpDown5
-                    //
+                    // 
                     this.numericUpDown5.Enabled = false;
                     this.numericUpDown5.Location = new System.Drawing.Point(66, 143);
                     this.numericUpDown5.Maximum = new decimal(new int[] {
@@ -958,9 +961,9 @@ namespace BeHappy
                     this.numericUpDown5.Name = "numericUpDown5";
                     this.numericUpDown5.Size = new System.Drawing.Size(80, 20);
                     this.numericUpDown5.TabIndex = 9;
-                    //
+                    // 
                     // cbxChMask
-                    //
+                    // 
                     this.cbxChMask.Location = new System.Drawing.Point(2, 141);
                     this.cbxChMask.Name = "cbxChMask";
                     this.cbxChMask.Size = new System.Drawing.Size(70, 23);
@@ -1424,8 +1427,8 @@ namespace BeHappy
                     this.MinimumSize = new System.Drawing.Size(450, 300);
                     this.Name = "MainForm";
                     this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-                    this.Closed += new System.EventHandler(this.MainForm_Closed);
                     this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
+                    this.Closed += new System.EventHandler(this.MainForm_Closed);
                     this.tabControl1.ResumeLayout(false);
                     this.tabPageNewJob.ResumeLayout(false);
                     this.containerControl2.ResumeLayout(false);
@@ -2048,6 +2051,8 @@ namespace BeHappy
                         
                         // set default to Idle
                         cboPriority.SelectedIndex = 3;
+                        CurrentPriority = GetSelectedPriority();
+                        CurrentPriorityIndex = cboPriority.SelectedIndex;
 
                         executeNextJob();
                 }
@@ -2374,15 +2379,15 @@ namespace BeHappy
 			        dt.Columns.Add(new DataColumn("DisplayItem", typeof(String)));
 			        dt.Columns.Add(new DataColumn("ValueItem", typeof(String)));
          
-					dt.Rows.Add(CreateDataRow(ProcessPriorityClass.AboveNormal.ToString(),
+					dt.Rows.Add(CreateDataRow(ResourceGlobal.ItemPriorityAboveNormal,
                         ((int)ProcessPriorityClass.AboveNormal).ToString(), dt));
-					dt.Rows.Add(CreateDataRow(ProcessPriorityClass.BelowNormal.ToString(),
+                    dt.Rows.Add(CreateDataRow(ResourceGlobal.ItemPriorityBelowNormal,
                         ((int)ProcessPriorityClass.BelowNormal).ToString(), dt));
-					dt.Rows.Add(CreateDataRow(ProcessPriorityClass.High.ToString(),
+                    dt.Rows.Add(CreateDataRow(ResourceGlobal.ItemPriorityHigh,
                         ((int)ProcessPriorityClass.High).ToString(), dt));
-					dt.Rows.Add(CreateDataRow(ProcessPriorityClass.Idle.ToString(),
+                    dt.Rows.Add(CreateDataRow(ResourceGlobal.ItemPriorityIdle,
                         ((int)ProcessPriorityClass.Idle).ToString(), dt));
-					dt.Rows.Add(CreateDataRow(ProcessPriorityClass.Normal.ToString(),
+                    dt.Rows.Add(CreateDataRow(ResourceGlobal.ItemPriorityNormal,
                         ((int)ProcessPriorityClass.Normal).ToString(), dt));
          
 			        /*
@@ -2407,15 +2412,57 @@ namespace BeHappy
 			        return dr;
 		        }
 
+                /// <summary>
+                /// Priority change list event handler
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
                 private void cboPriority_SelectedIndexChanged(object sender, EventArgs e)
                 {
                     if (m_encoder != null)
                     {
+                        ProcessPriorityClass enumItem = GetSelectedPriority();
+
+                        // if the priority selected is High, let's make sure the
+                        // user wants to do this as it can tie up the system so
+                        // verify their choice or at least make them consider the
+                        // action to take
+                        bool bSetPriority = true;
+                        if (enumItem == ProcessPriorityClass.High)
+                        {
+                            DialogResult resultDlg = MessageBox.Show(ResourceGlobal.MsgHighPriorityWarning,
+                                ResourceGlobal.CaptionHighPriorityWarning, MessageBoxButtons.YesNo);
+
+                            bSetPriority = (resultDlg == System.Windows.Forms.DialogResult.Yes);
+                        }
+
+                        if (bSetPriority)
+                        {
+                            m_encoder.SetPriority(enumItem);
+                            CurrentPriority = enumItem;
+                            CurrentPriorityIndex = cboPriority.SelectedIndex;
+                        }
+                        else
+                        {
+                            // set the selection back to what it was
+                            cboPriority.SelectedIndex = CurrentPriorityIndex;
+                        }
+                    }
+                }
+
+                protected ProcessPriorityClass GetSelectedPriority()
+                {
+                    // do this safely and return Idle by default if a crash occurs
+                    try
+                    {
                         DataRowView drv = (DataRowView)cboPriority.SelectedItem;
 
                         DataRow dr = drv.Row;
-                        m_encoder.SetPriority((ProcessPriorityClass)Convert.ToInt32(dr.ItemArray.GetValue(1)));
+                        return (ProcessPriorityClass)Convert.ToInt32(dr["ValueItem"].ToString());
                     }
+                    catch (Exception) { }
+
+                    return ProcessPriorityClass.Idle;
                 }
 
         }
