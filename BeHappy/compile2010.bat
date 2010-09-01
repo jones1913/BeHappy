@@ -1,8 +1,8 @@
 @ECHO OFF
 rem %windir%\Microsoft.NET\Framework\v2.0.50727\csc /platform:x86 /linkres:*.res /res:App.ico /target:winexe /out:BeHappy.exe /win32icon:app.ico *.cs /o
-rem %windir%\Microsoft.NET\Framework\v2.0.50727\MSBuild BeHappy.csproj /t:Rebuild /p:Configuration=Release /p:Platform=x86 /p:OutputPath=.\Dist
+rem %windir%\Microsoft.NET\Framework\v2.0.50727\MSBuild BeHappyVS2010.csproj /t:Rebuild /p:Configuration=Release /p:Platform=x86 /p:OutputPath=.\Dist
 rem Now it will actually compile for x86 platform (checked onto Windows Server 2003 64bit)
-%windir%\Microsoft.NET\Framework\v2.0.50727\MSBuild BeHappy.csproj /t:Rebuild /p:Configuration=Release /p:OutputPath=.\Dist
+%windir%\Microsoft.NET\Framework\v2.0.50727\MSBuild BeHappyVS2010.csproj /t:Rebuild /p:Configuration=Release /p:OutputPath=.\Dist
 
 
 rem md .\Dist\src

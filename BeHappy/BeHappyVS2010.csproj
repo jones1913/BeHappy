@@ -101,8 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="compile.bat">
-    </None>
+    <None Include="compile2010.bat" />
     <None Include="extensions\aud-x.extension">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
