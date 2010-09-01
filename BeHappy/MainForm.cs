@@ -114,8 +114,38 @@ namespace BeHappy
 
                 private ToolTip m_tt;
 
-                private ProcessPriorityClass CurrentPriority { get; set; }
-                private int CurrentPriorityIndex { get; set; }
+                private ProcessPriorityClass m_enumCurrentPriority;
+                private int m_iCurrentPriorityIndex;
+
+                /// <summary>
+                /// Gets or sets the current priority level
+                /// </summary>
+                private ProcessPriorityClass CurrentPriority
+                {
+                    get
+                    {
+                        return m_enumCurrentPriority;
+                    }
+                    set
+                    {
+                        m_enumCurrentPriority = value;
+                    }
+                }
+
+                /// <summary>
+                /// Gets or sets the current priority selected item's index
+                /// </summary>
+                private int CurrentPriorityIndex
+                {
+                    get
+                    {
+                        return m_iCurrentPriorityIndex;
+                    }
+                    set
+                    {
+                        m_iCurrentPriorityIndex = value;
+                    }
+                }
 
                 public MainForm()
                 {
@@ -128,6 +158,9 @@ namespace BeHappy
                     InitializeComponent();
 
                     m_bKeepOutput = false;
+
+                    m_iCurrentPriorityIndex = 0;
+                    m_enumCurrentPriority = ProcessPriorityClass.Idle;
 
                     using (TextReader r = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("BeHappy.gpl.txt")))
                     {
