@@ -28,7 +28,7 @@
 					</Value>
 				</Option>
 				<Option>
-					<Name>DPL II (LFE)</Name>
+					<Name>DPL II (+LFE)</Name>
 					<Value>
 						# DPL II (LFE)
 						function f{2}(clip a) {3}
@@ -66,7 +66,7 @@
 				<Option>
 					<Name>Stereo</Name>
 					<Value>
-						# Simple Stereo
+						# Simple Stereo with LFE
 						function f{2}(clip a) {3}
                                                 flr = GetChannel(a, 1, 2)
                                                 fcc = GetChannel(a, 3)
@@ -76,6 +76,19 @@
                                                 lrc = MixAudio(flr, mix, 0.2929, 1.0)
                                                 blr = GetChannel(a, 5, 6)
                                                 return MixAudio(lrc, blr, 1.0, 0.2929)
+						{4}
+					</Value>
+				</Option>
+				<Option>
+					<Name>Stereo (-LFE)</Name>
+					<Value>
+						# Simple Stereo without LFE
+						function f{2}(clip a) {3}
+                                                flr = GetChannel(a, 1, 2)
+                                                fcc = GetChannel(a, 3, 3)
+                                                lrc = MixAudio(flr, fcc, 0.3694, 0.2612)
+                                                blr = GetChannel(a, 5, 6)
+                                                return MixAudio(lrc, blr, 1.0, 0.3694)
 						{4}
 					</Value>
 				</Option>
