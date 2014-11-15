@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BeHappy 
 {
-    internal delegate void EncoderStatusCallbackDelegate(EncoderCallbackEventArgs s);
+    internal delegate void EncoderStatusCallbackDelegate(Job sender, EncoderCallbackEventArgs s);
     internal sealed class EncoderCallbackEventArgs {
         internal enum EventType {
             Error,
@@ -26,17 +26,17 @@ namespace BeHappy
 
 
         internal EncoderCallbackEventArgs(EventType t) {
-            this.Type=t;
+            this.Type = t;
         }
 
         internal EncoderCallbackEventArgs(Exception e) {
-            this.Type=EventType.Error;
-            this.Message=e.ToString();
+            this.Type = EventType.Error;
+            this.Message = e.ToString();
         }
 
         internal EncoderCallbackEventArgs(string s) {
-            this.Type=EventType.Notify;
-            this.Message=s;
+            this.Type = EventType.Notify;
+            this.Message = s;
         }
     }
 
@@ -52,6 +52,7 @@ namespace BeHappy
         private int     m_HeaderType;
         private int     m_ChannelMask;
         private bool    m_bKeepOutput;
+        private Job m_job;
 
         private long m_nSampleCount;
         private long m_nSizeInBytes;
@@ -63,27 +64,27 @@ namespace BeHappy
 
         internal event EncoderStatusCallbackDelegate EncoderCallback;
 
-        private void raiseEvent(EncoderCallbackEventArgs e) {
-            if(EncoderCallback!=null)
-                EncoderCallback(e);
+        private void raiseEvent(Job sender, EncoderCallbackEventArgs e) {
+            if(EncoderCallback != null)
+                EncoderCallback(sender, e);
         }
 
         private void setProgress(double n) {
             EncoderCallbackEventArgs e = new EncoderCallbackEventArgs(EncoderCallbackEventArgs.EventType.Progress);
-            e.Progress=n;
-            raiseEvent(e);
+            e.Progress = n;
+            raiseEvent(m_job, e);
         }
 
         private void audioStreamFound() {
-            raiseEvent(new EncoderCallbackEventArgs("Found Audio Stream"));
+            raiseEvent(m_job, new EncoderCallbackEventArgs("Found Audio Stream"));
         }
 
         private void audioStreamInfo(AviSynthClip x) {
-            if(x.SampleType==AudioSampleType.FLOAT) {                 // New for float output
-                raiseEvent(new EncoderCallbackEventArgs(string.Format("Channels={0}, BitsPerSample={1} float, SampleRate={2}Hz", x.ChannelsCount, x.BitsPerSample, x.AudioSampleRate)));
+            if(x.SampleType == AudioSampleType.FLOAT) {                 // New for float output
+                raiseEvent(m_job, new EncoderCallbackEventArgs(string.Format("Channels={0}, BitsPerSample={1} float, SampleRate={2}Hz", x.ChannelsCount, x.BitsPerSample, x.AudioSampleRate)));
             }
             else {
-                raiseEvent(new EncoderCallbackEventArgs(string.Format("Channels={0}, BitsPerSample={1} int, SampleRate={2}Hz", x.ChannelsCount, x.BitsPerSample, x.AudioSampleRate)));
+                raiseEvent(m_job, new EncoderCallbackEventArgs(string.Format("Channels={0}, BitsPerSample={1} int, SampleRate={2}Hz", x.ChannelsCount, x.BitsPerSample, x.AudioSampleRate)));
             }
         }
 
@@ -99,8 +100,8 @@ namespace BeHappy
             this.m_bKeepOutput = bKeepOutput;
             this.m_processPriority = (ProcessPriorityClass)iPriority;
             m_process = null;
-            if(null!=m_encoder)
-                if(0==m_encoder.Length)
+            if(null != m_encoder)
+                if(0 == m_encoder.Length)
                     m_encoder=null;
         }
 
@@ -115,6 +116,8 @@ namespace BeHappy
             job.ChannelMask,
             job.bKeepOutput,
             job.iPriority) {
+        	
+        	m_job = job;
         }
 
         private void readStdOut() {
@@ -126,15 +129,15 @@ namespace BeHappy
         }
 
         private void readStdStream(bool bStdOut) {
-            EncoderCallbackEventArgs e = new EncoderCallbackEventArgs(bStdOut?EncoderCallbackEventArgs.EventType.StdOut:EncoderCallbackEventArgs.EventType.StdErr);
-            using(StreamReader r = bStdOut?m_process.StandardOutput:m_process.StandardError) {
+            EncoderCallbackEventArgs e = new EncoderCallbackEventArgs(bStdOut ? EncoderCallbackEventArgs.EventType.StdOut : EncoderCallbackEventArgs.EventType.StdErr);
+            using(StreamReader r = bStdOut ? m_process.StandardOutput : m_process.StandardError) {
                 while (!m_process.HasExited) {
                     Thread.Sleep(0);
                     string text1 = r.ReadToEnd(); //r.ReadLine();
                     if (text1 != null) {
-                        if(text1.Length>0) {
+                        if (text1.Length > 0) {
                             e.Message = text1;
-                            raiseEvent(e);
+                            raiseEvent(m_job, e);
                         }
                     }
                     Thread.Sleep(0);
@@ -148,21 +151,21 @@ namespace BeHappy
                 try {
                     using(AviSynthScriptEnvironment env = new AviSynthScriptEnvironment()) {
                         using(AviSynthClip x = env.ParseScript(m_script)) { //.OpenScriptFile(sTempFileName))
-                            if(0==x.SamplesCount)
+                            if(0 == x.SamplesCount)
                                 throw new ApplicationException("Can't find audio stream!");
                             audioStreamFound();
                             readAudioStreamInfo(x);
                             audioStreamInfo(x);
                             const int MAX_SAMPLES_PER_ONCE=4096;
-                            int frameSample=0;
-                            int samplesRead=0;
-                            int frameBufferTotalSize = MAX_SAMPLES_PER_ONCE*x.ChannelsCount*x.BitsPerSample/8;
+                            int frameSample = 0;
+                            int samplesRead = 0;
+                            int frameBufferTotalSize = MAX_SAMPLES_PER_ONCE * x.ChannelsCount * x.BitsPerSample / 8;
                             int bytesRead=0; //frameBufferTotalSize;
                             byte[] frameBuffer = new byte[frameBufferTotalSize];
                             bool WExtHeader =  m_ChannelMask >= 0;
-                            bool Greater4GB =  m_nSizeInBytes>=(uint.MaxValue-68);
-                            if ((Greater4GB) && (m_HeaderType > 2)) m_HeaderType -=2;
-                            if (m_encoder!=null) {
+                            bool Greater4GB =  m_nSizeInBytes >= (uint.MaxValue - 68);
+                            if ((Greater4GB) && (m_HeaderType > 2)) m_HeaderType -= 2;
+                            if (m_encoder != null) {
                                 createEncoderProcess(x);
                             }
                             try {
@@ -173,42 +176,42 @@ namespace BeHappy
 
                                         if (m_HeaderType == 1) {                      // Useful for debug
                                             if (WExtHeader)
-                                                raiseEvent(new EncoderCallbackEventArgs("Writing W64_EXT header to encoder's StdIn"));
+                                                raiseEvent(m_job, new EncoderCallbackEventArgs("Writing W64_EXT header to encoder's StdIn"));
                                             else
-                                                raiseEvent(new EncoderCallbackEventArgs("Writing W64 header to encoder's StdIn"));
+                                                raiseEvent(m_job, new EncoderCallbackEventArgs("Writing W64 header to encoder's StdIn"));
                                         } else if (m_HeaderType == 2) {
                                             if (WExtHeader)
-                                                raiseEvent(new EncoderCallbackEventArgs("Writing RF64_EXT header to encoder's StdIn"));
+                                                raiseEvent(m_job, new EncoderCallbackEventArgs("Writing RF64_EXT header to encoder's StdIn"));
                                             else
-                                                raiseEvent(new EncoderCallbackEventArgs("Writing RF64 header to encoder's StdIn"));
+                                                raiseEvent(m_job, new EncoderCallbackEventArgs("Writing RF64 header to encoder's StdIn"));
                                         } else {
                                             if (WExtHeader)
-                                                raiseEvent(new EncoderCallbackEventArgs("Writing RIFF_EXT header to encoder's StdIn"));
+                                                raiseEvent(m_job, new EncoderCallbackEventArgs("Writing RIFF_EXT header to encoder's StdIn"));
                                             else
-                                                raiseEvent(new EncoderCallbackEventArgs("Writing RIFF header to encoder's StdIn"));
+                                                raiseEvent(m_job, new EncoderCallbackEventArgs("Writing RIFF header to encoder's StdIn"));
                                         }
                                         writeHeader(target, x);
                                     }
 
-                                    raiseEvent(new EncoderCallbackEventArgs("Writing PCM data to encoder's StdIn"));
+                                    raiseEvent(m_job, new EncoderCallbackEventArgs("Writing PCM data to encoder's StdIn"));
                                     GCHandle h = GCHandle.Alloc(frameBuffer, GCHandleType.Pinned);
                                     try {
                                         while (frameSample < x.SamplesCount) {
-                                            if(m_process!=null)
+                                            if(m_process != null)
                                                 if(m_process.HasExited)
                                                     throw new ApplicationException("Abnormal encoder termination " + m_process.ExitCode.ToString());
                                             samplesRead=0;
                                             bytesRead=0;
 
-                                            int nHowMany = Math.Min((int) (x.SamplesCount-frameSample), MAX_SAMPLES_PER_ONCE) ;
+                                            int nHowMany = Math.Min((int)(x.SamplesCount-frameSample), MAX_SAMPLES_PER_ONCE);
 
                                             x.ReadAudio(h.AddrOfPinnedObject(),frameSample, nHowMany);
                                             bytesRead = nHowMany * x.BytesPerSample * x.ChannelsCount;
                                             samplesRead = nHowMany;
-                                            setProgress((100*(double)frameSample/x.SamplesCount));
-
+                                            //setProgress((100*(double)frameSample / x.SamplesCount));
+											m_job.Progress = (int)(100*(double)frameSample / x.SamplesCount);
                                             target.Write(frameBuffer,0,bytesRead);
-                                            if(m_process!=null) target.Flush();
+                                            if(m_process != null) target.Flush();
 
                                             frameSample += samplesRead;
 
@@ -220,11 +223,11 @@ namespace BeHappy
                                         h.Free();
                                     }
 
-                                    setProgress(100);
-
+                                    //setProgress(100);
+									m_job.Progress = 100;
                                 }
-                                if(m_process!=null) {
-                                    raiseEvent(new EncoderCallbackEventArgs("Finalizing encoder"));
+                                if(m_process != null) {
+                                    raiseEvent(m_job, new EncoderCallbackEventArgs("Finalizing encoder"));
                                     m_process.WaitForExit();
                                     m_readFromStdErrThread.Join();
                                     m_readFromStdOutThread.Join();
@@ -233,15 +236,15 @@ namespace BeHappy
                                 }
                             }
                             finally {
-                                if(m_process!=null)
+                                if(m_process != null)
                                     if(!m_process.HasExited) {
                                         m_process.Kill();
                                         m_process.WaitForExit();
                                         m_readFromStdErrThread.Join();
                                         m_readFromStdOutThread.Join();
                                     }
-                                m_readFromStdErrThread=null;
-                                m_readFromStdOutThread=null;
+                                m_readFromStdErrThread = null;
+                                m_readFromStdOutThread = null;
                             }
 
                         }
@@ -254,32 +257,32 @@ namespace BeHappy
             catch(Exception e) {
                 clearOutput();
                 if(e is ThreadAbortException) {
-                    raiseEvent(new EncoderCallbackEventArgs(EncoderCallbackEventArgs.EventType.Terminated));
+                    raiseEvent(m_job, new EncoderCallbackEventArgs(EncoderCallbackEventArgs.EventType.Terminated));
                 }
                 else {
-                    raiseEvent(new EncoderCallbackEventArgs(e));
+                    raiseEvent(m_job, new EncoderCallbackEventArgs(e));
                 }
                 return;
             }
-            raiseEvent(new EncoderCallbackEventArgs(EncoderCallbackEventArgs.EventType.Done));
+            raiseEvent(m_job, new EncoderCallbackEventArgs(EncoderCallbackEventArgs.EventType.Done));
         }
 
         private void clearOutput() {
             try {
                 if (m_bKeepOutput) {
-                    raiseEvent(new EncoderCallbackEventArgs("Any output was kept for you to inspect."));
+                    raiseEvent(m_job, new EncoderCallbackEventArgs("Any output was kept for you to inspect."));
                 }
                 else {
                     File.Delete(m_output);
                 }
             }
             catch(Exception e2) {
-                raiseEvent(new EncoderCallbackEventArgs(e2));
+                raiseEvent(m_job, new EncoderCallbackEventArgs(e2));
             }
         }
 
         private Stream getOutputStream() {
-            return (m_process==null)?( new FileStream(m_output, FileMode.Create)):m_process.StandardInput.BaseStream;
+            return (m_process == null) ? ( new FileStream(m_output, FileMode.Create)) : m_process.StandardInput.BaseStream;
         }
 
         private void createEncoderProcess(AviSynthClip x) {
@@ -295,9 +298,9 @@ namespace BeHappy
                 // {5} means size in bytes
                 // {6} means format (1 int, 3 float)
                 info.Arguments = string.Format(m_commandLine,
-                    m_output, x.AudioSampleRate, x.BitsPerSample, x.ChannelsCount,m_nSampleCount,m_nSizeInBytes,m_nFormatTag);
+                    m_output, x.AudioSampleRate, x.BitsPerSample, x.ChannelsCount, m_nSampleCount, m_nSizeInBytes, m_nFormatTag);
                 info.FileName = m_encoder;
-                raiseEvent(new EncoderCallbackEventArgs(string.Format("{0} {1}", m_encoder, info.Arguments)));
+                raiseEvent(m_job, new EncoderCallbackEventArgs(string.Format("{0} {1}", m_encoder, info.Arguments)));
                 info.UseShellExecute = false;
                 info.RedirectStandardInput = true;
                 info.RedirectStandardOutput = true;
@@ -306,8 +309,8 @@ namespace BeHappy
                 m_process.StartInfo = info;
                 m_process.Start();
                 m_process.PriorityClass = m_processPriority;
-                m_readFromStdOutThread = new Thread(new ThreadStart( readStdOut));
-                m_readFromStdErrThread = new Thread(new ThreadStart( readStdErr));
+                m_readFromStdOutThread = new Thread(new ThreadStart(readStdOut));
+                m_readFromStdErrThread = new Thread(new ThreadStart(readStdErr));
                 m_readFromStdOutThread.Start();
                 m_readFromStdOutThread.Priority = ThreadPriority.Normal;
                 m_readFromStdErrThread.Start();
@@ -376,7 +379,7 @@ namespace BeHappy
             target.Write(BitConverter.GetBytes(WExtHeader ? (uint)0xFFFE : m_nFormatTag),0,2);
             target.Write(BitConverter.GetBytes(x.ChannelsCount),0,2);
             target.Write(BitConverter.GetBytes(x.AudioSampleRate),0,4);
-            target.Write(BitConverter.GetBytes(x.BitsPerSample*x.AudioSampleRate*x.ChannelsCount/8),0,4);
+            target.Write(BitConverter.GetBytes(x.BitsPerSample * x.AudioSampleRate * x.ChannelsCount / 8),0,4);
             target.Write(BitConverter.GetBytes(x.ChannelsCount * x.BitsPerSample/8),0,2);
             target.Write(BitConverter.GetBytes(x.BitsPerSample),0,2);
 
@@ -438,15 +441,15 @@ namespace BeHappy
         private void readAudioStreamInfo(AviSynthClip x) {
             m_nSampleCount = x.SamplesCount;
             m_nSizeInBytes = m_nSampleCount;
-            m_nSizeInBytes*=x.BytesPerSample;
-            m_nSizeInBytes*=x.ChannelsCount;
+            m_nSizeInBytes *= x.BytesPerSample;
+            m_nSizeInBytes *= x.ChannelsCount;
             m_nFormatTag = 1;            // 1 for int, 3 for float
-            if (x.SampleType==AudioSampleType.FLOAT) m_nFormatTag = 3;
+            if (x.SampleType == AudioSampleType.FLOAT) m_nFormatTag = 3;
         }
 
         public bool IsBusy {
             get {
-                return m_encoderThread!=null && m_encoderThread.IsAlive;
+                return m_encoderThread != null && m_encoderThread.IsAlive;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+# SharpDevelop 4.4
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeHappyVS2010", "BeHappyVS2010.csproj", "{D5E19718-8865-4F7C-B2B2-308C55290870}"
 EndProject
 Global

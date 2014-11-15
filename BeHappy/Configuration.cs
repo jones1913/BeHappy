@@ -71,9 +71,6 @@ namespace BeHappy
 
 		public Configuration()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		public static Configuration LoadFromFile(string fileName)

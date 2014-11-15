@@ -347,9 +347,6 @@ namespace BeHappy.Extensions
 
 		public AudioSource()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
         public static AudioSource AVS
@@ -562,9 +559,6 @@ namespace BeHappy.Extensions
 
 		public Extension()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		public static Extension Default

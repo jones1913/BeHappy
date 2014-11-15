@@ -22,6 +22,7 @@ namespace BeHappy {
                 public string AviSynthScript;
                 public string EncoderExecutable;
                 public string CommandLine;
+                public int Progress;
                 private string _log;
                 public string Log {
                         get {
@@ -40,8 +41,8 @@ namespace BeHappy {
                 public JobState State;
                 [XmlElement("State")]
                 public JobState __stateSpecialWorkaround {
-                        get{ return State==JobState.Processing?JobState.Waiting : State;}
-                        set{ State =value==JobState.Processing?JobState.Waiting : value;}
+                        get{ return State == JobState.Processing ? JobState.Waiting : State;}
+                        set{ State = value == JobState.Processing ? JobState.Waiting : value;}
                 }
                 public string SourceFile;
                 public string TargetFile;
@@ -54,10 +55,11 @@ namespace BeHappy {
                 public int iPriority;
 
                 public Job() {
+                	Progress = 0;
                 }
 
                 public string Name {
-                        get { return string.Format("{0}->{1}", System.IO.Path.GetFileName(this.SourceFile), System.IO.Path.GetFileName(this.TargetFile)) ;}
+                        get { return string.Format("{0} -> {1}", System.IO.Path.GetFileName(this.SourceFile), System.IO.Path.GetFileName(this.TargetFile));}
                 }
 
         }

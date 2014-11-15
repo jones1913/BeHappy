@@ -20,7 +20,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>BeHappy</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>BeHappy.MainForm</StartupObject>
+    <StartupObject>BeHappy.Program</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -30,7 +30,9 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <NoWin32Manifest>False</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -87,8 +89,14 @@
       <Name>System</Name>
     </Reference>
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
@@ -98,6 +106,9 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -162,8 +173,14 @@
     <Compile Include="AftenEncoder.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AftenEncoder.Designer.cs">
+      <DependentUpon>AftenEncoder.cs</DependentUpon>
+    </Compile>
     <Compile Include="AmplifyDSP.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AmplifyDSP.Designer.cs">
+      <DependentUpon>AmplifyDSP.cs</DependentUpon>
     </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -174,17 +191,29 @@
     <Compile Include="CodingTechnologiesAAC.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CodingTechnologiesAAC.Designer.cs">
+      <DependentUpon>CodingTechnologiesAAC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ConfigurationFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ConfigurationFormBase.Designer.cs">
+      <DependentUpon>ConfigurationFormBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigurationFormForMultiOption.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ConfigurationFormForMultiOption.Designer.cs">
+      <DependentUpon>ConfigurationFormForMultiOption.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigureFormForNormalizeDSP.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigureFormForNormalizeDSP.Designer.cs">
+      <DependentUpon>ConfigureFormForNormalizeDSP.cs</DependentUpon>
     </Compile>
     <Compile Include="Encoder.cs">
       <SubType>Code</SubType>
@@ -192,6 +221,12 @@
     <Compile Include="EnumProxy.cs" />
     <Compile Include="LameEncoder.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LameEncoder.Designer.cs">
+      <DependentUpon>LameEncoder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="NeroDigitalEncoder.cs">
       <SubType>Form</SubType>
@@ -206,9 +241,16 @@
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="NeroDigitalEncoder.Designer.cs">
+      <DependentUpon>NeroDigitalEncoder.cs</DependentUpon>
+    </Compile>
     <Compile Include="OggVorbisEncoder.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="OggVorbisEncoder.Designer.cs">
+      <DependentUpon>OggVorbisEncoder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="ResourceGlobal.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -216,6 +258,9 @@
     </Compile>
     <Compile Include="TimeStretchDSP.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeStretchDSP.Designer.cs">
+      <DependentUpon>TimeStretchDSP.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="AmplifyDSP.resx">
