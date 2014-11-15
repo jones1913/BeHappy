@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -73,8 +74,8 @@ namespace BeHappy
 				this.Icon = new Icon(ricon);
 			}
 
-			numericUpDown1.Minimum = numericUpDown2.Minimum = numericUpDown3.Minimum = decimal.MinValue+16;
-			numericUpDown1.Maximum = numericUpDown2.Maximum = numericUpDown3.Maximum = decimal.MaxValue-16;
+			numericUpDownDelay.Minimum = numericUpDownSplitA.Minimum = numericUpDownSplitB.Minimum = decimal.MinValue+16;
+			numericUpDownDelay.Maximum = numericUpDownSplitA.Maximum = numericUpDownSplitB.Maximum = decimal.MaxValue-16;
 
 			this.Text = string.Format("{0} v{1} by {2}", Application.ProductName, Application.ProductVersion, Application.CompanyName);
 
@@ -98,9 +99,12 @@ namespace BeHappy
 			var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			toolTip1.SetToolTip(numericUpDownJobs, resources.GetString("numericUpDownJobs.ToolTip") + "\n\n[ " + Environment.ProcessorCount + " ]  CPU cores detected.");
 			toolTip1.SetToolTip(labelNumJobs, resources.GetString("numericUpDownJobs.ToolTip") + "\n\n[ " + Environment.ProcessorCount + " ]  CPU cores detected.");
+			toolTip1.SetToolTip(labelDragDrop, resources.GetString("lstSourceFiles.ToolTip"));
 			
 			PropertyInfo pInf = GetType().GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
 			pInf.SetValue(jobListView, true, null);	//remove flickering, seems to have only effect on ListViews
+			
+			toolStripStatusLabel1.Text = "Hint:  Left click on  \'Add...\'  to add files, right click on it to add a folder.";
 		}
 
 		private void loadExtensionsAndApplyConfiguration()
@@ -116,7 +120,7 @@ namespace BeHappy
 
 			fillFromExtension(extension, audioEncoders, dspProcessors, audioSources);
 
-			foreach(string file in Directory.GetFiles(ExtensionDirectory,"*.extension"))
+			foreach(string file in Directory.GetFiles(ExtensionDirectory, "*.extension"))
 			{
 				__retry:
 					try	{
@@ -168,12 +172,13 @@ namespace BeHappy
 			lstDSP.Items.AddRange(dspProcessors.ToArray());
 			if(c.JobList!=null)
 			{
-				if(c.JobList.Jobs!=null)
+				if(c.JobList.Jobs != null)
 				{
-					foreach(Job job in c.JobList.Jobs)
-					{
-						jobListView.Items.Add(createJobItem(job));
-					}
+//					foreach(Job job in c.JobList.Jobs)
+//					{
+//						jobListView.Items.Add(createJobItems(job));
+//					}
+					jobListView.Items.AddRange(createJobItems(c.JobList.Jobs));
 				}
 			}
 			foreach(ExtensionItemBase e in lstEncoder.Items)
@@ -367,21 +372,21 @@ namespace BeHappy
 			if(cbxDelay.Checked)
 			{
 				sb.Append(SEPARATOP);
-				sb.AppendFormat("{0}# [BeHappy: Delay Audio by {1} ms ]{0}DelayAudio( {1}.0/1000.0){0}{0}", Environment.NewLine, (long)numericUpDown1.Value);
+				sb.AppendFormat("{0}# [BeHappy: Delay Audio by {1} ms ]{0}DelayAudio( {1}.0/1000.0){0}{0}", Environment.NewLine, (long)numericUpDownDelay.Value);
 			}
 			//#warning other tweaks here !!!
 
 			if (cbxSplit.Checked)
 			{
 				sb.AppendFormat("{1}{0}# [BeHappy: Create fictive 1000fps video for triming]{0}{1}{0}AudioDubEx(BlankClip(length=Int(1000*AudioLengthF(last)/Audiorate(last)), width=32, height=32, pixel_type=\"RGB24\", fps=1000), last){0}{0}", Environment.NewLine, SEPARATOP);
-				sb.AppendFormat("{0}{0}trim({1},{2}){0}{0}", Environment.NewLine, (long)numericUpDown2.Value, (long)numericUpDown3.Value);
+				sb.AppendFormat("{0}{0}trim({1},{2}){0}{0}", Environment.NewLine, (long)numericUpDownSplitA.Value, (long)numericUpDownSplitB.Value);
 				sb.AppendFormat("{0}{0}{1}{0}# [BeHappy: Kill video]{0}{1}{0}AudioDubEx(Tone(), last){0}{0}", Environment.NewLine, SEPARATOP);
 			}
 
 			if(cbxBuffer.Checked)
 			{
 				sb.Append(SEPARATOP);
-				sb.AppendFormat("{0}# [BeHappy: Buffer Audio by {1} s ]{0}NicBufferAudio( last, {1}){0}{0}", Environment.NewLine, (long)numericUpDown4.Value);
+				sb.AppendFormat("{0}# [BeHappy: Buffer Audio by {1} s ]{0}NicBufferAudio( last, {1}){0}{0}", Environment.NewLine, (long)numericUpDownBuffer.Value);
 			}
 
 
@@ -431,115 +436,214 @@ namespace BeHappy
 
 		#endregion
 
-
+		private string[] sourceFiles
+		{
+			get {string[] items = new string[lstSourceFiles.Items.Count];
+				for(int i = 0; i < items.Length; i++)
+				{
+					items[i] = lstSourceFiles.Items[i].ToString();
+				}
+				return items;
+			}
+		}
+		
 		private string sourceFileName
 		{
-			get {return txtSourceFileName.Text.Trim();}
-			set {txtSourceFileName.Text = value.Trim();}
+			get {return lstSourceFiles.Items.Count > 0 ? lstSourceFiles.SelectedItem.ToString() : string.Empty;}
 		}
 
 		private string targetFileName
 		{
 			get {return txtOutputFileName.Text.Trim();}
-			set {txtOutputFileName.Text = value.Trim();}
+			set {txtOutputFileName.Text = value.Trim();
+				toolTip1.SetToolTip(txtOutputFileName, txtOutputFileName.Text);
+			}
+		}
+
+		private void selectSourceFile(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			string[] files;
+			
+			if (e.Button == MouseButtons.Left)
+			{
+				StringBuilder sb = new StringBuilder();
+				
+				foreach (FileRelatedExtensionItemBase enc in lstAudioSource.Items)
+				{
+					sb.AppendFormat("{0} ({1})|{1}|", enc.Title, enc.GetFilesMask());
+				}
+				sb.Append("All files (*.*)|*.*");
+				openFileDialog1.Filter = sb.ToString();
+				openFileDialog1.FilterIndex = lstAudioSource.SelectedIndex + 1;
+				
+				if (openFileDialog1.ShowDialog() == DialogResult.OK)
+				{
+					if (openFileDialog1.FilterIndex <= lstAudioSource.Items.Count)
+						lstAudioSource.SelectedIndex = openFileDialog1.FilterIndex - 1;
+					
+					files = openFileDialog1.FileNames;
+				}
+				else return;
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				folderBrowserDialog1.ShowNewFolderButton = false;
+				
+				if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+				{
+					files = Directory.GetFiles(folderBrowserDialog1.SelectedPath);
+				}
+				else return;
+			}
+			else
+			{
+				toolStripStatusLabel1.Text = "Left click = add files / right click = add folder.";
+				return;
+			}
+			
+			AddFiles(files);
+			toolStripStatusLabel1.Text = string.Format("{0} source files added, {1} elements total.", files.Length, sourceFiles.Length);
 		}
 		
-		private bool selectFile(FileDialog fileDialog, ComboBox openAs, TextBox ctrl )
+		void LstSourceFilesDragDrop(object sender, DragEventArgs e)
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach(FileRelatedExtensionItemBase enc in openAs.Items)
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
-				sb.AppendFormat("{0} ({1})|{1}|", enc.Title, enc.GetFilesMask());
-			}
-			sb.Append("All files (*.*)|*.*");
-			fileDialog.Filter = sb.ToString();
-			fileDialog.FilterIndex = 1 + openAs.SelectedIndex;
-
-			// make sure the control we're opening is the output/destination
-			if (ctrl.Name == "txtOutputFileName" && ctrl.Text != "")
-			{
-				// set up our delimiter to break down the path and file
-//				char[] arDelim = new char[]{'\\'};
-
-				// split the path/file parts based on our delimiter
-				string[] arParts = txtOutputFileName.Text.Split(Path.DirectorySeparatorChar);
-
-				// we know the file is the last element in the array
-				string strFileName = arParts[arParts.GetUpperBound(0)];
-
-				// put the file name in so the user doesn't have to retype it
-				// make shon3i happy. :)
-				fileDialog.FileName = strFileName;
-			}
-
-			bool result;
-			if(result = fileDialog.ShowDialog() == DialogResult.OK)
-			{
-				ctrl.Text = fileDialog.FileName;
-				if(fileDialog.FilterIndex <= openAs.Items.Count)
-					openAs.SelectedIndex = fileDialog.FilterIndex - 1;
-			}
-			return result;
-		}
-
-		private void selectSourceFile(object sender, System.EventArgs e)
-		{
-			if (selectFile(openFileDialog1, lstAudioSource, txtSourceFileName) /*&& this.targetFileName.Length==0*/)
-			{
-				string target = Path.ChangeExtension(sourceFileName, currentEncoder.GetFirstExtension());
-				if (string.Compare(target, this.sourceFileName) == 0)
+				List<string> files = new List<string>((string[])e.Data.GetData(DataFormats.FileDrop));
+				int flscount = 0;
+				string[] fls;
+				
+				if (files.All(f => (File.GetAttributes(f) & FileAttributes.Directory) == FileAttributes.Directory))
 				{
-					target =
-						Path.GetDirectoryName(target)
-						+ Path.DirectorySeparatorChar
-						+ Path.GetFileNameWithoutExtension(target)
-						+ "_" + Guid.NewGuid().ToString("N")
-						+ Path.GetExtension(target);
+					foreach (string f in files)
+					{
+						try {fls = Directory.GetFiles(f);
+						}
+						catch (Exception ex) {
+							toolStripStatusLabel1.Text = ex.Message;
+							continue;
+						}
+						
+						AddFiles(fls);
+						flscount += fls.Length;
+					}
+					
+					toolStripStatusLabel1.Text = string.Format("Added {0} files from {1} folders. {2} elements total.", flscount, files.Count, sourceFiles.Length);
 				}
-				labelDragDrop.Visible = false;
-				this.targetFileName = target;
+				else
+				{
+					fls = files.FindAll(f => (File.GetAttributes(f) & FileAttributes.Directory) != FileAttributes.Directory).ToArray();
+					AddFiles(fls);
+					
+					toolStripStatusLabel1.Text = string.Format("{0} source files added, {1} elements total.", fls.Length, sourceFiles.Length);
+				}
 			}
 		}
 
-		private void selectTargetFile(object sender, System.EventArgs e)
+		void LstSourceFilesDragEnter(object sender, DragEventArgs e)
 		{
-			selectFile(saveFileDialog1, lstEncoder, txtOutputFileName);
-		}
-
-		void TxtSourceFileNameDragEnter(object sender, DragEventArgs e)
-		{
+			labelDragDrop.Visible = false;
+			
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 				e.Effect = DragDropEffects.All;
 		}
 		
-		void TxtSourceFileNameDragDrop(object sender, DragEventArgs e)
+		void AddFiles(string[] files)
 		{
-			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			labelDragDrop.Visible = false;
+			lstSourceFiles.Items.AddRange(files);
+			lstSourceFiles.SelectedItem = lstSourceFiles.Items[0];
+			
+			if (sourceFiles.Length == 1)
 			{
-				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-				
-				if (files.Length > 1)
-				{
-					toolStripStatusLabel1.Text = "Multiple source files are currently not supported.";
-					return;
-				}
-				
-				sourceFileName = files[0];
-				
+				int cnt = 0;
+				lstSourceFiles.DropDownStyle = ComboBoxStyle.DropDown;
 				string target = Path.ChangeExtension(sourceFileName, currentEncoder.GetFirstExtension());
-				if (string.Compare(target, this.sourceFileName) == 0)
+				while ((string.Compare(target, sourceFileName) == 0) | File.Exists(target))
 				{
-					target = Path.Combine(Path.GetDirectoryName(target), String.Format("{0}_{1:N}{2}", Path.GetFileNameWithoutExtension(target), Guid.NewGuid(), Path.GetExtension(target)));
+					target = Path.Combine(Path.GetDirectoryName(target), String.Format("{0}_{1:d3}{2}", Path.GetFileNameWithoutExtension(sourceFileName), ++cnt, Path.GetExtension(target)));
 				}
-				labelDragDrop.Visible = false;
-				this.targetFileName = target;
 				
-				
+				targetFileName = target;
+			}
+			else
+			{
+				lstSourceFiles.DropDownStyle = ComboBoxStyle.DropDownList;
+				targetFileName = Path.GetDirectoryName(sourceFileName);
 			}
 		}
 		
-		void TxtSourceFileNameEnter(object sender, EventArgs e)
+		private void selectTargetFile(object sender, System.EventArgs e)
 		{
+			if (sourceFiles.Length < 1)
+			{
+				toolStripStatusLabel1.Text = "No source file(s) selected.";
+				return;
+			}
+			else if (sourceFiles.Length == 1)
+			{
+				StringBuilder sb = new StringBuilder();
+				
+				foreach(FileRelatedExtensionItemBase enc in lstEncoder.Items)
+				{
+					sb.AppendFormat("{0} ({1})|{1}|", enc.Title, enc.GetFilesMask());
+				}
+				sb.Append("All files (*.*)|*.*");
+				saveFileDialog1.Filter = sb.ToString();
+				saveFileDialog1.FilterIndex = lstEncoder.SelectedIndex + 1;
+				saveFileDialog1.FileName = String.IsNullOrWhiteSpace(targetFileName) ? String.Empty : Path.GetFileName(targetFileName);
+				
+				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+				{
+					targetFileName = saveFileDialog1.FileName;
+					if (saveFileDialog1.FilterIndex <= lstEncoder.Items.Count)
+						lstEncoder.SelectedIndex = saveFileDialog1.FilterIndex - 1;
+				}
+			}
+			else
+			{
+				folderBrowserDialog1.SelectedPath = targetFileName;
+				folderBrowserDialog1.ShowNewFolderButton = true;
+				
+				if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+				{
+					targetFileName = folderBrowserDialog1.SelectedPath;
+				}
+			}
+		}
+		
+		void LinkLabelClearClick(object sender, EventArgs e)
+		{
+			toolTip1.SetToolTip(lstSourceFiles, String.Empty);
+			lstSourceFiles.Items.Clear();
+			lstSourceFiles.DropDownStyle = ComboBoxStyle.DropDown;
+			lstSourceFiles.Text = String.Empty;
+			lstSourceFiles.DropDownWidth = lstSourceFiles.Width;
+			toolStripStatusLabel1.Text = String.Empty;
+			labelDragDrop.Visible = false;
+		}
+
+		void LstSourceFilesSelectedIndexChanged(object sender, EventArgs e)
+		{
+			toolTip1.SetToolTip(lstSourceFiles, sourceFileName);
+		}
+		
+		void LstSourceFilesDropDown(object sender, EventArgs e)
+		{
+			ComboBox scb = (ComboBox)sender;
+			int width = scb.DropDownWidth;
+			Graphics g = scb.CreateGraphics();
+			int sbWidth = (scb.Items.Count > scb.MaxDropDownItems) ? SystemInformation.VerticalScrollBarWidth : 0;
+			int newWidth;
+			foreach (string s in (scb.Items))
+			{
+				newWidth = (int)g.MeasureString(s, scb.Font).Width + sbWidth;
+				if (width < newWidth )
+				{
+					width = newWidth;
+				}
+			}
+			scb.DropDownWidth = width;
 			labelDragDrop.Visible = false;
 		}
 
@@ -547,32 +651,51 @@ namespace BeHappy
 		
 		#region JobList management
 
-		private Job createJob()
+		private Job[] createJobs()
 		{
-			string sourceFileName = this.sourceFileName;
-			string targetFileName = this.targetFileName;
-			Job job = new Job();
+			Job[] jbs = new Job[sourceFiles.Length];
 			AudioEncoder enc = currentEncoder;
-			job.AviSynthScript = createAvsScript(sourceFileName, targetFileName, enc);
-			job.CommandLine = enc.GetExecutableArguments(System.IO.Path.GetExtension(targetFileName).ToLower());
-			job.EncoderExecutable = encoder_dir + enc.ExecutableFileName;
-			if(job.EncoderExecutable.Length == encoder_dir.Length)
-				job.EncoderExecutable = null;
-			job.SourceFile = sourceFileName;
-			job.TargetFile = targetFileName;
-			job.SendRiffHeader = enc.WriteRiffHeader;
-			if (cbxHeader.Checked) job.HeaderType = (int)(numericUpDown6.Value);
-			else job.HeaderType = 0;
-			if (cbxChMask.Checked) job.ChannelMask = (int)(numericUpDown5.Value);
-			else job.ChannelMask = -1;
-
-			return job;
+			int htype = cbxHeader.Checked ? (int)(numericUpDownHeader.Value) : 0;
+			int cmask = cbxChMask.Checked ? (int)(numericUpDownChMask.Value) : -1;
+			int cnt;
+			string targetFile = targetFileName;
+			string targetDir;
+			                                      
+			for (int i = 0; i < jbs.Length; i++)
+			{
+				jbs[i] = new Job();
+				cnt = 0;
+				
+				if (jbs.Length > 1)
+				{
+					targetDir = targetFileName;
+					targetFile = Path.Combine(targetDir, Path.ChangeExtension(Path.GetFileName(sourceFiles[i]), enc.GetFirstExtension()));
+					
+					while (File.Exists(targetFile))
+					{
+						targetFile = Path.Combine(targetDir, String.Format("{0}_{1:d3}.{2}", Path.GetFileNameWithoutExtension(sourceFiles[i]), ++cnt, enc.GetFirstExtension()));
+					}
+				}
+				
+				jbs[i].AviSynthScript = createAvsScript(sourceFiles[i], targetFile, enc);
+				jbs[i].CommandLine = enc.GetExecutableArguments(Path.GetExtension(targetFile).ToLower());
+				jbs[i].EncoderExecutable = encoder_dir + enc.ExecutableFileName;
+				if(jbs[i].EncoderExecutable.Length == encoder_dir.Length)
+					jbs[i].EncoderExecutable = null;
+				jbs[i].SourceFile = sourceFiles[i];
+				jbs[i].TargetFile = targetFile;
+				jbs[i].SendRiffHeader = enc.WriteRiffHeader;
+				jbs[i].HeaderType = htype;
+				jbs[i].ChannelMask = cmask;
+			}
+			
+			return jbs;
 		}
 
 		private void submitJobToJobControl(object sender, System.EventArgs e)
 		{
 			// make sure we have a source and a target
-			if (String.IsNullOrWhiteSpace(sourceFileName) || String.IsNullOrWhiteSpace(targetFileName))
+			if ((sourceFiles.Length < 1) || String.IsNullOrWhiteSpace(targetFileName))
 			{
 //				MessageBox.Show("You must select a source and a destination file before proceeding.",
 //				                "Source/Destination required",
@@ -581,24 +704,31 @@ namespace BeHappy
 				toolStripStatusLabel1.Text = "You must select a source and a destination file before proceeding.";
 				return;
 			}
-
-			Job job = createJob();
-			ListViewItem item = createJobItem(job);
+			
+			Job[] jbs = createJobs();
+			var items = createJobItems(jbs);
 
 			// now that we have a multi-select list, let's deselect
 			// all items prior to selecting the job that was just
 			// submitted to the job control
 			deselectAllJobs();
 
-			jobListView.Items.Add(item).Selected = true;
-			if (jobs != null) jobs.Add(new Jobs(item));
+			jobListView.Items.AddRange(items);
+			
+			if (jobs != null)
+			{
+				foreach (var item in items)
+				{
+					jobs.Add(new Jobs(item));
+				}
+			}
+			
 			tabControl1.SelectedTab = tabPageJobControl;
 		}
 
 		private static void updateListViewItem(ListViewItem item)
 		{
 			Job job = item.Tag as Job;
-//			int i = 1;
 			item.SubItems[1].Text = job.State.ToString();
 			item.SubItems[2].Text = job.State < JobState.Processing ? string.Empty : job.StartAt.ToString();
 			item.SubItems[3].Text = job.State < JobState.Error ? string.Empty : job.StopAt.ToString();
@@ -607,14 +737,20 @@ namespace BeHappy
 			item.SubItems[6].Text = job.TargetFile;
 		}
 
-		private static ListViewItem createJobItem(Job job)
+		private static ListViewItem[] createJobItems(Job[] jbs)
 		{
-			ListViewItem item = new ListViewItem(job.Name);
-			item.Tag = job;
-			for(int i = 0; i < 6; i++)
-				item.SubItems.Add(string.Empty);
-			updateListViewItem(item);
-			return item;
+			var items = new ListViewItem[jbs.Length];
+			
+			for (int i = 0; i < jbs.Length; i++)
+			{
+				items[i] = new ListViewItem(jbs[i].Name);
+				items[i].Tag = jbs[i];
+				for(int j = 0; j < 6; j++)
+					items[i].SubItems.Add(string.Empty);
+				updateListViewItem(items[i]);
+			}
+			
+			return items;
 		}
 
 		private void toggleJobStatus(object sender, System.EventArgs e)
@@ -796,12 +932,12 @@ namespace BeHappy
 
 		private void enableDelay(object sender, System.EventArgs e)
 		{
-			numericUpDown1.Enabled=(sender as CheckBox).Checked;
+			numericUpDownDelay.Enabled=(sender as CheckBox).Checked;
 		}
 
 		private void enableSplit(object sender, System.EventArgs e)
 		{
-			numericUpDown2.Enabled=numericUpDown3.Enabled=(sender as CheckBox).Checked;
+			numericUpDownSplitA.Enabled=numericUpDownSplitB.Enabled=(sender as CheckBox).Checked;
 		}
 
 		private void MainForm_Closed(object sender, System.EventArgs e)
@@ -822,13 +958,19 @@ namespace BeHappy
 
 		private void exportAviSynthScriptToFile(object sender, System.EventArgs e)
 		{
+			if (string.IsNullOrEmpty(sourceFileName))
+			{
+				toolStripStatusLabel1.Text = "No source file selected!";
+				return;
+			}
+			
 			saveFileDialog1.DefaultExt = "avs";
 			saveFileDialog1.Filter = "AviSynth script (*.avs)|*.avs";
-			saveFileDialog1.FileName = Path.ChangeExtension(targetFileName, ".avs");
+			saveFileDialog1.FileName = Path.HasExtension(targetFileName) ? Path.ChangeExtension(targetFileName, ".avs") : Path.ChangeExtension(sourceFileName, ".avs");
 			
 			if(saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				using(TextWriter w = new StreamWriter(saveFileDialog1.FileName,false,Encoding.Default))
+				using(TextWriter w = new StreamWriter(saveFileDialog1.FileName, false, Encoding.Default))
 				{
 					w.WriteLine(createAvsScript());
 				}
@@ -837,14 +979,20 @@ namespace BeHappy
 
 		private void lstEncoder_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			AudioEncoder enc = currentEncoder;
-			linkLabelEncoderConfig.Enabled = linkLabelEncoderReset.Enabled = enc.IsSupportConfiguration;
+			linkLabelEncoderConfig.Enabled = linkLabelEncoderReset.Enabled = currentEncoder.IsSupportConfiguration;
 			
-			if(targetFileName.Length == 0)
+			if(sourceFiles.Length > 1 || targetFileName.Length == 0)
 				return;
-			if(!enc.IsSupportedException(Path.GetExtension(targetFileName)))
+			if(!currentEncoder.IsSupportedException(Path.GetExtension(targetFileName)))
 			{
-				targetFileName = Path.ChangeExtension(targetFileName, enc.GetFirstExtension());
+				int cnt = 0;
+				string tname = Path.GetFileNameWithoutExtension(targetFileName);
+				targetFileName = Path.ChangeExtension(targetFileName, currentEncoder.GetFirstExtension());
+				
+				while (File.Exists(targetFileName))
+				{
+					targetFileName = Path.Combine(Path.GetDirectoryName(targetFileName), String.Format("{0}_{1:d3}.{2}", tname, ++cnt, currentEncoder.GetFirstExtension()));
+				}
 			}
 		}
 
@@ -925,6 +1073,12 @@ namespace BeHappy
 
 		private void startPreview(object sender, System.EventArgs e)
 		{
+			if (string.IsNullOrEmpty(sourceFileName))
+			{
+				toolStripStatusLabel1.Text = "No source file selected!";
+				return;
+			}
+			
 			using(TextWriter w = new StreamWriter(m_tempFileName, false, Encoding.Default))
 			{
 				w.WriteLine(createAvsScript(cbxOmitEncoderScript.Checked));
@@ -1049,7 +1203,7 @@ namespace BeHappy
 		{
 			if(!this.InvokeRequired)
 			{
-				int ji = jobs.FindIndex(j => j.M_job == sender);		//get the index of the sending job
+				int ji = jobs.FindIndex(j => j.M_job == sender);	//get the index of the sending job
 				
 				switch(s.Type)
 				{
@@ -1210,17 +1364,17 @@ namespace BeHappy
 
 		private void cbxHeader_CheckedChanged(object sender, EventArgs e)
 		{
-			numericUpDown6.Enabled = cbxHeader.Checked;
+			numericUpDownHeader.Enabled = cbxHeader.Checked;
 		}
 
 		private void cbxChMask_CheckedChanged(object sender, EventArgs e)
 		{
-			numericUpDown5.Enabled = cbxChMask.Checked;
+			numericUpDownChMask.Enabled = cbxChMask.Checked;
 		}
 
 		private void cbxBuffer_CheckedChanged(object sender, EventArgs e)
 		{
-			numericUpDown4.Enabled = cbxBuffer.Checked;
+			numericUpDownBuffer.Enabled = cbxBuffer.Checked;
 		}
 
 		private void chkKeepOutput_CheckedChanged(object sender, EventArgs e)
@@ -1349,6 +1503,7 @@ namespace BeHappy
 		{
 			e.Cancel = jobListView.SelectedItems.Count < 1;
 		}
+		
 	}
 
 
@@ -1367,7 +1522,6 @@ namespace BeHappy
 		
 		public Jobs()
 		{
-			
 			m_log = new StringBuilder();
 			M_stderr = new StringBuilder();
 			M_stdout = new StringBuilder();

@@ -41,23 +41,24 @@ namespace BeHappy
 			this.btnPreview = new System.Windows.Forms.Button();
 			this.groupBoxSource = new System.Windows.Forms.GroupBox();
 			this.labelDragDrop = new System.Windows.Forms.Label();
+			this.lstSourceFiles = new System.Windows.Forms.ComboBox();
+			this.linkLabelClear = new System.Windows.Forms.LinkLabel();
 			this.linkLabelSourceReset = new System.Windows.Forms.LinkLabel();
 			this.linkLabelSourceConfig = new System.Windows.Forms.LinkLabel();
 			this.linkLabelOpen = new System.Windows.Forms.LinkLabel();
 			this.lstAudioSource = new System.Windows.Forms.ComboBox();
-			this.txtSourceFileName = new System.Windows.Forms.TextBox();
 			this.groupBoxTweak = new System.Windows.Forms.GroupBox();
-			this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownHeader = new System.Windows.Forms.NumericUpDown();
 			this.cbxHeader = new System.Windows.Forms.CheckBox();
-			this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownChMask = new System.Windows.Forms.NumericUpDown();
 			this.cbxChMask = new System.Windows.Forms.CheckBox();
-			this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownBuffer = new System.Windows.Forms.NumericUpDown();
 			this.cbxBuffer = new System.Windows.Forms.CheckBox();
 			this.cbxEnsureMP3VBRSync = new System.Windows.Forms.CheckBox();
-			this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownSplitB = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownSplitA = new System.Windows.Forms.NumericUpDown();
 			this.cbxSplit = new System.Windows.Forms.CheckBox();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownDelay = new System.Windows.Forms.NumericUpDown();
 			this.cbxDelay = new System.Windows.Forms.CheckBox();
 			this.groupBoxDsp = new System.Windows.Forms.GroupBox();
 			this.cbxDisableDSP = new System.Windows.Forms.CheckBox();
@@ -114,18 +115,19 @@ namespace BeHappy
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.tabControl1.SuspendLayout();
 			this.tabPageNewJob.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.groupBoxOperations.SuspendLayout();
 			this.groupBoxSource.SuspendLayout();
 			this.groupBoxTweak.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeader)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownChMask)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownBuffer)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSplitB)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSplitA)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelay)).BeginInit();
 			this.groupBoxDsp.SuspendLayout();
 			this.groupBoxDestination.SuspendLayout();
 			this.tabPageJobControl.SuspendLayout();
@@ -245,11 +247,12 @@ namespace BeHappy
 			// groupBoxSource
 			// 
 			this.groupBoxSource.Controls.Add(this.labelDragDrop);
+			this.groupBoxSource.Controls.Add(this.lstSourceFiles);
+			this.groupBoxSource.Controls.Add(this.linkLabelClear);
 			this.groupBoxSource.Controls.Add(this.linkLabelSourceReset);
 			this.groupBoxSource.Controls.Add(this.linkLabelSourceConfig);
 			this.groupBoxSource.Controls.Add(this.linkLabelOpen);
 			this.groupBoxSource.Controls.Add(this.lstAudioSource);
-			this.groupBoxSource.Controls.Add(this.txtSourceFileName);
 			this.groupBoxSource.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBoxSource.Location = new System.Drawing.Point(3, 3);
 			this.groupBoxSource.Name = "groupBoxSource";
@@ -265,14 +268,42 @@ namespace BeHappy
 			this.labelDragDrop.BackColor = System.Drawing.SystemColors.Window;
 			this.labelDragDrop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelDragDrop.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-			this.labelDragDrop.Location = new System.Drawing.Point(171, 23);
+			this.labelDragDrop.Location = new System.Drawing.Point(166, 23);
 			this.labelDragDrop.Name = "labelDragDrop";
 			this.labelDragDrop.Size = new System.Drawing.Size(148, 13);
 			this.labelDragDrop.TabIndex = 6;
 			this.labelDragDrop.Text = "Drag\'n Drop is enabled here...";
 			this.labelDragDrop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.labelDragDrop.DragDrop += new System.Windows.Forms.DragEventHandler(this.TxtSourceFileNameDragDrop);
-			this.labelDragDrop.DragEnter += new System.Windows.Forms.DragEventHandler(this.TxtSourceFileNameDragEnter);
+			this.labelDragDrop.DragDrop += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragDrop);
+			this.labelDragDrop.DragEnter += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragEnter);
+			// 
+			// lstSourceFiles
+			// 
+			this.lstSourceFiles.AllowDrop = true;
+			this.lstSourceFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.lstSourceFiles.Location = new System.Drawing.Point(6, 19);
+			this.lstSourceFiles.MaxDropDownItems = 15;
+			this.lstSourceFiles.Name = "lstSourceFiles";
+			this.lstSourceFiles.Size = new System.Drawing.Size(456, 21);
+			this.lstSourceFiles.TabIndex = 5;
+			this.toolTip1.SetToolTip(this.lstSourceFiles, resources.GetString("lstSourceFiles.ToolTip"));
+			this.lstSourceFiles.DropDown += new System.EventHandler(this.LstSourceFilesDropDown);
+			this.lstSourceFiles.SelectedIndexChanged += new System.EventHandler(this.LstSourceFilesSelectedIndexChanged);
+			this.lstSourceFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragDrop);
+			this.lstSourceFiles.DragEnter += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragEnter);
+			// 
+			// linkLabelClear
+			// 
+			this.linkLabelClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.linkLabelClear.AutoSize = true;
+			this.linkLabelClear.Location = new System.Drawing.Point(468, 23);
+			this.linkLabelClear.Name = "linkLabelClear";
+			this.linkLabelClear.Size = new System.Drawing.Size(31, 13);
+			this.linkLabelClear.TabIndex = 7;
+			this.linkLabelClear.TabStop = true;
+			this.linkLabelClear.Text = "Clear";
+			this.linkLabelClear.Click += new System.EventHandler(this.LinkLabelClearClick);
 			// 
 			// linkLabelSourceReset
 			// 
@@ -302,13 +333,14 @@ namespace BeHappy
 			// 
 			this.linkLabelOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.linkLabelOpen.AutoSize = true;
-			this.linkLabelOpen.Location = new System.Drawing.Point(498, 22);
+			this.linkLabelOpen.Location = new System.Drawing.Point(505, 23);
 			this.linkLabelOpen.Name = "linkLabelOpen";
-			this.linkLabelOpen.Size = new System.Drawing.Size(42, 13);
+			this.linkLabelOpen.Size = new System.Drawing.Size(35, 13);
 			this.linkLabelOpen.TabIndex = 1;
 			this.linkLabelOpen.TabStop = true;
-			this.linkLabelOpen.Text = "Open...";
-			this.linkLabelOpen.Click += new System.EventHandler(this.selectSourceFile);
+			this.linkLabelOpen.Text = "Add...";
+			this.toolTip1.SetToolTip(this.linkLabelOpen, "Left click here to add files, right click to add a folder.");
+			this.linkLabelOpen.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.selectSourceFile);
 			// 
 			// lstAudioSource
 			// 
@@ -323,32 +355,19 @@ namespace BeHappy
 			this.lstAudioSource.TabIndex = 2;
 			this.lstAudioSource.SelectedIndexChanged += new System.EventHandler(this.lstAudioSource_SelectedIndexChanged);
 			// 
-			// txtSourceFileName
-			// 
-			this.txtSourceFileName.AllowDrop = true;
-			this.txtSourceFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtSourceFileName.Location = new System.Drawing.Point(6, 19);
-			this.txtSourceFileName.Name = "txtSourceFileName";
-			this.txtSourceFileName.Size = new System.Drawing.Size(486, 20);
-			this.txtSourceFileName.TabIndex = 0;
-			this.txtSourceFileName.DragDrop += new System.Windows.Forms.DragEventHandler(this.TxtSourceFileNameDragDrop);
-			this.txtSourceFileName.DragEnter += new System.Windows.Forms.DragEventHandler(this.TxtSourceFileNameDragEnter);
-			this.txtSourceFileName.Enter += new System.EventHandler(this.TxtSourceFileNameEnter);
-			// 
 			// groupBoxTweak
 			// 
-			this.groupBoxTweak.Controls.Add(this.numericUpDown6);
+			this.groupBoxTweak.Controls.Add(this.numericUpDownHeader);
 			this.groupBoxTweak.Controls.Add(this.cbxHeader);
-			this.groupBoxTweak.Controls.Add(this.numericUpDown5);
+			this.groupBoxTweak.Controls.Add(this.numericUpDownChMask);
 			this.groupBoxTweak.Controls.Add(this.cbxChMask);
-			this.groupBoxTweak.Controls.Add(this.numericUpDown4);
+			this.groupBoxTweak.Controls.Add(this.numericUpDownBuffer);
 			this.groupBoxTweak.Controls.Add(this.cbxBuffer);
 			this.groupBoxTweak.Controls.Add(this.cbxEnsureMP3VBRSync);
-			this.groupBoxTweak.Controls.Add(this.numericUpDown3);
-			this.groupBoxTweak.Controls.Add(this.numericUpDown2);
+			this.groupBoxTweak.Controls.Add(this.numericUpDownSplitB);
+			this.groupBoxTweak.Controls.Add(this.numericUpDownSplitA);
 			this.groupBoxTweak.Controls.Add(this.cbxSplit);
-			this.groupBoxTweak.Controls.Add(this.numericUpDown1);
+			this.groupBoxTweak.Controls.Add(this.numericUpDownDelay);
 			this.groupBoxTweak.Controls.Add(this.cbxDelay);
 			this.groupBoxTweak.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBoxTweak.Location = new System.Drawing.Point(555, 3);
@@ -359,19 +378,19 @@ namespace BeHappy
 			this.groupBoxTweak.TabStop = false;
 			this.groupBoxTweak.Text = "[2] Tweak";
 			// 
-			// numericUpDown6
+			// numericUpDownHeader
 			// 
-			this.numericUpDown6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown6.Enabled = false;
-			this.numericUpDown6.Location = new System.Drawing.Point(119, 200);
-			this.numericUpDown6.Maximum = new decimal(new int[] {
+			this.numericUpDownHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericUpDownHeader.Enabled = false;
+			this.numericUpDownHeader.Location = new System.Drawing.Point(119, 200);
+			this.numericUpDownHeader.Maximum = new decimal(new int[] {
 									4,
 									0,
 									0,
 									0});
-			this.numericUpDown6.Name = "numericUpDown6";
-			this.numericUpDown6.Size = new System.Drawing.Size(40, 20);
-			this.numericUpDown6.TabIndex = 11;
+			this.numericUpDownHeader.Name = "numericUpDownHeader";
+			this.numericUpDownHeader.Size = new System.Drawing.Size(40, 20);
+			this.numericUpDownHeader.TabIndex = 11;
 			// 
 			// cbxHeader
 			// 
@@ -384,19 +403,19 @@ namespace BeHappy
 			this.cbxHeader.Text = "Head 0:WAV\r\n1:W64 2:RF64";
 			this.cbxHeader.CheckedChanged += new System.EventHandler(this.cbxHeader_CheckedChanged);
 			// 
-			// numericUpDown5
+			// numericUpDownChMask
 			// 
-			this.numericUpDown5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown5.Enabled = false;
-			this.numericUpDown5.Location = new System.Drawing.Point(78, 171);
-			this.numericUpDown5.Maximum = new decimal(new int[] {
+			this.numericUpDownChMask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericUpDownChMask.Enabled = false;
+			this.numericUpDownChMask.Location = new System.Drawing.Point(77, 171);
+			this.numericUpDownChMask.Maximum = new decimal(new int[] {
 									262143,
 									0,
 									0,
 									0});
-			this.numericUpDown5.Name = "numericUpDown5";
-			this.numericUpDown5.Size = new System.Drawing.Size(80, 20);
-			this.numericUpDown5.TabIndex = 9;
+			this.numericUpDownChMask.Name = "numericUpDownChMask";
+			this.numericUpDownChMask.Size = new System.Drawing.Size(80, 20);
+			this.numericUpDownChMask.TabIndex = 9;
 			// 
 			// cbxChMask
 			// 
@@ -409,20 +428,20 @@ namespace BeHappy
 			this.cbxChMask.Text = "ChMask";
 			this.cbxChMask.CheckedChanged += new System.EventHandler(this.cbxChMask_CheckedChanged);
 			// 
-			// numericUpDown4
+			// numericUpDownBuffer
 			// 
-			this.numericUpDown4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown4.Enabled = false;
-			this.numericUpDown4.Location = new System.Drawing.Point(78, 145);
-			this.numericUpDown4.Minimum = new decimal(new int[] {
+			this.numericUpDownBuffer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericUpDownBuffer.Enabled = false;
+			this.numericUpDownBuffer.Location = new System.Drawing.Point(78, 145);
+			this.numericUpDownBuffer.Minimum = new decimal(new int[] {
 									1,
 									0,
 									0,
 									0});
-			this.numericUpDown4.Name = "numericUpDown4";
-			this.numericUpDown4.Size = new System.Drawing.Size(80, 20);
-			this.numericUpDown4.TabIndex = 7;
-			this.numericUpDown4.Value = new decimal(new int[] {
+			this.numericUpDownBuffer.Name = "numericUpDownBuffer";
+			this.numericUpDownBuffer.Size = new System.Drawing.Size(80, 20);
+			this.numericUpDownBuffer.TabIndex = 7;
+			this.numericUpDownBuffer.Value = new decimal(new int[] {
 									1,
 									0,
 									0,
@@ -450,23 +469,23 @@ namespace BeHappy
 			this.cbxEnsureMP3VBRSync.Text = "Ensure MP3 VBR Sync";
 			this.cbxEnsureMP3VBRSync.UseVisualStyleBackColor = true;
 			// 
-			// numericUpDown3
+			// numericUpDownSplitB
 			// 
-			this.numericUpDown3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown3.Enabled = false;
-			this.numericUpDown3.Location = new System.Drawing.Point(78, 117);
-			this.numericUpDown3.Name = "numericUpDown3";
-			this.numericUpDown3.Size = new System.Drawing.Size(80, 20);
-			this.numericUpDown3.TabIndex = 4;
+			this.numericUpDownSplitB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericUpDownSplitB.Enabled = false;
+			this.numericUpDownSplitB.Location = new System.Drawing.Point(78, 117);
+			this.numericUpDownSplitB.Name = "numericUpDownSplitB";
+			this.numericUpDownSplitB.Size = new System.Drawing.Size(80, 20);
+			this.numericUpDownSplitB.TabIndex = 4;
 			// 
-			// numericUpDown2
+			// numericUpDownSplitA
 			// 
-			this.numericUpDown2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown2.Enabled = false;
-			this.numericUpDown2.Location = new System.Drawing.Point(78, 94);
-			this.numericUpDown2.Name = "numericUpDown2";
-			this.numericUpDown2.Size = new System.Drawing.Size(80, 20);
-			this.numericUpDown2.TabIndex = 3;
+			this.numericUpDownSplitA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericUpDownSplitA.Enabled = false;
+			this.numericUpDownSplitA.Location = new System.Drawing.Point(78, 94);
+			this.numericUpDownSplitA.Name = "numericUpDownSplitA";
+			this.numericUpDownSplitA.Size = new System.Drawing.Size(80, 20);
+			this.numericUpDownSplitA.TabIndex = 3;
 			// 
 			// cbxSplit
 			// 
@@ -479,14 +498,14 @@ namespace BeHappy
 			this.cbxSplit.Text = "Split";
 			this.cbxSplit.CheckedChanged += new System.EventHandler(this.enableSplit);
 			// 
-			// numericUpDown1
+			// numericUpDownDelay
 			// 
-			this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown1.Enabled = false;
-			this.numericUpDown1.Location = new System.Drawing.Point(78, 65);
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(80, 20);
-			this.numericUpDown1.TabIndex = 1;
+			this.numericUpDownDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericUpDownDelay.Enabled = false;
+			this.numericUpDownDelay.Location = new System.Drawing.Point(78, 65);
+			this.numericUpDownDelay.Name = "numericUpDownDelay";
+			this.numericUpDownDelay.Size = new System.Drawing.Size(80, 20);
+			this.numericUpDownDelay.TabIndex = 1;
 			// 
 			// cbxDelay
 			// 
@@ -924,7 +943,7 @@ namespace BeHappy
 			this.tabPageInfo.Location = new System.Drawing.Point(4, 22);
 			this.tabPageInfo.Name = "tabPageInfo";
 			this.tabPageInfo.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageInfo.Size = new System.Drawing.Size(695, 384);
+			this.tabPageInfo.Size = new System.Drawing.Size(722, 400);
 			this.tabPageInfo.TabIndex = 5;
 			this.tabPageInfo.Text = "Info";
 			this.tabPageInfo.UseVisualStyleBackColor = true;
@@ -937,7 +956,7 @@ namespace BeHappy
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(689, 378);
+			this.tabControl2.Size = new System.Drawing.Size(716, 394);
 			this.tabControl2.TabIndex = 1;
 			// 
 			// tabPageAbout
@@ -954,16 +973,16 @@ namespace BeHappy
 			this.tabPageAbout.Controls.Add(this.label1);
 			this.tabPageAbout.Location = new System.Drawing.Point(4, 22);
 			this.tabPageAbout.Name = "tabPageAbout";
-			this.tabPageAbout.Size = new System.Drawing.Size(681, 352);
+			this.tabPageAbout.Size = new System.Drawing.Size(708, 368);
 			this.tabPageAbout.TabIndex = 4;
 			this.tabPageAbout.Text = "About";
 			// 
 			// linkLabelUrl1
 			// 
 			this.linkLabelUrl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.linkLabelUrl1.Location = new System.Drawing.Point(0, 239);
+			this.linkLabelUrl1.Location = new System.Drawing.Point(0, 255);
 			this.linkLabelUrl1.Name = "linkLabelUrl1";
-			this.linkLabelUrl1.Size = new System.Drawing.Size(681, 24);
+			this.linkLabelUrl1.Size = new System.Drawing.Size(708, 24);
 			this.linkLabelUrl1.TabIndex = 9;
 			this.linkLabelUrl1.TabStop = true;
 			this.linkLabelUrl1.Tag = "http://forum.mediatory.ru/viewtopic.php?t=3754";
@@ -974,9 +993,9 @@ namespace BeHappy
 			// linkLabelUrl2
 			// 
 			this.linkLabelUrl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.linkLabelUrl2.Location = new System.Drawing.Point(0, 263);
+			this.linkLabelUrl2.Location = new System.Drawing.Point(0, 279);
 			this.linkLabelUrl2.Name = "linkLabelUrl2";
-			this.linkLabelUrl2.Size = new System.Drawing.Size(681, 24);
+			this.linkLabelUrl2.Size = new System.Drawing.Size(708, 24);
 			this.linkLabelUrl2.TabIndex = 8;
 			this.linkLabelUrl2.TabStop = true;
 			this.linkLabelUrl2.Tag = "http://www.avisynth.nl/";
@@ -987,9 +1006,9 @@ namespace BeHappy
 			// linkLabelUrl3
 			// 
 			this.linkLabelUrl3.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.linkLabelUrl3.Location = new System.Drawing.Point(0, 287);
+			this.linkLabelUrl3.Location = new System.Drawing.Point(0, 303);
 			this.linkLabelUrl3.Name = "linkLabelUrl3";
-			this.linkLabelUrl3.Size = new System.Drawing.Size(681, 24);
+			this.linkLabelUrl3.Size = new System.Drawing.Size(708, 24);
 			this.linkLabelUrl3.TabIndex = 7;
 			this.linkLabelUrl3.TabStop = true;
 			this.linkLabelUrl3.Tag = "http://forum.doom9.org/showthread.php?t=104686";
@@ -1000,9 +1019,9 @@ namespace BeHappy
 			// linkLabelUrl4
 			// 
 			this.linkLabelUrl4.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.linkLabelUrl4.Location = new System.Drawing.Point(0, 311);
+			this.linkLabelUrl4.Location = new System.Drawing.Point(0, 327);
 			this.linkLabelUrl4.Name = "linkLabelUrl4";
-			this.linkLabelUrl4.Size = new System.Drawing.Size(681, 24);
+			this.linkLabelUrl4.Size = new System.Drawing.Size(708, 24);
 			this.linkLabelUrl4.TabIndex = 6;
 			this.linkLabelUrl4.TabStop = true;
 			this.linkLabelUrl4.Tag = "http://www.codeplex.com/BeHappy";
@@ -1013,9 +1032,9 @@ namespace BeHappy
 			// linkLabelUrl5
 			// 
 			this.linkLabelUrl5.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.linkLabelUrl5.Location = new System.Drawing.Point(0, 335);
+			this.linkLabelUrl5.Location = new System.Drawing.Point(0, 351);
 			this.linkLabelUrl5.Name = "linkLabelUrl5";
-			this.linkLabelUrl5.Size = new System.Drawing.Size(681, 17);
+			this.linkLabelUrl5.Size = new System.Drawing.Size(708, 17);
 			this.linkLabelUrl5.TabIndex = 5;
 			this.linkLabelUrl5.TabStop = true;
 			this.linkLabelUrl5.Tag = "http://dimzon541.narod.ru/";
@@ -1048,7 +1067,7 @@ namespace BeHappy
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(681, 352);
+			this.tabPage2.Size = new System.Drawing.Size(708, 368);
 			this.tabPage2.TabIndex = 0;
 			this.tabPage2.Text = "License";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -1061,9 +1080,13 @@ namespace BeHappy
 			this.txtGPL.Name = "txtGPL";
 			this.txtGPL.ReadOnly = true;
 			this.txtGPL.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtGPL.Size = new System.Drawing.Size(675, 346);
+			this.txtGPL.Size = new System.Drawing.Size(702, 362);
 			this.txtGPL.TabIndex = 0;
 			this.txtGPL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.Multiselect = true;
 			// 
 			// toolTip1
 			// 
@@ -1126,12 +1149,12 @@ namespace BeHappy
 			this.groupBoxSource.PerformLayout();
 			this.groupBoxTweak.ResumeLayout(false);
 			this.groupBoxTweak.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeader)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownChMask)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownBuffer)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSplitB)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSplitA)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelay)).EndInit();
 			this.groupBoxDsp.ResumeLayout(false);
 			this.groupBoxDsp.PerformLayout();
 			this.groupBoxDestination.ResumeLayout(false);
@@ -1152,6 +1175,9 @@ namespace BeHappy
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+		private System.Windows.Forms.LinkLabel linkLabelClear;
+		private System.Windows.Forms.ComboBox lstSourceFiles;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.Label labelDragDrop;
 		private System.Windows.Forms.LinkLabel linkLabelEncoderConfig;
@@ -1166,15 +1192,14 @@ namespace BeHappy
 		
 		private TabControl tabControl1;
 		private System.Windows.Forms.GroupBox groupBoxTweak;
-		private System.Windows.Forms.NumericUpDown numericUpDown3;
-		private System.Windows.Forms.NumericUpDown numericUpDown2;
+		private System.Windows.Forms.NumericUpDown numericUpDownSplitB;
+		private System.Windows.Forms.NumericUpDown numericUpDownSplitA;
 		private System.Windows.Forms.CheckBox cbxSplit;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown numericUpDownDelay;
 		private System.Windows.Forms.CheckBox cbxDelay;
 		private System.Windows.Forms.GroupBox groupBoxOperations;
 		private System.Windows.Forms.GroupBox groupBoxSource;
 		private System.Windows.Forms.ComboBox lstAudioSource;
-		private System.Windows.Forms.TextBox txtSourceFileName;
 		private System.Windows.Forms.GroupBox groupBoxDestination;
 		private System.Windows.Forms.ComboBox lstEncoder;
 		private System.Windows.Forms.TextBox txtOutputFileName;
@@ -1216,11 +1241,11 @@ namespace BeHappy
 		private LinkLabel linkLabelUrl3;
 		private LinkLabel linkLabelUrl4;
 		private LinkLabel linkLabelUrl5;
-		private NumericUpDown numericUpDown4;
+		private NumericUpDown numericUpDownBuffer;
 		private CheckBox cbxBuffer;
-		private NumericUpDown numericUpDown5;
+		private NumericUpDown numericUpDownChMask;
 		private CheckBox cbxChMask;
-		private NumericUpDown numericUpDown6;
+		private NumericUpDown numericUpDownHeader;
 		private CheckBox cbxHeader;
 		private Button btnDeleteAll;
 		private CheckBox chkKeepOutput;
