@@ -75,6 +75,7 @@ namespace BeHappy
 			this.tabPageJobControl = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.linkLabelAutoJobs = new System.Windows.Forms.LinkLabel();
 			this.labelNumJobs = new System.Windows.Forms.Label();
 			this.numericUpDownJobs = new System.Windows.Forms.NumericUpDown();
 			this.cboPriority = new System.Windows.Forms.ComboBox();
@@ -643,6 +644,7 @@ namespace BeHappy
 			// 
 			this.lstEncoder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.lstEncoder.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.lstEncoder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.lstEncoder.Location = new System.Drawing.Point(6, 45);
 			this.lstEncoder.MaxDropDownItems = 14;
@@ -650,6 +652,8 @@ namespace BeHappy
 			this.lstEncoder.Size = new System.Drawing.Size(426, 21);
 			this.lstEncoder.Sorted = true;
 			this.lstEncoder.TabIndex = 2;
+			this.toolTip1.SetToolTip(this.lstEncoder, "The entry is grayed out if the encoder executable could not be found.");
+			this.lstEncoder.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.LstEncoderDrawItem);
 			this.lstEncoder.SelectedIndexChanged += new System.EventHandler(this.lstEncoder_SelectedIndexChanged);
 			// 
 			// txtOutputFileName
@@ -690,6 +694,7 @@ namespace BeHappy
 			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.Controls.Add(this.linkLabelAutoJobs);
 			this.panel1.Controls.Add(this.labelNumJobs);
 			this.panel1.Controls.Add(this.numericUpDownJobs);
 			this.panel1.Controls.Add(this.cboPriority);
@@ -707,6 +712,18 @@ namespace BeHappy
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(716, 212);
 			this.panel1.TabIndex = 2;
+			// 
+			// linkLabelAutoJobs
+			// 
+			this.linkLabelAutoJobs.AutoSize = true;
+			this.linkLabelAutoJobs.Location = new System.Drawing.Point(440, 8);
+			this.linkLabelAutoJobs.Name = "linkLabelAutoJobs";
+			this.linkLabelAutoJobs.Size = new System.Drawing.Size(29, 13);
+			this.linkLabelAutoJobs.TabIndex = 15;
+			this.linkLabelAutoJobs.TabStop = true;
+			this.linkLabelAutoJobs.Text = "Auto";
+			this.toolTip1.SetToolTip(this.linkLabelAutoJobs, "Set the number of jobs to a recommened value (70% of detected CPU cores).");
+			this.linkLabelAutoJobs.Click += new System.EventHandler(this.LinkLabelAutoJobsClick);
 			// 
 			// labelNumJobs
 			// 
@@ -1134,7 +1151,7 @@ namespace BeHappy
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.tabControl1);
 			this.DoubleBuffered = true;
-			this.MinimumSize = new System.Drawing.Size(625, 415);
+			this.MinimumSize = new System.Drawing.Size(650, 415);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
@@ -1175,6 +1192,7 @@ namespace BeHappy
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.LinkLabel linkLabelAutoJobs;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 		private System.Windows.Forms.LinkLabel linkLabelClear;
 		private System.Windows.Forms.ComboBox lstSourceFiles;

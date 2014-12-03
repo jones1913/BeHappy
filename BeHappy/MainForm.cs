@@ -78,14 +78,14 @@ namespace BeHappy
 			numericUpDownDelay.Maximum = numericUpDownSplitA.Maximum = numericUpDownSplitB.Maximum = decimal.MaxValue-16;
 
 			this.Text = string.Format("{0} v{1} by {2}", Application.ProductName, Application.ProductVersion, Application.CompanyName);
-
-			loadExtensionsAndApplyConfiguration();
 			
 			if (Directory.Exists(getExeDirectory()+"\\encoder"))
 				encoder_dir="encoder\\";
 			else
 				encoder_dir="";
 
+			loadExtensionsAndApplyConfiguration();
+			
 			linkLabelSourceConfig.Enabled = linkLabelSourceReset.Enabled = currentSource.IsSupportConfiguration;
 			linkLabelEncoderConfig.Enabled = linkLabelEncoderReset.Enabled = currentEncoder.IsSupportConfiguration;
 			
@@ -927,7 +927,7 @@ namespace BeHappy
 			else
 				b = false;
 			a = (lstDSP.Enabled = btnMoveUpDSP.Enabled = btnMoveDownDSP.Enabled = !(sender as CheckBox).Checked);
-			btnConfigureDSP.Enabled= b && a;
+			btnConfigureDSP.Enabled = b && a;
 		}
 
 		private void enableDelay(object sender, System.EventArgs e)
@@ -994,6 +994,23 @@ namespace BeHappy
 					targetFileName = Path.Combine(Path.GetDirectoryName(targetFileName), String.Format("{0}_{1:d3}.{2}", tname, ++cnt, currentEncoder.GetFirstExtension()));
 				}
 			}
+		}
+		
+		void LstEncoderDrawItem(object sender, DrawItemEventArgs e)
+		{
+			if (e.Index == -1) return;
+			
+			var cb = (ComboBox)sender;
+			var brsh = new SolidBrush(e.ForeColor);
+			
+			if (!(string.IsNullOrEmpty(((Extensions.AudioEncoder)cb.Items[e.Index]).ExecutableFileName) || File.Exists(Path.Combine(Application.StartupPath, encoder_dir, ((Extensions.AudioEncoder)cb.Items[e.Index]).ExecutableFileName))))
+			{
+				brsh.Color = Color.Gray;
+			}
+			
+			e.DrawBackground();
+			e.Graphics.DrawString(cb.Items[e.Index].ToString(), e.Font, brsh, e.Bounds);
+			e.DrawFocusRectangle();
 		}
 
 		private void configureEncoder(object sender, System.EventArgs e)
@@ -1292,6 +1309,13 @@ namespace BeHappy
 			SetJobMoveButtonState();
 		}
 
+		void LinkLabelAutoJobsClick(object sender, EventArgs e)
+		{
+			if (Environment.ProcessorCount == 2)
+				numericUpDownJobs.Value = 2;
+			else numericUpDownJobs.Value = Math.Round((Environment.ProcessorCount * 70) / 100m);
+		}
+
 		#endregion
 
 		// 20080126 Chumbo mod
@@ -1503,6 +1527,7 @@ namespace BeHappy
 		{
 			e.Cancel = jobListView.SelectedItems.Count < 1;
 		}
+		
 		
 	}
 
