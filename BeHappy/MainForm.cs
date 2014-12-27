@@ -1137,7 +1137,7 @@ namespace BeHappy
 			
 			breakAfterCurrentJob = false;
 			btnAbort.Enabled = btnStop.Enabled = true;
-
+			btnStart.Enabled = false;
 			cboPriority.Enabled = true;
 			toolStripStatusLabel1.Text = "Begin JobQueue processing...";
 			
@@ -1158,16 +1158,19 @@ namespace BeHappy
 				item.SubItems[4].Text = ((Job)item.Tag).Progress.ToString("D2") + " %";
 			}
 			
-			executeNextJob();
+			if (!breakAfterCurrentJob)
+				executeNextJob();
 		}
 
 		private void executeNextJob()
 		{
-			if(breakAfterCurrentJob)
-				return;
-			
+			// if number of running jobs is less than number of max allowed jobs
 			if (jobs.FindAll(j => j.M_job.State == JobState.Processing).Count < (int)numericUpDownJobs.Value)
 			{
+				// if previous running job has reached at least progress of 1%
+				if (jobs.FindLast(j => j.M_job.State == JobState.Processing) != null && jobs.FindLast(j => j.M_job.State == JobState.Processing).M_job.Progress < 1)
+					return;
+				
 				foreach (Jobs jbs in jobs)
 				{
 					if (jbs.M_job.State != JobState.Waiting)
@@ -1184,7 +1187,6 @@ namespace BeHappy
 					jbs.M_job.iPriority = Convert.ToInt32(dr.ItemArray.GetValue(1));
 					
 					updateListViewItem(jbs.M_item);
-					btnStart.Enabled = false;
 					jbs.AppendToLog("Starting job " + jbs.M_job.Name);
 					
 					jbs.M_encoder = new Encoder(jbs.M_job);
