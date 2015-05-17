@@ -23,12 +23,12 @@ namespace BeHappy.Extensibility
 
 		public static XmlElement SerializeObject(object o)
 		{
-			if(o==null)
+			if(o == null)
 				return null;
 			using(Stream x = new MemoryStream())
 			{
 				GetXmlSerializer(o.GetType()).Serialize(x,o);
-				x.Position=0;
+				x.Position = 0;
 				XmlDocument doc = new XmlDocument();
 				doc.Load(x);
 				return doc.DocumentElement;
@@ -54,7 +54,7 @@ namespace BeHappy.Extensibility
 
 		public static object DeSerializeObject(System.Type type, XmlElement e)
 		{
-			return e==null?null:GetXmlSerializer(type).Deserialize(new XmlNodeReader(e));
+			return e == null ? null : GetXmlSerializer(type).Deserialize(new XmlNodeReader(e));
 		}
 	}
 
@@ -120,9 +120,17 @@ namespace BeHappy.Extensibility
 		/// {1} means output file name
 		/// {2} means unique string (to use as part of identifier)
 		/// {3} means '{' character (to allow '{' to be used)
+		/// {4} means '}' character (to allow '}' to be used)
 		/// </summary>
 		/// <returns>AviSynth script block</returns>
 		string GetScript();
+		
+		/// <summary>
+		/// AviSynth plugin needed to run the script.
+		/// e.g. "somePlugin.dll"
+		/// </summary>
+		/// <returns>String with filename</returns>
+		string GetAvsPlugin();
 	}
 
 	/// <summary>
@@ -163,7 +171,7 @@ namespace BeHappy.Extensibility
 		/// example: oggenc.exe
 		/// </summary>
 		/// <returns>executable name</returns>
-		string	GetExecutableName();
+		string GetExecutableName();
 		/// <summary>
 		/// Command line arguments, to be passed to encoder
 		/// {0} means output file name
@@ -174,13 +182,18 @@ namespace BeHappy.Extensibility
 		/// {5} means size in bytes
 		/// </summary>
 		/// <returns>arguments</returns>
-		string	GetCommandLineArguments(string targetFileExtension);
+		string GetCommandLineArguments(string targetFileExtension);
 		/// <summary>
 		/// If true BeHappy will send RIFF WAV header to encoder's stdin
 		/// otherwize BeHappy will send just raw pcm data
 		/// </summary>
 		/// <returns></returns>
-		bool	MustSendRiffHeader();
+		bool MustSendRiffHeader();
+		/// <summary>
+		/// Header Type written to encoder.
+		/// 0 = WAV; 1 = W64; 2 = RF64
+		/// </summary>
+		int HeaderType();
 	}
 	
 

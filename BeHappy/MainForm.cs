@@ -24,9 +24,12 @@ namespace BeHappy
 	public partial class MainForm : Form
 	{
 		private string encoder_dir;
-		private string ds_player="mplayer2";
+		private string ds_player = "mplayer2";
 		private ProcessPriorityClass m_enumCurrentPriority;
 		private int m_iCurrentPriorityIndex;
+		private List<ExtensionItemBase> audioSources;
+		private List<ExtensionItemBase> dspProcessors;
+		private List<ExtensionItemBase> audioEncoders;
 
 		/// <summary>
 		/// Gets or sets the current priority level
@@ -79,17 +82,16 @@ namespace BeHappy
 
 			this.Text = string.Format("{0} v{1} by {2}", Application.ProductName, Application.ProductVersion, Application.CompanyName);
 			
-			if (Directory.Exists(getExeDirectory()+"\\encoder"))
-				encoder_dir="encoder\\";
+			if (Directory.Exists(getExeDirectory() + "\\encoder"))
+				encoder_dir = "encoder\\";
 			else
-				encoder_dir="";
+				encoder_dir = "";
 
 			loadExtensionsAndApplyConfiguration();
 			
 			linkLabelSourceConfig.Enabled = linkLabelSourceReset.Enabled = currentSource.IsSupportConfiguration;
 			linkLabelEncoderConfig.Enabled = linkLabelEncoderReset.Enabled = currentEncoder.IsSupportConfiguration;
 			
-			// 20080126 Chumbo mod
 			SetDSPMoveButtonState();
 			InitPriorityControls();
 
@@ -104,23 +106,23 @@ namespace BeHappy
 			PropertyInfo pInf = GetType().GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
 			pInf.SetValue(jobListView, true, null);	//remove flickering, seems to have only effect on ListViews
 			
-			toolStripStatusLabel1.Text = "Hint:  Left click on  \'Add...\'  to add files, right click on it to add a folder.";
+			toolStripStatusLabel1.Text = "Left click on  \'Add...\'  to add files, right click to add a folder.";
 		}
 
 		private void loadExtensionsAndApplyConfiguration()
 		{
 			//1) let's load all extensions
-			ArrayList audioSources = new ArrayList();
-			ArrayList dspProcessors = new ArrayList();
-			ArrayList audioEncoders = new ArrayList();
+			audioSources = new List<ExtensionItemBase>();
+			dspProcessors = new List<ExtensionItemBase>();
+			audioEncoders = new List<ExtensionItemBase>();
 			Extension extension = Extension.Default;
 			string ExtensionDirectory = getExeDirectory() + "\\extensions";
-			if(!Directory.Exists(ExtensionDirectory))
+			if (!Directory.Exists(ExtensionDirectory))
 				ExtensionDirectory = getExeDirectory();
 
 			fillFromExtension(extension, audioEncoders, dspProcessors, audioSources);
-
-			foreach(string file in Directory.GetFiles(ExtensionDirectory, "*.extension"))
+			
+			foreach(string file in Directory.GetFiles(ExtensionDirectory, "*.ext"))
 			{
 				__retry:
 					try	{
@@ -132,16 +134,14 @@ namespace BeHappy
 					{
 						case DialogResult.Abort:
 							throw e;
-							//break;
 						case DialogResult.Retry:
 							goto __retry;
-							//break;
 						case DialogResult.Ignore:
 							break;
 					}
 				}
 			}
-			//let's load configuration    cc
+			
 			Configuration c = new Configuration();
 			try {
 				c = Configuration.LoadFromFile(getConfigFileName());
@@ -156,38 +156,37 @@ namespace BeHappy
 			lstEncoder.Items.AddRange(audioEncoders.ToArray());
 			lstAudioSource.Items.AddRange(audioSources.ToArray());
 
-			Hashtable tbl = new Hashtable();
-			foreach(ExtensionItemBase i in dspProcessors)
-				tbl.Add(i.UniqueID,i);
-			Guid[] dspOrder = c.DspOrder!=null?c.DspOrder:new Guid[0];
-			foreach(Guid g in dspOrder)
+			var tempDSP = new Dictionary<Guid, ExtensionItemBase>();
+			foreach (ExtensionItemBase item in dspProcessors)
+				tempDSP.Add(item.UniqueID, item);
+			
+			Guid[] dspOrder = c.DspOrder != null ? c.DspOrder : new Guid[0];
+			
+			foreach (Guid g in dspOrder)
 			{
-				if(tbl.Contains(g))
+				if (tempDSP.ContainsKey(g))
 				{
-					lstDSP.Items.Add(tbl[g]);
-					tbl.Remove(g);
+					lstDSP.Items.Add(tempDSP[g]);
+					tempDSP.Remove(g);
 				}
 			}
-			dspProcessors = new ArrayList(tbl.Values);
+			dspProcessors.Clear();
+			dspProcessors.AddRange(tempDSP.Values);
 			lstDSP.Items.AddRange(dspProcessors.ToArray());
-			if(c.JobList!=null)
+			if (c.JobList != null)
 			{
-				if(c.JobList.Jobs != null)
+				if (c.JobList.Jobs != null)
 				{
-//					foreach(Job job in c.JobList.Jobs)
-//					{
-//						jobListView.Items.Add(createJobItems(job));
-//					}
 					jobListView.Items.AddRange(createJobItems(c.JobList.Jobs));
 				}
 			}
-			foreach(ExtensionItemBase e in lstEncoder.Items)
-				if(e.UniqueID==c.CurrentEncoder)
+			foreach (ExtensionItemBase e in lstEncoder.Items)
+				if (e.UniqueID == c.CurrentEncoder)
 			{
 				lstEncoder.SelectedItem = e;
 				break;
 			}
-			if(null==currentEncoder)
+			if (currentEncoder == null)
 				lstEncoder.SelectedIndex = 0;
 			lstAudioSource.SelectedIndex = 0;
 
@@ -196,16 +195,12 @@ namespace BeHappy
 
 		private void loadMiscConfiguration(Configuration c)
 		{
-			if(c.MiscSettings!=null)
+			if (c.MiscSettings != null)
 			{
-				BeHappy.NeroDigitalAAC.Encoder.preferMP4overM4A = c.MiscSettings.preferMP4overM4A;
 				this.ds_player = c.MiscSettings.directShowPlayer;
 			}
-			//                      else
-			//                      {
-			//                              BeHappy.NeroDigitalAAC.Encoder.preferMP4overM4A = true;
-			//                              this.ds_player = "mplayer";
-			//                      }
+//			else
+//				this.ds_player = "mplayer";
 		}
 
 		private void loadGuiPositionConfiguration(Configuration c)
@@ -219,90 +214,79 @@ namespace BeHappy
 			this.Height = c.GuiPosition.iHeight;
 		}
 
-		private static void loadPluginsConfiguration(ArrayList plugins, IDictionary c)
+		private static void loadPluginsConfiguration(List<ExtensionItemBase> plugins, IDictionary c)
 		{
-			foreach(ExtensionItemBase i in plugins)
+			foreach (ExtensionItemBase item in plugins)
 			{
-				if(i.IsSupportConfiguration)
-					if(c.Contains(i.UniqueID))
+				if (item.IsSupportConfiguration)
+					if (c.Contains(item.UniqueID))
 				{
-					XmlElement      conf = c[i.UniqueID] as XmlElement;
-					if(conf!=null)
-						i.LoadConfiguration(conf);
+					XmlElement conf = c[item.UniqueID] as XmlElement;
+					if (conf != null)
+						item.LoadConfiguration(conf);
 				}
 			}
 		}
 
-		private static void fillFromExtension(Extension extension, ArrayList audioEncoders, ArrayList dspProcessors, ArrayList audioSources)
+		private static void fillFromExtension(Extension extension, List<ExtensionItemBase> audioEncoders, List<ExtensionItemBase> dspProcessors, List<ExtensionItemBase> audioSources)
 		{
-			if(extension.AudioEncoders!=null)
+			if (extension.AudioEncoders != null)
 				audioEncoders.AddRange(extension.AudioEncoders);
-			if(extension.DigitalSignalProcessors!=null)
+			if (extension.DigitalSignalProcessors != null)
 				dspProcessors.AddRange(extension.DigitalSignalProcessors);
-			if(extension.AudioSources!=null)
+			if (extension.AudioSources != null)
 				audioSources.AddRange(extension.AudioSources);
 		}
 
-		// 20090216 Chumbo mod
-		// added exception handling to make sure items already
-		// added to collections do not crash the application
+		// added exception handling to make sure items already added to collections do not crash the application
 		private void saveConfiguration()
 		{
-			// 20090216 Chumbo mod
 			try {
 				Configuration c = new Configuration();
 				ArrayList col = new ArrayList();
 
-				// 20090216 Chumbo mod
-				try {
-					col.AddRange(lstEncoder.Items);
+				try {col.AddRange(lstEncoder.Items);
 				}
 				catch (Exception ex) {
 					MessageBox.Show("The following exception occurred while adding the encoder items:\r\n" +
 					                ex.Message, "Save Configuration Exception");
 				}
 
-				// 20090216 Chumbo mod
-				try {
-					col.AddRange(lstAudioSource.Items);
+				try {col.AddRange(lstAudioSource.Items);
 				}
 				catch (Exception ex) {
 					MessageBox.Show("The following exception occurred while adding the audio source items:\r\n" +
 					                ex.Message, "Save Configuration Exception");
 				}
 
-				// 20090216 Chumbo mod
-				try {
-					col.AddRange(lstDSP.Items);
+				try {col.AddRange(lstDSP.Items);
 				}
 				catch (Exception ex) {
 					MessageBox.Show("The following exception occurred while adding the DSP items:\r\n" +
 					                ex.Message, "Save Configuration Exception");
 				}
 
-				foreach (ExtensionItemBase i in col)
+				foreach (ExtensionItemBase item in col)
 				{
-					if (i.IsSupportConfiguration)
+					if (item.IsSupportConfiguration)
 					{
-						XmlElement e = i.SaveConfiguration();
+						XmlElement e = item.SaveConfiguration();
 						if (e != null)
 						{
-							// 20090216 Chumbo mod
-							if (!c.Settings.Contains(i.UniqueID))
+							if (!c.Settings.Contains(item.UniqueID))
 							{
-								c.Settings.Add(i.UniqueID, e);
+								c.Settings.Add(item.UniqueID, e);
 							}
 						}
 					}
 				}
 
 				col.Clear();
-				foreach (ListViewItem i in jobListView.Items)
+				foreach (ListViewItem item in jobListView.Items)
 				{
-					// 20090216 Chumbo mod
-					if (!col.Contains(i.Tag))
+					if (!col.Contains(item.Tag))
 					{
-						col.Add(i.Tag);
+						col.Add(item.Tag);
 					}
 				}
 
@@ -310,12 +294,11 @@ namespace BeHappy
 				c.JobList.Jobs = (Job[])col.ToArray(typeof(Job));
 				col.Clear();
 
-				foreach (ExtensionItemBase i in lstDSP.Items)
+				foreach (ExtensionItemBase item in lstDSP.Items)
 				{
-					// 20090216 Chumbo mod
-					if (!col.Contains(i.UniqueID))
+					if (!col.Contains(item.UniqueID))
 					{
-						col.Add(i.UniqueID);
+						col.Add(item.UniqueID);
 					}
 				}
 
@@ -329,10 +312,8 @@ namespace BeHappy
 				c.GuiPosition.iHeight = this.Height;
 				c.MiscSettings = new MiscSettings();
 				c.MiscSettings.directShowPlayer = this.ds_player;
-				c.MiscSettings.preferMP4overM4A = BeHappy.NeroDigitalAAC.Encoder.preferMP4overM4A;
 				c.SaveToFile(getConfigFileName());
 			}
-			// 20090216 Chumbo mod
 			catch (Exception ex) {
 				MessageBox.Show(ex.Message, "Save Configuration Exception");
 			}
@@ -354,41 +335,51 @@ namespace BeHappy
 		private string createAvsScript(string sourceFileName, string targetFileName, AudioEncoder enc, bool omitEncoderScript)
 		{
 			string SEPARATOP = new string('#',40);
-			StringBuilder sb = new StringBuilder();
-			sb.AppendFormat("{0}{1}#Created by {2} v{3}{1}#Creation timestamp: {4}{1}{0}{1}#Source FileName:{5}{1}#Target FileName:{6}{1}{0}{1}{1}" , SEPARATOP, Environment.NewLine, Application.ProductName, Application.ProductVersion, DateTime.Now, sourceFileName, targetFileName);
+			StringBuilder sb2 = new StringBuilder();
+			StringBuilder sb1 = new StringBuilder();
+			string pluginDir = Path.Combine(getExeDirectory(), "plugins32");
+			sb1.AppendFormat("{0}{1}#Created by {2} v{3}{1}#Creation timestamp: {4}{1}{0}{1}#Source FileName:{5}{1}#Target FileName:{6}{1}{0}{1}" , SEPARATOP, Environment.NewLine, Application.ProductName, Application.ProductVersion, DateTime.Now, sourceFileName, targetFileName);
 			AudioSource source = lstAudioSource.SelectedItem as AudioSource;
-			sb.AppendFormat("{0}{1}# [Source: {2}]{1}{0}{1}", SEPARATOP, Environment.NewLine, source.Title);
+			if (!string.IsNullOrEmpty(source.AvsPlugin))
+			{
+				string pluginPath = Path.Combine(pluginDir, source.AvsPlugin);
+				sb1.AppendLine("#Source Plugin request: " + source.AvsPlugin);
+				if (File.Exists(pluginPath))
+					sb1.AppendFormat("LoadPlugin(\"{0}\"){1}", pluginPath, Environment.NewLine);
+				else sb1.AppendFormat("#\"{0}\" not found in \"{1}\"{2}", source.AvsPlugin, pluginDir, Environment.NewLine);
+			}
+			sb2.AppendFormat("{0}{1}# [Source: {2}]{1}{0}{1}", SEPARATOP, Environment.NewLine, source.Title);
 			// A part of AviSynth script
 			// {0} means input file name
 			// {1} means output file name
 			// {2} means unique string (to use as part of identifier)
 			// {3} means '{' character (to allow '{' to be used)
-			sb.AppendFormat(source.ScriptBlock, sourceFileName, targetFileName, Guid.NewGuid().ToString("N"),"{","}");
-			sb.Append(Environment.NewLine+Environment.NewLine);
+			// {4} means '}' character (to allow '}' to be used)
+			sb2.AppendFormat(source.ScriptBlock, sourceFileName, targetFileName, Guid.NewGuid().ToString("N"), "{", "}");
+			sb2.Append(Environment.NewLine + Environment.NewLine);
 			if(cbxEnsureMP3VBRSync.Checked)
 			{
-				sb.Append("EnsureVBRMP3Sync() # Some black magic to avoid desync" + Environment.NewLine+Environment.NewLine);
+				sb2.Append("EnsureVBRMP3Sync() # Some black magic to avoid desync" + Environment.NewLine + Environment.NewLine);
 			}
 			if(cbxDelay.Checked)
 			{
-				sb.Append(SEPARATOP);
-				sb.AppendFormat("{0}# [BeHappy: Delay Audio by {1} ms ]{0}DelayAudio( {1}.0/1000.0){0}{0}", Environment.NewLine, (long)numericUpDownDelay.Value);
+				sb2.Append(SEPARATOP);
+				sb2.AppendFormat("{0}# [BeHappy: Delay Audio by {1} ms ]{0}DelayAudio( {1}.0/1000.0){0}{0}", Environment.NewLine, (long)numericUpDownDelay.Value);
 			}
 			//#warning other tweaks here !!!
 
 			if (cbxSplit.Checked)
 			{
-				sb.AppendFormat("{1}{0}# [BeHappy: Create fictive 1000fps video for triming]{0}{1}{0}AudioDubEx(BlankClip(length=Int(1000*AudioLengthF(last)/Audiorate(last)), width=32, height=32, pixel_type=\"RGB24\", fps=1000), last){0}{0}", Environment.NewLine, SEPARATOP);
-				sb.AppendFormat("{0}{0}trim({1},{2}){0}{0}", Environment.NewLine, (long)numericUpDownSplitA.Value, (long)numericUpDownSplitB.Value);
-				sb.AppendFormat("{0}{0}{1}{0}# [BeHappy: Kill video]{0}{1}{0}AudioDubEx(Tone(), last){0}{0}", Environment.NewLine, SEPARATOP);
+				sb2.AppendFormat("{1}{0}# [BeHappy: Create fictive 1000fps video for triming]{0}{1}{0}AudioDubEx(BlankClip(length=Int(1000*AudioLengthF(last)/Audiorate(last)), width=32, height=32, pixel_type=\"RGB24\", fps=1000), last){0}{0}", Environment.NewLine, SEPARATOP);
+				sb2.AppendFormat("{0}{0}trim({1},{2}){0}{0}", Environment.NewLine, (long)numericUpDownSplitA.Value, (long)numericUpDownSplitB.Value);
+				sb2.AppendFormat("{0}{0}{1}{0}# [BeHappy: Kill video]{0}{1}{0}AudioDubEx(Tone(), last){0}{0}", Environment.NewLine, SEPARATOP);
 			}
 
 			if(cbxBuffer.Checked)
 			{
-				sb.Append(SEPARATOP);
-				sb.AppendFormat("{0}# [BeHappy: Buffer Audio by {1} s ]{0}NicBufferAudio( last, {1}){0}{0}", Environment.NewLine, (long)numericUpDownBuffer.Value);
+				sb2.Append(SEPARATOP);
+				sb2.AppendFormat("{0}# [BeHappy: Buffer Audio by {1} s ]{0}NicBufferAudio( last, {1}){0}{0}", Environment.NewLine, (long)numericUpDownBuffer.Value);
 			}
-
 
 			if(!cbxDisableDSP.Checked)
 			{
@@ -396,32 +387,50 @@ namespace BeHappy
 				{
 					if(lstDSP.CheckedItems.Contains(dsp))
 					{
-						sb.AppendFormat("{0}{1}# [DSP: {2}]{1}{0}{1}", SEPARATOP, Environment.NewLine, dsp.Title);
+						if (!string.IsNullOrEmpty(dsp.AvsPlugin))
+						{
+							string pluginPath = Path.Combine(pluginDir, dsp.AvsPlugin);
+							sb1.AppendLine("#DSP Plugin request: " + dsp.AvsPlugin);
+							if (File.Exists(pluginPath))
+								sb1.AppendFormat("LoadPlugin(\"{0}\"){1}", pluginPath, Environment.NewLine);
+							else sb1.AppendFormat("#\"{0}\" not found in \"{1}\"{2}", dsp.AvsPlugin, pluginDir, Environment.NewLine);
+						}
+						
+						sb2.AppendFormat("{0}{1}# [DSP: {2}]{1}{0}{1}", SEPARATOP, Environment.NewLine, dsp.Title);
 						// A part of AviSynth script
 						// {0} means input file name
 						// {1} means output file name
 						// {2} means unique string (to use as part of identifier)
 						// {3} means '{' character (to allow '{' to be used)
-						sb.AppendFormat(dsp.ScriptBlock, sourceFileName, targetFileName, Guid.NewGuid().ToString("N"),"{","}");
-						sb.Append(Environment.NewLine+Environment.NewLine);
+						// {4} means '}' character (to allow '}' to be used)
+						sb2.AppendFormat(dsp.ScriptBlock, sourceFileName, targetFileName, Guid.NewGuid().ToString("N"), "{", "}");
+						sb2.Append(Environment.NewLine + Environment.NewLine);
 					}
 				}
 			}
-			sb.AppendFormat("{0}{1}# [Encoder: {2}]{1}{0}{1}", SEPARATOP, Environment.NewLine, enc.Title);
-			if(enc.ScriptBlock!=null && !omitEncoderScript)
+			sb2.AppendFormat("{0}{1}# [Encoder: {2}]{1}{0}{1}", SEPARATOP, Environment.NewLine, enc.Title);
+			if (!String.IsNullOrEmpty(enc.ScriptBlock) && !omitEncoderScript)
 			{
-				if(enc.ScriptBlock.Length!=0)
+				if (!string.IsNullOrEmpty(enc.AvsPlugin))
 				{
-					// A part of AviSynth script
-					// {0} means input file name
-					// {1} means output file name
-					// {2} means unique string (to use as part of identifier)
-					// {3} means '{' character (to allow '{' to be used)
-					sb.AppendFormat(enc.ScriptBlock,sourceFileName, targetFileName, Guid.NewGuid().ToString("N"),"{","}");
+					string pluginPath = Path.Combine(pluginDir, enc.AvsPlugin);
+					sb1.AppendLine("#Encoder Plugin request: " + enc.AvsPlugin);
+					if (File.Exists(pluginPath))
+						sb1.AppendFormat("LoadPlugin(\"{0}\"){1}", pluginPath, Environment.NewLine);
+					else sb1.AppendFormat("#\"{0}\" not found in \"{1}\"{2}", enc.AvsPlugin, pluginDir, Environment.NewLine);
 				}
+				
+				// A part of AviSynth script
+				// {0} means input file name
+				// {1} means output file name
+				// {2} means unique string (to use as part of identifier)
+				// {3} means '{' character (to allow '{' to be used)
+				// {4} means '}' character (to allow '}' to be used)
+				sb2.AppendFormat(enc.ScriptBlock, sourceFileName, targetFileName, Guid.NewGuid().ToString("N"), "{", "}");
 			}
-			return sb.ToString();
-
+			sb1.AppendLine();
+			sb1.Append(sb2.ToString());
+			return sb1.ToString();
 		}
 
 		private string createAvsScript(bool omitEncoderScript)
@@ -643,7 +652,7 @@ namespace BeHappy
 					width = newWidth;
 				}
 			}
-			scb.DropDownWidth = width;
+			scb.DropDownWidth = Math.Min(width, this.Width);
 			labelDragDrop.Visible = false;
 		}
 
@@ -655,7 +664,7 @@ namespace BeHappy
 		{
 			Job[] jbs = new Job[sourceFiles.Length];
 			AudioEncoder enc = currentEncoder;
-			int htype = cbxHeader.Checked ? (int)(numericUpDownHeader.Value) : 0;
+			int htype = cbxHeader.Checked ? (int)(numericUpDownHeader.Value) : enc.HeaderType;
 			int cmask = cbxChMask.Checked ? (int)(numericUpDownChMask.Value) : -1;
 			int cnt;
 			string targetFile = targetFileName;
@@ -679,14 +688,21 @@ namespace BeHappy
 				
 				jbs[i].AviSynthScript = createAvsScript(sourceFiles[i], targetFile, enc);
 				jbs[i].CommandLine = enc.GetExecutableArguments(Path.GetExtension(targetFile).ToLower());
-				jbs[i].EncoderExecutable = encoder_dir + enc.ExecutableFileName;
-				if(jbs[i].EncoderExecutable.Length == encoder_dir.Length)
-					jbs[i].EncoderExecutable = null;
+				jbs[i].EncoderExecutable = String.IsNullOrEmpty(enc.ExecutableFileName) ? null : Path.Combine(encoder_dir, enc.ExecutableFileName);
 				jbs[i].SourceFile = sourceFiles[i];
 				jbs[i].TargetFile = targetFile;
 				jbs[i].SendRiffHeader = enc.WriteRiffHeader;
 				jbs[i].HeaderType = htype;
 				jbs[i].ChannelMask = cmask;
+				
+				string debugOut = string.Format("{0}\n{0}\n{1}\n{2} {3}\n\n" , new string('=', 80), jbs[i].AviSynthScript, jbs[i].EncoderExecutable, jbs[i].CommandLine);
+				
+				Debug.WriteLine(debugOut);
+				
+				if (msgWindow != null && !msgWindow.IsDisposed)
+				{
+					msgWindow.AddText(debugOut);
+				}
 			}
 			
 			return jbs;
@@ -697,10 +713,6 @@ namespace BeHappy
 			// make sure we have a source and a target
 			if ((sourceFiles.Length < 1) || String.IsNullOrWhiteSpace(targetFileName))
 			{
-//				MessageBox.Show("You must select a source and a destination file before proceeding.",
-//				                "Source/Destination required",
-//				                MessageBoxButtons.OK, MessageBoxIcon.Information);
-				
 				toolStripStatusLabel1.Text = "You must select a source and a destination file before proceeding.";
 				return;
 			}
@@ -708,9 +720,7 @@ namespace BeHappy
 			Job[] jbs = createJobs();
 			var items = createJobItems(jbs);
 
-			// now that we have a multi-select list, let's deselect
-			// all items prior to selecting the job that was just
-			// submitted to the job control
+			// we have a multi-select list, let's deselect all items prior to selecting the job that was just submitted
 			deselectAllJobs();
 
 			jobListView.Items.AddRange(items);
@@ -821,7 +831,7 @@ namespace BeHappy
 				{
 					if (((Job)item.Tag).State != JobState.Processing)
 					{
-						if (jobs != null) jobs.RemoveAll(j => j.M_item == item);
+						if (jobs != null) jobs.RemoveAll(j => j.Item == item);
 						jobListView.Items.Remove(item);
 					}
 					else
@@ -853,7 +863,7 @@ namespace BeHappy
 					}
 					else
 					{
-						if (jobs != null) jobs.RemoveAll(j => j.M_item == item);
+						if (jobs != null) jobs.RemoveAll(j => j.Item == item);
 						jobListView.Items.Remove(item);
 					}
 
@@ -883,7 +893,6 @@ namespace BeHappy
 				}
 			}
 
-			// 20080126 Chumbo mod
 			SetDSPMoveButtonState();
 		}
 
@@ -909,13 +918,13 @@ namespace BeHappy
 				lstDSP.SelectedIndex = nIndex;
 			}
 
-			// 20080126 Chumbo mod
 			SetDSPMoveButtonState();
 		}
 
 		private string getExeDirectory()
 		{
-			return  Path.GetDirectoryName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+//			return  Path.GetDirectoryName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+			return Application.StartupPath;
 		}
 
 		private void disableDSP(object sender, System.EventArgs e)
@@ -938,17 +947,6 @@ namespace BeHappy
 		private void enableSplit(object sender, System.EventArgs e)
 		{
 			numericUpDownSplitA.Enabled=numericUpDownSplitB.Enabled=(sender as CheckBox).Checked;
-		}
-
-		private void MainForm_Closed(object sender, System.EventArgs e)
-		{
-			try
-			{
-				if(File.Exists(m_tempFileName))
-					File.Delete(m_tempFileName);
-			}
-			catch{};
-			saveConfiguration();
 		}
 
 		private object lockObject
@@ -1063,7 +1061,6 @@ namespace BeHappy
 			else
 				btnConfigureDSP.Enabled = false;
 
-			// 20080126 Chumbo mod
 			SetDSPMoveButtonState();
 		}
 
@@ -1119,7 +1116,7 @@ namespace BeHappy
 			for (int i = 0; i < jobListView.Items.Count; i++)
 			{
 				jobs.Add(new Jobs(jobListView.Items[i]));
-				if (jobs[i].M_job.State == JobState.Waiting) wjcount++;
+				if (jobs[i].Job.State == JobState.Waiting) wjcount++;
 			}
 			
 			if (wjcount == 0)
@@ -1165,35 +1162,35 @@ namespace BeHappy
 		private void executeNextJob()
 		{
 			// if number of running jobs is less than number of max allowed jobs
-			if (jobs.FindAll(j => j.M_job.State == JobState.Processing).Count < (int)numericUpDownJobs.Value)
+			if (jobs.FindAll(j => j.Job.State == JobState.Processing).Count < (int)numericUpDownJobs.Value)
 			{
 				// if previous running job has reached at least progress of 1%
-				if (jobs.FindLast(j => j.M_job.State == JobState.Processing) != null && jobs.FindLast(j => j.M_job.State == JobState.Processing).M_job.Progress < 1)
+				if (jobs.FindLast(j => j.Job.State == JobState.Processing) != null && jobs.FindLast(j => j.Job.State == JobState.Processing).Job.Progress < 1)
 					return;
 				
 				foreach (Jobs jbs in jobs)
 				{
-					if (jbs.M_job.State != JobState.Waiting)
+					if (jbs.Job.State != JobState.Waiting)
 						continue;
 					
 					deselectAllJobs();
-					jbs.M_item.Selected = true;
+					jbs.Item.Selected = true;
 					txtSimpleLog.Text = String.Empty;
-					jbs.M_job.State = JobState.Processing;
-					jbs.M_job.StartAt = DateTime.Now;
-					jbs.M_job.bKeepOutput = bKeepOutput;
+					jbs.Job.State = JobState.Processing;
+					jbs.Job.StartAt = DateTime.Now;
+					jbs.Job.bKeepOutput = bKeepOutput;
 					
 					DataRow dr = ((DataRowView)cboPriority.SelectedItem).Row;
-					jbs.M_job.iPriority = Convert.ToInt32(dr.ItemArray.GetValue(1));
+					jbs.Job.iPriority = Convert.ToInt32(dr.ItemArray.GetValue(1));
 					
-					updateListViewItem(jbs.M_item);
-					jbs.AppendToLog("Starting job " + jbs.M_job.Name);
+					updateListViewItem(jbs.Item);
+					jbs.AppendToLog("Starting job " + jbs.Job.Name);
 					
-					jbs.M_encoder = new Encoder(jbs.M_job);
-					jbs.M_encoder.SetKeepOutput(jbs.M_job.bKeepOutput);
-					jbs.M_encoder.SetPriority((ProcessPriorityClass)Convert.ToInt32(dr.ItemArray.GetValue(1)));
-					jbs.M_encoder.EncoderCallback += encoderCallback;
-					jbs.M_encoder.Start();
+					jbs.Encoder = new Encoder(jbs.Job);
+					jbs.Encoder.SetKeepOutput(jbs.Job.bKeepOutput);
+					jbs.Encoder.SetPriority((ProcessPriorityClass)Convert.ToInt32(dr.ItemArray.GetValue(1)));
+					jbs.Encoder.EncoderCallback += encoderCallback;
+					jbs.Encoder.Start();
 					return;
 				}
 			}
@@ -1209,7 +1206,6 @@ namespace BeHappy
 			jobs = null;
 			if (breakAfterCurrentJob) toolStripStatusLabel1.Text = "Stopped by user request. Check job states/logs for errors.";
 			else toolStripStatusLabel1.Text = "Finished jobqueue processing. Check job states/logs for errors.";
-//			toolStripProgressBar1.Value = 0;
 		}
 		
 		private void deselectAllJobs()
@@ -1222,7 +1218,7 @@ namespace BeHappy
 		{
 			if(!this.InvokeRequired)
 			{
-				int ji = jobs.FindIndex(j => j.M_job == sender);	//get the index of the sending job
+				int ji = jobs.FindIndex(j => j.Job == sender);	//get the index of the sending job
 				
 				switch(s.Type)
 				{
@@ -1230,33 +1226,33 @@ namespace BeHappy
 //						this.toolStripProgressBar1.Value = (int)s.Progress;		//too much gui overhead when running multiple jobs parallel
 						break;
 					case EncoderCallbackEventArgs.EventType.Done:
-						jobs[ji].M_job.State = JobState.Done;
+						jobs[ji].Job.State = JobState.Done;
 						goto cmon;
 					case EncoderCallbackEventArgs.EventType.Terminated:
-						jobs[ji].M_job.State = JobState.Aborted;
+						jobs[ji].Job.State = JobState.Aborted;
 						goto cmon;
 					case EncoderCallbackEventArgs.EventType.Error:
-						jobs[ji].M_job.State = JobState.Error;
+						jobs[ji].Job.State = JobState.Error;
 						
 					cmon:
-						jobs[ji].M_job.StopAt = DateTime.Now;
+						jobs[ji].Job.StopAt = DateTime.Now;
 						jobs[ji].AppendToLog(String.IsNullOrEmpty(s.Message) ? sender.State.ToString() : (sender.State.ToString() + ": " + s.Message));
 						jobs[ji].AppendStdStreamsToLog();
-						updateListViewItem(jobs[ji].M_item);
+						updateListViewItem(jobs[ji].Item);
 						toolStripProgressBar1.PerformStep();
-						if (jobs[ji].M_item.Selected) txtSimpleLog.Text = jobs[ji].M_log;
-						if (!jobs.Exists(j => j.M_job.State == JobState.Processing || (j.M_job.State == JobState.Waiting && breakAfterCurrentJob == false)))
+						if (jobs[ji].Item.Selected) txtSimpleLog.Text = jobs[ji].Log;
+						if (!jobs.Exists(j => j.Job.State == JobState.Processing || (j.Job.State == JobState.Waiting && breakAfterCurrentJob == false)))
 							jobsFinished();
 						break;
 					case EncoderCallbackEventArgs.EventType.Notify:
 						jobs[ji].AppendToLog(s.Message);
-						if (jobs[ji].M_item.Selected) txtSimpleLog.Text = jobs[ji].M_log;
+						if (jobs[ji].Item.Selected) txtSimpleLog.Text = jobs[ji].Log;
 						break;
 					case EncoderCallbackEventArgs.EventType.StdErr:
-						jobs[ji].M_stderr.Append(s.Message);
+						jobs[ji].Stderr.Append(s.Message);
 						break;
 					case EncoderCallbackEventArgs.EventType.StdOut:
-						jobs[ji].M_stdout.Append(s.Message);
+						jobs[ji].Stdout.Append(s.Message);
 						break;
 					case EncoderCallbackEventArgs.EventType.KeepOutput:
 						break;
@@ -1268,21 +1264,47 @@ namespace BeHappy
 			}
 		}
 		
-		private void abortEncoding(object sender, System.EventArgs e)
+		private void abortEncoding(object sender, EventArgs e)
 		{
 			breakAfterCurrentJob = true;
 			timer.Stop();
-			jobs.ForEach(j => {if (j.M_job.State == JobState.Processing) j.M_encoder.Abort();});
+			jobs.ForEach(j => {if (j.Job.State == JobState.Processing) j.Encoder.Abort();});
 		}
 
 		private void stopEncoding(object sender, System.EventArgs e)
 		{
 			toolStripStatusLabel1.Text = "Break after running job.";
 			breakAfterCurrentJob = true;
-			btnStop.Enabled=false;
+			btnStop.Enabled = false;
+		}
+		
+		private void MainFormLoad(object sender, EventArgs e)
+		{
+			string[] args = Environment.GetCommandLineArgs();
+			
+			if (args != null && args.Length > 0)
+			{
+				foreach (string s in args)
+				{
+					if (s == "-testmode")
+					{
+						if (MessageBox.Show("The test mode is intended for testing extension plugins.\n" +
+						                    "Two buttons where added to [Operations] section to open debug window and reload extensions." +
+						                    "\n\nOK\t=\tUnderstand and proceed\nCancel\t=\tWhat a mistake, get me out of here",
+						                    "\"-testmode\" specified!",
+						                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question ,MessageBoxDefaultButton.Button1) == DialogResult.Cancel)
+							Application.Exit();
+						else
+						{
+							linkLblDebugWindow.Visible = true;
+							linkLblReloadPlugins.Visible = true;
+						}
+					}
+				}
+			}
 		}
 
-		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void MainForm_Closing(object sender, CancelEventArgs e)
 		{
 			if (jobs == null) return;
 			
@@ -1294,8 +1316,19 @@ namespace BeHappy
 			}
 			else e.Cancel = true;
 		}
+		
+		private void MainForm_Closed(object sender, EventArgs e)
+		{
+			try
+			{
+				if(File.Exists(m_tempFileName))
+					File.Delete(m_tempFileName);
+			}
+			catch{};
+			saveConfiguration();
+		}
 
-		private void jobListView_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void jobListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string log = string.Empty;
 			if (jobListView.SelectedItems.Count == 1)
@@ -1320,7 +1353,6 @@ namespace BeHappy
 
 		#endregion
 
-		// 20080126 Chumbo mod
 		private void SetDSPMoveButtonState()
 		{
 			// set move button states
@@ -1409,7 +1441,7 @@ namespace BeHappy
 			
 			if (jobs != null)
 			{
-				jobs.ForEach(j => {if (j.M_job.State == JobState.Processing) j.M_encoder.SetKeepOutput(bKeepOutput);});
+				jobs.ForEach(j => {if (j.Job.State == JobState.Processing) j.Encoder.SetKeepOutput(bKeepOutput);});
 			}
 		}
 
@@ -1441,22 +1473,15 @@ namespace BeHappy
 			dt.Rows.Add(CreateDataRow(ResourceGlobal.ItemPriorityNormal,
 			                          ((int)ProcessPriorityClass.Normal).ToString(), dt));
 			
-			/*
-			 * Create a DataView from the DataTable to act as the data source
-			 * for the DropDownList control.
-			 */
+			// Create a DataView from the DataTable to act as the data source for the DropDownList control.
 			DataView dv = new DataView(dt);
 			return dv;
 		}
 
 		public DataRow CreateDataRow(string strDisplayItem, string strValueItem, DataTable dt)
 		{
-			/*
-			 * Create a DataRow using the DataTable defined in the
-			 * CreatePriorityDataSource method.
-			 */
+			// Create a DataRow using the DataTable defined in the CreatePriorityDataSource method.
 			DataRow dr = dt.NewRow();
-			
 			dr[0] = strDisplayItem;
 			dr[1] = strValueItem;
 
@@ -1474,10 +1499,7 @@ namespace BeHappy
 			{
 				ProcessPriorityClass enumItem = GetSelectedPriority();
 
-				// if the priority selected is High, let's make sure the
-				// user wants to do this as it can tie up the system so
-				// verify their choice or at least make them consider the
-				// action to take
+				// if the priority selected is High, let's make sure the user wants to do this as it can tie up the system
 				bool bSetPriority = true;
 				if (enumItem == ProcessPriorityClass.High)
 				{
@@ -1489,7 +1511,7 @@ namespace BeHappy
 				if (bSetPriority)
 				{
 					try {
-						jobs.ForEach(j => {if (j.M_job.State == JobState.Processing) j.M_encoder.SetPriority(enumItem);});
+						jobs.ForEach(j => {if (j.Job.State == JobState.Processing) j.Encoder.SetPriority(enumItem);});
 					} catch (Exception ex) {
 						toolStripStatusLabel1.Text = ex.Message;}
 					
@@ -1530,57 +1552,85 @@ namespace BeHappy
 			e.Cancel = jobListView.SelectedItems.Count < 1;
 		}
 		
+		private MessageWindow msgWindow;
 		
+		void LinkLblDebugWindowLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			if (msgWindow == null || msgWindow.IsDisposed)
+				msgWindow = new MessageWindow();
+			
+			msgWindow.Show();
+			msgWindow.BringToFront();
+		}
+		
+		void LinkLblReloadPluginsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			lstEncoder.Items.Clear();
+			lstDSP.Items.Clear();
+			lstAudioSource.Items.Clear();
+			loadExtensionsAndApplyConfiguration();
+		}
+		
+		
+		void LinkLabelMouseEnter(object sender, EventArgs e)
+		{
+			LinkLabel lb = (LinkLabel)sender;
+			lb.LinkColor = lb.ActiveLinkColor;
+		}
+		
+		void LinkLabelMouseLeave(object sender, EventArgs e)
+		{
+			LinkLabel lb = (LinkLabel)sender;
+			lb.LinkColor = Color.Blue;
+		}
 	}
 
 
 	internal class Jobs
 	{
-		public Encoder M_encoder {get; set;}
-		public bool M_breakAfterCurrentJob {get; set;}
-		public StringBuilder M_stdout {get; set;}
-		public StringBuilder M_stderr {get; set;}
-		private StringBuilder m_log;
-		public string M_log {get {return M_job.Log;}}
-		public Job M_job {get; set;}
-		private ListViewItem m_item;
-		public ListViewItem M_item {get {return m_item;} set {m_item = value; M_job = (Job)value.Tag;}}
-		private Regex m_cleanUpStdOutRegex = new Regex(@"\n[^\n]+\r", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+		public Encoder Encoder {get; set;}
+		public bool BreakAfterCurrentJob {get; set;}
+		public StringBuilder Stdout {get; set;}
+		public StringBuilder Stderr {get; set;}
+		private StringBuilder log;
+		public string Log {get {return Job.Log;}}
+		public Job Job {get; set;}
+		private ListViewItem item;
+		public ListViewItem Item {get {return item;} set {item = value; Job = (Job)value.Tag;}}
+		private Regex cleanUpStdOutRegex = new Regex(@"\n[^\n]+\r", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		
 		public Jobs()
 		{
-			m_log = new StringBuilder();
-			M_stderr = new StringBuilder();
-			M_stdout = new StringBuilder();
+			log = new StringBuilder();
+			Stderr = new StringBuilder();
+			Stdout = new StringBuilder();
 		}
 		
 		public Jobs(ListViewItem item) :this()
 		{
-			M_item = item;
+			Item = item;
 		}
 		
 		public void AppendToLog(string s)
 		{
-			m_log.AppendLine(s);
-			M_job.Log = m_log.ToString();
+			log.AppendLine(s);
+			Job.Log = log.ToString();
 		}
 		
 		public void AppendStdStreamsToLog()
 		{
-			if (M_stdout.Length != 0)
+			if (Stdout.Length != 0)
 			{
-				m_log.AppendLine("#### Encoder StdOut ####");
-				m_log.AppendLine(m_cleanUpStdOutRegex.Replace(M_stdout.ToString().Replace(Environment.NewLine, "\n"), Environment.NewLine));
+				log.AppendLine("#### Encoder StdOut ####");
+				log.AppendLine(cleanUpStdOutRegex.Replace(Stdout.ToString().Replace(Environment.NewLine, "\n"), Environment.NewLine));
 			}
-			if (M_stderr.Length != 0)
+			if (Stderr.Length != 0)
 			{
-				m_log.AppendLine("#### Encoder StdErr ####");
-				m_log.AppendLine(m_cleanUpStdOutRegex.Replace(M_stderr.ToString().Replace(Environment.NewLine, "\n"), Environment.NewLine));
+				log.AppendLine("#### Encoder StdErr ####");
+				log.AppendLine(cleanUpStdOutRegex.Replace(Stderr.ToString().Replace(Environment.NewLine, "\n"), Environment.NewLine));
 			}
 			
-			M_job.Log = m_log.ToString();
+			Job.Log = log.ToString();
 		}
-		
 	}
-
 }

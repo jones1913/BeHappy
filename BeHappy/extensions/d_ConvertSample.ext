@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioDSP UniqueID="2ebc21dc-d098-11db-8314-0800200c9a66">
+		<Plugin>
+			<MultiOptionDSP Type="BeHappy.Extensions.MultiOptionDSP, BeHappy">
+				<DialogWidth>0</DialogWidth>
+				<TitleFormatString>Convert Sample - {0}</TitleFormatString>
+				<Radiobutton Name="Float 32 bits">
+					<Value>ConvertAudioToFloat()</Value>
+				</Radiobutton>
+				<Radiobutton Name="Int {0} bits">
+					<Value>ConvertAudioTo{0}bit()</Value>
+					<Trackbar FixedValues="true" DefaultValue="1">
+						<Value>8</Value>
+						<Value>16</Value>
+						<Value>24</Value>
+						<Value>32</Value>
+					</Trackbar>
+				</Radiobutton>
+			</MultiOptionDSP>
+		</Plugin>
+	</AudioDSP>
+</BeHappy.Extension>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder Name="Sample Encoder" UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">
+	<!-- Name = Name shown in GUI
+		Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
+		<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>		<!-- Try to load the avs plugin from "BeHappy\plugins32" folder first; probably more useful in source and dsp extensions -->
+		<Script>ConvertAudioTo24bit(last)</Script>		<!-- OPTIONAL --><!-- conversion script if encoder needs specific bit depth or so -->
+		<ExecutableFileName>encoder.exe</ExecutableFileName>		<!-- Subdirectories in encoder dir are possible eg. "xyenc\encoder.exe" -->
+		<ExecutableArguments>--someArg -o "{0}"</ExecutableArguments>
+		<!-- ExecutableCommandline
+			{0} = output file name
+			{1} = samplerate in Hz
+			{2} = bits per sample
+			{3} = channel count
+			{4} = samplecount
+			{5} = size in bytes
+		-->
+		<WriteRiffHeader>true</WriteRiffHeader>			<!-- OPTIONAL --><!-- true = send RIFF WAV header to encoders stdin; false = send raw PCM data; default is "true" -->
+		<HeaderType>0</HeaderType>						<!-- OPTIONAL --><!-- Header written to encoder; 0 = WAV, 1 = W64, 2 = RF64; default is "0" -->
+		<SupportedFileExtension>abc</SupportedFileExtension>		<!-- Supported file extensions for encoder output -->
+		<SupportedFileExtension>xyz</SupportedFileExtension>
+	</AudioEncoder>	
+</BeHappy.Extension>

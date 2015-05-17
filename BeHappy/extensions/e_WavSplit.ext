@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="f2cd7f00-ee7c-11da-8ad9-0800200c9a66">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>250</DialogWidth>
+				<ExecutableFileName>WavSplit.exe</ExecutableFileName>
+				<ExecutableCommandline>- "{0}" -ignorelength %options%</ExecutableCommandline>
+				<TitleFormatString>WavSplit - {0}</TitleFormatString>
+				<SupportedFileExtension>wav</SupportedFileExtension>
+				<Radiobutton Name="Mono WAVs">
+					<Value></Value>
+				</Radiobutton>
+				<Radiobutton Name="Stereo WAVs">
+					<Value>-st</Value>
+				</Radiobutton>
+			</MultiOptionEncoder>
+		</Plugin>
+	</AudioEncoder>
+</BeHappy.Extension>

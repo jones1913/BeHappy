@@ -25,7 +25,7 @@ namespace BeHappy.TimeStretch
 		
 		private void rbtnFrameRate_CheckedChanged(object sender, EventArgs e)
 		{
-			numCustom.Enabled = !(numRateFrom.Enabled=(numRateTo.Enabled=rbtnFrameRate.Checked));
+			numCustom.Enabled = numCustomFrom.Enabled = numCustomTo.Enabled = linkLblCalc.Enabled = !(numRateFrom.Enabled = (numRateTo.Enabled = rbtnFrameRate.Checked));
 		}
 
 		private void rdoCtlRate_CheckedChanged(object sender, EventArgs e)
@@ -43,12 +43,25 @@ namespace BeHappy.TimeStretch
             (3) Rate, tempo and no pitch correction.
                 (hint: changes the length of the audio track without preserving the original pitch )
 			 */
-			if (rdoCtlRate.Checked == true)
-				m_strTimeStretchMethod = "rate";
-			else if (rdoCtlPitch.Checked == true)
-				m_strTimeStretchMethod = "pitch";
-			else
+			
+			if (rdoCtlTempo.Checked == true)
 				m_strTimeStretchMethod = "tempo";
+			else if (rdoCtlRate.Checked == true)
+				m_strTimeStretchMethod = "rate";
+			else
+				m_strTimeStretchMethod = "pitch";
+		}
+		
+		void LinkLblCalcLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			errorProvider1.SetError(numCustom, string.Empty);
+			decimal cval = 0;
+			try{
+				cval = (numCustomFrom.Value * 100) / numCustomTo.Value;
+				numCustom.Value = cval;
+			} catch (Exception) {
+				errorProvider1.SetError(numCustom, string.Format("The value for custom time must be between {0} and {1}!\n\nYour result is: {2}", numCustom.Minimum, numCustom.Maximum, cval));
+			}
 		}
 	}
 
@@ -70,18 +83,14 @@ namespace BeHappy.TimeStretch
 			public float Tempo = 105F;
 			public string Control = "tempo";
 
-			internal float ActualTempo
-			{
-				get
-				{
+			internal float ActualTempo {
+				get {
 					return Custom ? Tempo : (100.0F * ToRate) / FromRate;
 				}
 			}
 
-			internal string Title
-			{
-				get
-				{
+			internal string Title {
+				get {
 					return Custom ? ("Custom: " + Tempo + "%") : (FromRate + " -> " + ToRate);
 				}
 			}
@@ -106,6 +115,11 @@ namespace BeHappy.TimeStretch
 			return string.Format(System.Globalization.CultureInfo.InvariantCulture,
 			                     "TimeStretch(last, {0}={1})", this.c.Control, this.c.ActualTempo);
 		}
+		
+		public string GetAvsPlugin()
+		{
+			return string.Empty;
+		}
 
 		#endregion
 
@@ -125,7 +139,7 @@ namespace BeHappy.TimeStretch
 				f.rdoCtlPitch.Checked = (this.c.Control == "pitch");
 				f.rdoCtlTempo.Checked = (this.c.Control == "tempo");
 
-				if (DialogResult.OK != f.ShowDialog(owner))
+				if (f.ShowDialog(owner) != DialogResult.OK)
 					return ConfigurationResult.Cancel;
 				this.c.Tempo = (float)f.numCustom.Value;
 				this.c.FromRate = (float)f.numRateFrom.Value;

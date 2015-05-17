@@ -45,6 +45,11 @@ namespace BeHappy.Amplify
         {
             return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}({1})", this.c.Db ? "AmplifyDb" : "Amplify", this.c.Amount);
         }
+        
+        public string GetAvsPlugin()
+		{
+			return null;
+		}
 
         #endregion
 

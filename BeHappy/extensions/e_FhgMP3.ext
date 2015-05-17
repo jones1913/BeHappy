@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="ef2e1e02-56a9-4ad7-9ca7-5992fe37bd34">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>350</DialogWidth>
+				<LogoBitmap>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</LogoBitmap>
+				<Script>32==Audiobits(last)?ConvertAudioTo24bit(last):last</Script>
+				<UseRawPCM>true</UseRawPCM>
+				<ExecutableFileName>mp3sencoder.exe</ExecutableFileName>
+				<ExecutableCommandline>-if - -of "{0}" -sr {1} -res {2} -c {3} -eof %options%</ExecutableCommandline>
+				<TitleFormatString>FHG MP3 - {0}</TitleFormatString>
+				<SupportedFileExtension>mp3</SupportedFileExtension>
+				<Radiobutton Name="VBR Mode Quality: {0}">
+					<Value>-vbri -br 0 -m {0}</Value>
+					<Trackbar DefaultValue="3">
+						<Min>1</Min>
+						<Max>5</Max>
+						<TickFrequency>1</TickFrequency>
+					</Trackbar>
+					<ToolTip>Variable Bitrate Mode\n\n1 = Highest Quality\n2 = High Quality\n3 = Intermediate Quality\n4 = Intermediate Bitrate\n5 = Low Bitrate</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="CBR Mode {0} kb/s">
+					<Value>-br {0}000</Value>
+					<Trackbar DefaultValue="8" FixedValues="true">
+						<Value>32</Value>
+						<Value>40</Value>
+						<Value>48</Value>
+						<Value>56</Value>
+						<Value>64</Value>
+						<Value>80</Value>
+						<Value>96</Value>
+						<Value>112</Value>
+						<Value>128</Value>
+						<Value>160</Value>
+						<Value>192</Value>
+						<Value>224</Value>
+						<Value>256</Value>
+						<Value>320</Value>
+					</Trackbar>
+					<ToolTip>Constant Bitrate Mode\nValid Range:\nMono Mp3: 16-256 Kb/s\nStereo Mp3: 96-320 Kb/s\nMp3 Sorrounds: 128-320 Kb/s </ToolTip>
+				</Radiobutton>
+				<Checkbox Name="High Quality" DefaultChecked="true">
+					<ValueChecked>-q 1</ValueChecked>
+					<ValueUnChecked>-q 0</ValueUnChecked>
+					<ToolTip>Use high quality mode instead of fast mode.</ToolTip>
+				</Checkbox>
+			</MultiOptionEncoder>
+		</Plugin>
+	</AudioEncoder>
+</BeHappy.Extension>

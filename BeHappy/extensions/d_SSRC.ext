@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+  <AudioDSP UniqueID="325bfe50-85b7-11da-a72b-0800200c9a66">
+    <Plugin>
+      <MultiOptionDSP Type="BeHappy.Extensions.MultiOptionDSP, BeHappy">
+            <DialogWidth>0</DialogWidth>
+            <TitleFormatString>SSRC - {0}</TitleFormatString>
+			<ScriptPrologue></ScriptPrologue>
+            <Radiobutton Name="SpeedUp 23.976 -> 25">
+                    <Value>AssumeSampleRate(last, (AudioRate()*1001+480)/960).SSRC(AudioRate(last))</Value>
+            </Radiobutton>
+            <Radiobutton Name="SlowDown 25 -> 23.976">
+                    <Value>SSRC(last, (AudioRate()*1001+480)/960).AssumeSampleRate(AudioRate(last))</Value>
+            </Radiobutton>
+			<Radiobutton Name="Resample {0} Hz">
+                    <Value>SSRC(last, {0})</Value>
+					<Trackbar FixedValues="true">
+						<Value>8000</Value>
+						<Value>11025</Value>
+						<Value>12000</Value>
+						<Value>16000</Value>
+						<Value>22050</Value>
+						<Value>24000</Value>
+						<Value>32000</Value>
+						<Value>44100</Value>
+						<Value>48000</Value>
+					</Trackbar>
+            </Radiobutton>
+			<ScriptEpilogue></ScriptEpilogue>
+      </MultiOptionDSP>
+    </Plugin>
+  </AudioDSP>
+</BeHappy.Extension>

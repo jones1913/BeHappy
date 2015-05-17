@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="49371dae-70bb-460c-b6f7-7d1cba00d387">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>370</DialogWidth>
+				<LogoBitmap>iVBORw0KGgoAAAANSUhEUgAAAHAAAABACAAAAADn8aw6AAAFVklEQVRYw+1YeVBVZRS/CJiaA0WY7cMQmePgNkPQZI0R0hhOMzQqjIApMjUxhWOyWA7aNlIUypLGNuyPXZAH70EBgYGFsS/6gKJBQNR4gqyyvOX03rvn3nfvfS97xuX+5e+vc87v3u/33W855/suAf8H6onB3u6rne2tzY0NvzX9DVMTalNfJe5fbby7XlrGxDg0lVVc7pUrl0JwrvvnUg6qQCnVGZKOOb4FF2QSsQE64SZlSnoUvAoOSS4YgRxa9E75Tf4EVR3FxiBRqyUMVyznS1BVV2QUzSBn+aWzPAk2FhrHMLSzA1f4Eewp4KCwtufa0F9t1UqQsolSXgRnz+ezUT5JUXc4TL6SD8HmXDZ+XKCpLg6VO8uD4HxeDhuMtVjBoXIVPAgOZ7NRp6emOVT2T3zMYXsWG73/TmV18CFYlcmGnPGBHCp7hg/Bygw2+ilCUcVhMhp5yTSX0tgomcAtUcIh0nLu8iLYmspBem1b75UWcapBnKfk3ZNiIv7gqTwNJZsE/dwuVlApSjIBRRP8VfyOxP9EdreKxzONIi3+3sjrMukMZXp5av3hHshuuM37MVEtPUdC3NdWX16QkpSSLsopKCopq2wdmgPTYXrFVxR8r8OfsCjcxyHqrihOg3MLggnCQkVsbKwYhBPUbI746C5BBWHu12lhBRePB4IPBBchKBd9c9Tvzc0vvrb3o69Subm4M/PbYN8dm7ftCYpI7aSCEm8SmfrnQjE0gP5UTcwXoYF+nm7b3vL5MDymcoQSlCe5WxAMrAxoZ9ybjjkwOeKVLDJb70RfQj95w4yM2Goro0L03sZlBAdP6QQn/S0IA+zBGiC1M+TW1Gp/LiwnndX6u8RZ5A9qqkuuA2EE9lrBy8+j5/RJ9LmwlynOV3drCkLvYe/QyBP+q9FbobkEZqG9Wz8WrhgqBsUONLceOnIyKinzdIjP61YaN0wjeAY/bwOmyWR81EwG0O9I2stOkbezkY1IvgvwDppZ+mVgTkYemoZjSH7N+IGjqD/h0kRAI47zS2NUqX0BH74E4EFa5vnUS0XIecDMStKyGKNbTKbJKZxMwjkktrjpFkOVUDnh97TSMeorukCKlg/NlWLEC86j5aZvjFpFCSBnr5bl9tv3h0t0ZzoiHmN79YcJ7DoxuLAOB1RGk1HIBcABtM7Q3IglGbEcBjhqZMGY7+7TCHqil23wEW9AOVru+s5swlAduKElpckQjIRonYL1RiStbwFBraZm+j1nnJurEGDQmRyM7AdwogceMYgj8yTe/gezQv3cNqwxZyrGAOHCaVQdhoGPQWlLWlb0hej3x+ieAg43EYlcnz0GciBx63fX9IMy3lt4mBLMBcIfzXUtOrphF/r+M1CN5iHI0yWBsRjchs/8ovGoRqyjpwBUsjAb0rW5ACnaJepyUnydFq1bgbOkAqL/cUp9k8c+d6qXj2j3QSA6F2XE2l3v+7yKbxGeo7ol4kgPlO2zdKZyvQ6Z9Apdu/3gp1GRwX6uuEkcbmiTt8zZYG5XeWmTr+oJ0rNThzPJ9YnY7dHD1pz3LHdmqEAdYUcYxdMJC1gtWgJWMeJWPkXkLb0eA8dBnxUdP2f+2JqO32JJMWa2HmmYAlSNUW8/yhYzc/wgZ5ZRniZbJMlfBh4IPS2q7qLP7Ufw4bb59Iggr4DjcfkXjVz/RmU1uekVrcOcnzOq3uo0TYv7vH2DPosTVY6ZUoCfw/wuVMVvpLeHQILUfqwRShCLpLVCIMEBuiwIJFhnkEeXWLABU/gdoQTnrbjldakXjViXAOMEPHmf0goOCHnUT7Ahtgh7t7gdHM274D8KJWwcmlKKjgAAAABJRU5ErkJggg==</LogoBitmap>
+				<Url>https://www.opus-codec.org</Url>
+				<UrlToolTip>Encoder documentation and download.</UrlToolTip>
+				<Script></Script>
+				<ExecutableFileName>opusenc.exe</ExecutableFileName>
+				<ExecutableCommandline>%options% --ignorelength - "{0}"</ExecutableCommandline>
+				<TitleFormatString>OpusEnc - {0}</TitleFormatString>
+				<SupportedFileExtension>opus</SupportedFileExtension>
+				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<UseRawPCM>false</UseRawPCM>
+				<Radiobutton Name="CBR mode {0} kb/s">
+					<Value>--hard-cbr --bitrate {0}</Value>
+					<Trackbar DefaultValue="130">
+						<Min>6</Min>
+						<Max>510</Max>
+						<TickFrequency>32</TickFrequency>
+					</Trackbar>
+					<ToolTip>Constant Bitrate mode</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="CVBR mode {0} kb/s">
+					<Value>--cvbr --bitrate {0}</Value>
+					<Trackbar DefaultValue="130">
+						<Min>6</Min>
+						<Max>510</Max>
+						<TickFrequency>32</TickFrequency>
+					</Trackbar>
+					<ToolTip>Constrained Variable Bitrate mode</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="VBR mode {0}" Default="true">
+					<Value>--vbr --bitrate {0}</Value>
+					<Trackbar DefaultValue="130">
+						<Min>6</Min>
+						<Max>510</Max>
+						<TickFrequency>32</TickFrequency>
+					</Trackbar>
+					<ToolTip>Variable Bitrate mode</ToolTip>
+				</Radiobutton>
+				<NumericUpdown Name="Complexity" DefaultValue="10">
+					<Value>--comp {0}</Value>
+					<Min>0</Min>
+					<Max>10</Max>
+					<ToolTip>Encoding complexity (default: 10 (slowest))</ToolTip>
+				</NumericUpdown>
+			</MultiOptionEncoder>  
+		</Plugin>
+	</AudioEncoder>	
+</BeHappy.Extension>

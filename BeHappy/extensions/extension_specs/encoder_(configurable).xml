@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">		<!-- Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>400</DialogWidth>						<!-- trial and error? -->
+				<Url>https://www.encoder-site.org</Url>				<!-- OPTIONAL --><!-- Link to encoder download or doc. NO links to content with questionable legality please! -->
+				<UrlToolTip>Encoder documentation and download.</UrlToolTip>	<!-- OPTIONAL --><!-- Description what one can find on Url -->
+				<LogoBitmap>###</LogoBitmap>	<!-- OPTIONAL --><!-- PNG/JPG/BMP image as base64 text code --><!-- http://www.base64-image.de -->
+				<Script>ConvertAudioTo24bit(last)</Script>			<!-- OPTIONAL --><!-- conversion script if encoder needs specific bit depth or so -->
+				<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>			<!-- try to load the avs plugin from "BeHappy\plugins32" folder first; probably more useful in source and dsp extensions -->
+				<TitleFormatString>Sample Plugin - {0}</TitleFormatString>		<!-- String used for representation in GUI
+					{0} = all current specified options -->
+				<ExecutableFileName>encoder.exe</ExecutableFileName>			<!-- Subdirectories in encoder dir are possible eg. "xyenc\encoder.exe" -->
+				<ExecutableCommandline>%options% --someArg -o "{0}"</ExecutableCommandline>
+				<!-- ExecutableCommandline
+					{0} = output file name
+					{1} = samplerate in Hz
+					{2} = bits per sample
+					{3} = channel count
+					{4} = samplecount
+					{5} = size in bytes
+					%options% = all options from below are inserted here -->
+				<SupportedFileExtension>abc</SupportedFileExtension>	<!-- Supported file extensions for encoder output -->
+				<SupportedFileExtension>xyz</SupportedFileExtension>
+				<ShowCommandTextbox>true</ShowCommandTextbox>			<!-- OPTIONAL --><!-- show a textbox for additional commandline args; default is "false" -->
+				<UseRawPCM>false</UseRawPCM>							<!-- set to "true" if the encoder only accepts raw input samples; default is "false" -->
+				<HeaderType>0</HeaderType>						<!-- OPTIONAL --><!-- Header written to encoder; 0 = WAV, 1 = W64, 2 = RF64; default is "0" -->
+				<Info>If you can read this you don't need glasses!</Info>	<!-- OPTIONAL --><!-- A dialog with additional informations can be opened on config window (eg. encoder prerequisites, .dlls, ...) -->
+				<Radiobutton Name="A mode {0} kb/s" Default="true">
+				<!-- "Name" is the text of the control in GUI -->
+				<!-- "Default" means this option is initially selected (until BeHappy config file is saved) -->
+				<!-- {0} Trackbar value is inserted here for representation in GUI -->
+					<Value>--someArg {0}</Value>
+					<!-- Value = the option represented by this radiobutton
+					{0} = the value set by the trackbar	-->
+					<Trackbar DefaultValue="128">
+					<!-- OPTIONAL --><!-- each radiobutton can have a associated trackbar -->
+					<!-- "DefaultValue": initial default value (until BeHappy config is saved); default is: DefaultValue="0" -->
+						<!-- use INTEGER values here -->
+						<Min>0</Min>
+						<Max>320</Max>
+						<TickFrequency>16</TickFrequency>		<!-- spacing between the ticks drawn on this trackbar -->
+						<Multiplier>1</Multiplier>	<!-- OPTIONAL --><!-- if trackbar value must be calculated to a point or large number; default is: Multiplier=1.0 -->
+					</Trackbar>
+					<ToolTip>Using "A" mode</ToolTip>	<!-- OPTIONAL -->
+				</Radiobutton>
+				<Radiobutton Name="B mode">
+					<Value>--anyArg {0}</Value>
+					<ToolTip>Using "B" mode</ToolTip>
+					<Trackbar FixedValues="true" DefaultValue="2">
+					<!-- "FixedValues": trackbar represent a list of fixed values instead of continuous values; default is: FixedValues="false" -->
+					<!-- "DefaultValue": 0-based default index of value list (until BeHappy config is saved); default is: DefaultValue="0" -->
+						<!-- <Value> list are STRINGs, so all alphanumeric characters are allowed here -->
+						<Value>32</Value>
+						<Value>64</Value>
+						<Value>128</Value>
+					</Trackbar>
+				</Radiobutton>
+				<Dropdown Name="A DropDown option" DefaultIndex="0">
+				<!-- "Name" is the text of the control in GUI -->
+				<!-- "DefaultIndex": 0-based index of initially selected value (until BeHappy config is saved); default is: DefaultIndex="0" -->
+					<Item Name="Default">			<!-- the description of this option in combobox -->
+						<Value></Value></Item>		<!-- leave value blank if option can be empty -->
+					<Item Name="Option 1">
+						<Value>--op 1</Value></Item>
+					<Item Name="Option 2">
+						<Value>--op 2</Value></Item>
+					<ToolTip>Choose between 1, 2 or default</ToolTip>
+				</Dropdown>
+				<NumericUpdown Name="Numeric UpDown box" DefaultValue="5">
+				<!-- "Name" is the text of the control in GUI -->
+				<!-- "DefaultValue": initial default value (until BeHappy config is saved); default is: DefaultValue="0" -->
+					<Value>-dnorm {0}</Value>
+					<!-- Value = the option represented by this control
+					{0} = the value set by the numeric updown control	-->
+					<Min>0</Min>
+					<Max>10</Max>
+					<DecimalPlaces>3</DecimalPlaces>	<!-- number of decimal places -->
+					<Increment>0.01</Increment>			<!-- how much the value increase on arrow click -->
+				</NumericUpdown>
+				<Checkbox Name="A Checkbox option" DefaultChecked="true">
+				<!-- "Name" is the text of the control in GUI -->
+				<!-- "DefaultChecked": boolean value of initial state (until BeHappy config is saved); default is: DefaultChecked="false" -->
+					<ValueChecked>--someArg 1</ValueChecked>			<!-- at least one checkstate value (checked or unchecked) must be specified -->
+					<ValueUnChecked>--someArg 0</ValueUnChecked>
+					<ToolTip>--someArg\n\nEnable "someArg" option</ToolTip>		<!-- OPTIONAL --><!-- type "\n" in tooltips for new line -->
+				</Checkbox>
+			</MultiOptionEncoder>  
+		</Plugin>
+	</AudioEncoder>	
+</BeHappy.Extension>

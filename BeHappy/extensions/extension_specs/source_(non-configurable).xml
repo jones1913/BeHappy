@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioSource Name="Sample Source" UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">
+	<!-- Name = Name shown in GUI
+		Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
+		<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>		<!-- Try to load the avs plugin from "BeHappy\plugins32" folder first -->
+		<Script>SourceFunction("{0}")</Script>			<!-- AVS source script -->
+		<!-- A part of AviSynth script
+			{0} = input file name
+			{1} = output file name
+			{2} = unique string (to use as part of identifier)
+			{3} = '{' character (to allow '{' to be used)
+			{4} = '}' character (to allow '}' to be used)
+		-->
+		<SupportedFileExtension>abc</SupportedFileExtension>		<!-- Supported file extensions for source plugin -->
+		<SupportedFileExtension>xyz</SupportedFileExtension>
+	</AudioSource>	
+</BeHappy.Extension>

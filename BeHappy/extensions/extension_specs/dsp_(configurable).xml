@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioDSP UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">		<!-- Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
+		<Plugin>
+			<MultiOptionDSP Type="BeHappy.Extensions.MultiOptionDSP, BeHappy">
+				<DialogWidth>400</DialogWidth>						<!-- Trial and error? -->
+				<Url>https://www.plugin-site.org</Url>				<!-- OPTIONAL --><!-- Link to avs plugin download or doc. NO links to content with questionable legality please! -->
+				<UrlToolTip>Plugin documentation and download.</UrlToolTip>	<!-- OPTIONAL --><!-- Description what one can find on Url -->
+				<LogoBitmap>###</LogoBitmap>		<!-- OPTIONAL --><!-- PNG/JPG/BMP image as base64 text code --><!-- http://www.base64-image.de -->
+				<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>			<!-- Try to load the avs plugin from "BeHappy\plugins32" folder first -->
+				<ShowCommandTextbox>false</ShowCommandTextbox>		<!-- OPTIONAL --><!-- show a textbox for additional script parameters; default is "false" -->
+				<TitleFormatString>Sample Plugin - {0}</TitleFormatString>		<!-- String used for representation in GUI
+					{0} = current RadioButtonOption + TrackBar value -->
+				<ScriptPrologue>SomeFunction()</ScriptPrologue>			<!-- OPTIONAL --><!-- Preceding part of the avs script -->
+				<ScriptEpilogue>SomeFunction()</ScriptEpilogue>			<!-- OPTIONAL --><!-- Succeeding part of the avs script -->
+				<!-- A part of AviSynth script
+					{0} = input file name
+					{1} = output file name
+					{2} = unique string (to use as part of identifier)
+					{3} = '{' character (to allow '{' to be used)
+					{4} = '}' character (to allow '}' to be used)
+				-->
+				<!--
+			
+					The same options for radiobuttons, checkboxes, ... are possible here, like described in encoder_doc.xml
+					Basicly the same avs script syntax as described above is possible in these options.
+				
+					The options here must contain complete avs functions, which then are inserted between "<ScriptPrologue>" and "<ScriptEpilogue>".
+				-->
+			
+			</MultiOptionDSP>  
+		</Plugin>
+	</AudioDSP>	
+</BeHappy.Extension>

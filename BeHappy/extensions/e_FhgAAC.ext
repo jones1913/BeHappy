@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="823c5e0c-c49f-48d2-9009-fb3f4794c235">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>300</DialogWidth>
+				<Url>https://github.com/tmkk/fhgaacenc</Url>
+				<UrlToolTip>Encoder documentation and download.</UrlToolTip>
+				<Script>16==Audiobits(last)?last:ConvertAudioTo24bit(last)</Script>
+				<ExecutableFileName>fhgaac\fhgaacenc.exe</ExecutableFileName>
+				<ExecutableCommandline>%options% --ignorelength --quiet - "{0}"</ExecutableCommandline>
+				<TitleFormatString>FHG AAC - {0}</TitleFormatString>
+				<SupportedFileExtension>m4a</SupportedFileExtension>
+				<SupportedFileExtension>mp4</SupportedFileExtension>
+				<SupportedFileExtension>aac</SupportedFileExtension>
+				<Radiobutton Name="CBR mode {0} kb/s">
+					<Value>--cbr {0}</Value>
+					<Trackbar DefaultValue="130">
+						<Min>8</Min>
+						<Max>576</Max>
+						<TickFrequency>32</TickFrequency>
+					</Trackbar>
+					<ToolTip>Constant Bitrate mode</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="VBR mode {0}" Default="true">
+					<Value>--vbr {0}</Value>
+					<Trackbar DefaultValue="3">
+						<Min>1</Min>
+						<Max>6</Max>
+						<TickFrequency>1</TickFrequency>
+					</Trackbar>
+					<ToolTip>Variable Bitrate mode\n\n1 = Lowest Quality\n6 = Highest Quality</ToolTip>
+				</Radiobutton>
+				<Dropdown Name="AAC Profile">
+					<Item Name="Automatic">
+						<Value>--profile auto</Value></Item>
+					<Item Name="LC">
+						<Value>--profile lc</Value></Item>
+					<Item Name="HE">
+						<Value>--profile he</Value></Item>
+					<Item Name="HEv2">
+						<Value>--profile hev2</Value></Item>
+					<ToolTip>Force AAC Profile.\n\nThis works only in CBR mode!</ToolTip>
+				</Dropdown>
+				<Checkbox Name="ADTS output">
+					<ValueChecked>--adts</ValueChecked>
+					<ToolTip>Save as ADTS instead of M4A</ToolTip>
+				</Checkbox>
+			</MultiOptionEncoder>  
+		</Plugin>
+	</AudioEncoder>	
+</BeHappy.Extension>

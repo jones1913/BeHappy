@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioSource UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">		<!-- Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>400</DialogWidth>						<!-- Trial and error? -->
+				<Url>https://www.source-site.org</Url>				<!-- OPTIONAL --><!-- Link to source plugin download or doc. NO links to content with questionable legality please! -->
+				<UrlToolTip>Source plugin documentation and download.</UrlToolTip>	<!-- OPTIONAL --><!-- Description what one can find on Url -->
+				<LogoBitmap>###</LogoBitmap>		<!-- OPTIONAL --><!-- PNG/JPG/BMP image as base64 text code --><!-- http://www.base64-image.de -->
+				<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>			<!-- Try to load the avs plugin from "BeHappy\plugins32" folder first -->
+				<ShowCommandTextbox>false</ShowCommandTextbox>		<!-- OPTIONAL --><!-- Show a textbox for additional script parameters; default is "false" -->
+				<TitleFormatString>Sample Plugin - {0}</TitleFormatString>		<!-- String used for representation in GUI
+					{0} = current RadioButtonOption + TrackBar value -->
+				<Script>SourceFunction("{0}", %options%)</Script>	<!-- AVS source script -->
+				<!-- A part of AviSynth script
+					{0} = input file name
+					{1} = output file name
+					{2} = unique string (to use as part of identifier)
+					{3} = '{' character (to allow '{' to be used)
+					{4} = '}' character (to allow '}' to be used)
+					%options% = all options from below are inserted here -->
+				<SupportedFileExtension>abc</SupportedFileExtension>		<!-- Supported file extensions for source plugin -->
+				<SupportedFileExtension>xyz</SupportedFileExtension>
+			
+				<!--
+			
+					The same options for radiobuttons, checkboxes, ... are possible here, like described in encoder_doc.xml
+					Basicly the same avs script syntax as described above is possible in these options.
+				
+					Another approach is to only define "<Script>%options%</Script>" above and then specify the complete script function in eg. a radiobutton element.
+					In any case the "%options%" string must always be specified otherwise the returned script remains empty.
+				-->
+			
+			</MultiOptionSource> 
+		</Plugin>
+	</AudioSource>	
+</BeHappy.Extension>

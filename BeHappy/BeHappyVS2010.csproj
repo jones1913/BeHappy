@@ -33,28 +33,25 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <NoWin32Manifest>False</NoWin32Manifest>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
-    <Optimize>false</Optimize>
-    <RegisterForComInterop>false</RegisterForComInterop>
+    <NoStdLib>False</NoStdLib>
+    <Optimize>False</Optimize>
+    <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <DebugType>full</DebugType>
+    <DebugType>Full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -67,13 +64,9 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
     <Optimize>true</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
@@ -112,70 +105,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="compile2010.bat" />
-    <None Include="extensions\aud-x.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\BassAudio.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\ConvertSample.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\DownMix.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\DuplicateChannels.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\ffmpeg.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\flac.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\FraunhoferMp3.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\MusePack.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\NicAudio.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\SSRC.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\ttaenc.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\twolame.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\UpMix.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\wavpack.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="extensions\wavSplit.extension">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <EmbeddedResource Include="AftenEncoder.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AftenEncoder.cs</DependentUpon>
+    <EmbeddedResource Include="MessageWindow.resx">
+      <DependentUpon>MessageWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="compile2010.bat" />
     <EmbeddedResource Include="App.ico" />
     <Content Include="AvisynthWrapper.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="gpl.txt" />
-    <Compile Include="AftenEncoder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AftenEncoder.Designer.cs">
-      <DependentUpon>AftenEncoder.cs</DependentUpon>
-    </Compile>
     <Compile Include="AmplifyDSP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,12 +125,6 @@
     </Compile>
     <Compile Include="AvisynthWrapper.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CodingTechnologiesAAC.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CodingTechnologiesAAC.Designer.cs">
-      <DependentUpon>CodingTechnologiesAAC.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration.cs">
       <SubType>Code</SubType>
@@ -219,17 +151,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EnumProxy.cs" />
-    <Compile Include="LameEncoder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LameEncoder.Designer.cs">
-      <DependentUpon>LameEncoder.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NeroDigitalEncoder.cs">
-      <SubType>Form</SubType>
+    <Compile Include="MessageWindow.cs" />
+    <Compile Include="MessageWindow.Designer.cs">
+      <DependentUpon>MessageWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensibility.cs" />
     <Compile Include="Extension.cs">
@@ -240,15 +167,6 @@
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NeroDigitalEncoder.Designer.cs">
-      <DependentUpon>NeroDigitalEncoder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="OggVorbisEncoder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OggVorbisEncoder.Designer.cs">
-      <DependentUpon>OggVorbisEncoder.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ResourceGlobal.Designer.cs">
@@ -267,10 +185,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>AmplifyDSP.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CodingTechnologiesAAC.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>CodingTechnologiesAAC.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationFormBase.resx">
       <DependentUpon>ConfigurationFormBase.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -283,20 +197,8 @@
       <DependentUpon>ConfigureFormForNormalizeDSP.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="LameEncoder.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>LameEncoder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NeroDigitalEncoder.resx">
-      <DependentUpon>NeroDigitalEncoder.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OggVorbisEncoder.resx">
-      <DependentUpon>OggVorbisEncoder.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ResourceGlobal.resx">
@@ -317,5 +219,13 @@
     </PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+    <StartArguments>-testmode</StartArguments>
   </PropertyGroup>
 </Project>

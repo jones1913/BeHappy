@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioSource UniqueID="13FE9611-2155-4AEF-98AE-ACE37D6A364E">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>250</DialogWidth>
+				<TitleFormatString>LWLibavAudioSource - {0}</TitleFormatString>
+				<LoadAvsPlugin>lsmashsource.dll</LoadAvsPlugin>
+				<SupportedFileExtension>avi</SupportedFileExtension>
+				<SupportedFileExtension>mkv</SupportedFileExtension>
+				<SupportedFileExtension>webm</SupportedFileExtension>
+				<SupportedFileExtension>mp2</SupportedFileExtension>
+				<SupportedFileExtension>mp3</SupportedFileExtension>
+				<SupportedFileExtension>mp4</SupportedFileExtension>
+				<SupportedFileExtension>mp4a</SupportedFileExtension>
+				<SupportedFileExtension>m4a</SupportedFileExtension>
+				<SupportedFileExtension>flv</SupportedFileExtension>
+				<SupportedFileExtension>m2ts</SupportedFileExtension>
+				<SupportedFileExtension>ts</SupportedFileExtension>
+				<SupportedFileExtension>ac3</SupportedFileExtension>
+				<SupportedFileExtension>dts</SupportedFileExtension>
+				<SupportedFileExtension>wav</SupportedFileExtension>
+				<SupportedFileExtension>ogg</SupportedFileExtension>
+				<SupportedFileExtension>opus</SupportedFileExtension>
+				<SupportedFileExtension>flac</SupportedFileExtension>
+				<Script>LWLibavAudioSource("{0}", %options%)</Script>
+				<Radiobutton Name="Stream Index {0}">
+					<Value>stream_index={0}</Value>
+					<Trackbar DefaultValue="-1">
+						<Min>-1</Min>
+						<Max>12</Max>
+						<TickFrequency>1</TickFrequency>
+					</Trackbar>
+					<ToolTip>Track index "-1" picks the first audio track.</ToolTip>
+				</Radiobutton>
+				<Checkbox Name="Write index file">
+					<ValueUnChecked>cache=false</ValueUnChecked>
+					<ToolTip>Write the index file to disk.</ToolTip>
+				</Checkbox>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+	<AudioSource UniqueID="13FE9611-2155-4AEF-89AE-ACE37D6A366A">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>250</DialogWidth>
+				<TitleFormatString>LSMASHAudioSource - {0}</TitleFormatString>
+				<LoadAvsPlugin>lsmashsource.dll</LoadAvsPlugin>
+				<SupportedFileExtension>mp4</SupportedFileExtension>
+				<SupportedFileExtension>m4a</SupportedFileExtension>
+				<SupportedFileExtension>mp4a</SupportedFileExtension>
+				<SupportedFileExtension>mov</SupportedFileExtension>
+				<SupportedFileExtension>3gp</SupportedFileExtension>
+				<SupportedFileExtension>3g2</SupportedFileExtension>
+				<Script>LSMASHAudioSource("{0}", %options%)</Script>
+				<Radiobutton Name="Stream Index {0}">
+					<Value>track={0}</Value>
+					<Trackbar>
+						<Min>0</Min>
+						<Max>12</Max>
+						<TickFrequency>1</TickFrequency>
+					</Trackbar>
+					<ToolTip>Track index "0" picks the first audio track.</ToolTip>
+				</Radiobutton>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+</BeHappy.Extension>

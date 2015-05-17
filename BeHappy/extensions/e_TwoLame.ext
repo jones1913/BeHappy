@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="f35fffb0-81cb-11da-a72b-0800200c9a66">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<ExecutableFileName>twolame.exe</ExecutableFileName>
+				<ExecutableCommandline>%options% -m j - "{0}"</ExecutableCommandline>
+				<TitleFormatString>TwoLame MP2 - {0}</TitleFormatString>
+				<SupportedFileExtension>mp2</SupportedFileExtension>
+				<Radiobutton Name="CBR for 32, 44.1 and 48kHz sample input {0} kb/s">
+					<Value>-b {0}</Value>
+					<Trackbar FixedValues="true" DefaultValue="8">
+						<Value>32</Value>
+						<Value>48</Value>
+						<Value>56</Value>
+						<Value>64</Value>
+						<Value>80</Value>
+						<Value>96</Value>
+						<Value>112</Value>
+						<Value>160</Value>
+						<Value>192</Value>
+						<Value>224</Value>
+						<Value>256</Value>
+						<Value>320</Value>
+						<Value>384</Value>
+					</Trackbar>
+					<ToolTip>kbits per second</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="CBR for 16, 22.05 and 24kHz sample input {0} kb/s">
+					<Value>-b {0}</Value>
+					<Trackbar FixedValues="true" DefaultValue="11">
+						<Value>8</Value>
+						<Value>16</Value>
+						<Value>24</Value>
+						<Value>32</Value>
+						<Value>40</Value>
+						<Value>48</Value>
+						<Value>56</Value>
+						<Value>64</Value>
+						<Value>80</Value>
+						<Value>96</Value>
+						<Value>112</Value>
+						<Value>128</Value>
+						<Value>144</Value>
+						<Value>160</Value>
+					</Trackbar>
+					<ToolTip>kbits per second</ToolTip>
+				</Radiobutton>
+			</MultiOptionEncoder>
+		</Plugin>
+	</AudioEncoder>
+</BeHappy.Extension>
