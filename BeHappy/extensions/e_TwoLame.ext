@@ -4,9 +4,10 @@
 		<Plugin>
 			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
 				<ExecutableFileName>twolame.exe</ExecutableFileName>
-				<ExecutableCommandline>%options% -m j - "{0}"</ExecutableCommandline>
-				<TitleFormatString>TwoLame MP2 - {0}</TitleFormatString>
+				<ExecutableCommandline> - %options% "{0}"</ExecutableCommandline>
+				<TitleFormatString>MP2 TwoLame - {0}</TitleFormatString>
 				<SupportedFileExtension>mp2</SupportedFileExtension>
+				<ShowCommandTextbox>true</ShowCommandTextbox>
 				<Radiobutton Name="CBR for 32, 44.1 and 48kHz sample input {0} kb/s">
 					<Value>-b {0}</Value>
 					<Trackbar FixedValues="true" DefaultValue="8">
@@ -24,7 +25,7 @@
 						<Value>320</Value>
 						<Value>384</Value>
 					</Trackbar>
-					<ToolTip>kbits per second</ToolTip>
+					<ToolTip>Constant Bitrate mode</ToolTip>
 				</Radiobutton>
 				<Radiobutton Name="CBR for 16, 22.05 and 24kHz sample input {0} kb/s">
 					<Value>-b {0}</Value>
@@ -44,8 +45,28 @@
 						<Value>144</Value>
 						<Value>160</Value>
 					</Trackbar>
-					<ToolTip>kbits per second</ToolTip>
+					<ToolTip>Constant Bitrate mode</ToolTip>
 				</Radiobutton>
+				<Dropdown Name="Channel Mode">
+					<Item Name="Automatic">
+						<Value>-m a</Value></Item>
+					<Item Name="Joint Stereo">
+						<Value>-m j</Value></Item>
+					<Item Name="Stereo">
+						<Value>-m s</Value></Item>
+					<Item Name="Dual Mono">
+						<Value>-m d</Value></Item>
+					<Item Name="Mono">
+						<Value>-m m</Value></Item>
+				</Dropdown>
+				<Checkbox Name="Copyright">
+					<ValueChecked>-c --copyright</ValueChecked>
+					<ToolTip>Mark as copyright</ToolTip>
+				</Checkbox>
+				<Checkbox Name="Non-original">
+					<ValueChecked>-o -non-original</ValueChecked>
+					<ToolTip>Mark as non-original</ToolTip>
+				</Checkbox>
 			</MultiOptionEncoder>
 		</Plugin>
 	</AudioEncoder>

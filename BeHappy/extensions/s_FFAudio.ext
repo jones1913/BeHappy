@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
-	<AudioSource UniqueID="13FE9611-2155-4AEF-98AE-ACE37D6A364E">
+	<AudioSource UniqueID="062086A5-4EA7-4693-A203-3D3BBF762DF0">
 		<Plugin>
 			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
 				<DialogWidth>250</DialogWidth>
-				<TitleFormatString>LWLibavAudioSource - {0}</TitleFormatString>
-				<LoadAvsPlugin>lsmashsource.dll</LoadAvsPlugin>
+				<TitleFormatString>FFAudioSource - {0}</TitleFormatString>
 				<SupportedFileExtension>avi</SupportedFileExtension>
 				<SupportedFileExtension>mkv</SupportedFileExtension>
 				<SupportedFileExtension>webm</SupportedFileExtension>
@@ -26,44 +25,22 @@
 				<SupportedFileExtension>dtshd</SupportedFileExtension>
 				<SupportedFileExtension>thd</SupportedFileExtension>
 				<SupportedFileExtension>eac3</SupportedFileExtension>
-				<Script>LWLibavAudioSource("{0}", %options%)</Script>
+				<LoadAvsPlugin>ffms2.dll</LoadAvsPlugin>
+				<Script>FFAudioSource("{0}", %options%)</Script>
 				<Radiobutton Name="Stream Index {0}">
-					<Value>stream_index={0}</Value>
+					<Value>track ={0}</Value>
 					<Trackbar DefaultValue="-1">
 						<Min>-1</Min>
 						<Max>12</Max>
 					</Trackbar>
 					<ToolTip>Track index "-1" picks the first audio track.</ToolTip>
 				</Radiobutton>
-				<Checkbox Name="Write index file">
+				<Checkbox Name="Dont write index file">
 					<ValueUnChecked>cache=false</ValueUnChecked>
-					<ToolTip>Write the index file to disk.</ToolTip>
+					<ToolTip>Dont write the index file to disk.</ToolTip>
 				</Checkbox>
 			</MultiOptionSource>
 		</Plugin>
 	</AudioSource>
-	<AudioSource UniqueID="13FE9611-2155-4AEF-89AE-ACE37D6A366A">
-		<Plugin>
-			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
-				<DialogWidth>250</DialogWidth>
-				<TitleFormatString>LSMASHAudioSource - {0}</TitleFormatString>
-				<LoadAvsPlugin>lsmashsource.dll</LoadAvsPlugin>
-				<SupportedFileExtension>mp4</SupportedFileExtension>
-				<SupportedFileExtension>m4a</SupportedFileExtension>
-				<SupportedFileExtension>mp4a</SupportedFileExtension>
-				<SupportedFileExtension>mov</SupportedFileExtension>
-				<SupportedFileExtension>3gp</SupportedFileExtension>
-				<SupportedFileExtension>3g2</SupportedFileExtension>
-				<Script>LSMASHAudioSource("{0}", %options%)</Script>
-				<Radiobutton Name="Stream Index {0}">
-					<Value>track={0}</Value>
-					<Trackbar>
-						<Min>0</Min>
-						<Max>12</Max>
-					</Trackbar>
-					<ToolTip>Track index "0" picks the first audio track.</ToolTip>
-				</Radiobutton>
-			</MultiOptionSource>
-		</Plugin>
-	</AudioSource>
 </BeHappy.Extension>
+		

@@ -9,7 +9,7 @@
 					16==Audiobits(last)?last:ConvertAudioTo16bit(last)</Script>
 				<ExecutableFileName>enc_AudX_CLI.exe</ExecutableFileName>
 				<ExecutableCommandline>- "{0}" --raw {1} %options%</ExecutableCommandline>
-				<TitleFormatString>Aud-X - {0}</TitleFormatString>
+				<TitleFormatString>MP3 Aud-X - {0}</TitleFormatString>
 				<SupportedFileExtension>mp3</SupportedFileExtension>
 				<UseRawPCM>true</UseRawPCM>
 				<Radiobutton Name="STRQ (80 kbit/s mono + surr.)">

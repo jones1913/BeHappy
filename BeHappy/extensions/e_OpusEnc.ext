@@ -10,10 +10,9 @@
 				<Script></Script>
 				<ExecutableFileName>opusenc.exe</ExecutableFileName>
 				<ExecutableCommandline>%options% --ignorelength - "{0}"</ExecutableCommandline>
-				<TitleFormatString>OpusEnc - {0}</TitleFormatString>
+				<TitleFormatString>OPUS OpusEnc - {0}</TitleFormatString>
 				<SupportedFileExtension>opus</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
-				<UseRawPCM>false</UseRawPCM>
 				<Radiobutton Name="CBR mode {0} kb/s">
 					<Value>--hard-cbr --bitrate {0}</Value>
 					<Trackbar DefaultValue="130">
@@ -45,7 +44,7 @@
 					<Value>--comp {0}</Value>
 					<Min>0</Min>
 					<Max>10</Max>
-					<ToolTip>Encoding complexity (default: 10 (slowest))</ToolTip>
+					<ToolTip>Encoding complexity\n\ndefault: 10 (slowest)</ToolTip>
 				</NumericUpdown>
 			</MultiOptionEncoder>  
 		</Plugin>

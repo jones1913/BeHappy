@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="2f57e380-963f-4f27-9252-efbdfaaf425d">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>370</DialogWidth>
+				<Script>16==Audiobits(last)?last:ConvertAudioTo24bit(last)</Script>	
+				<ExecutableFileName>WMAEncode.exe</ExecutableFileName>
+				<ExecutableCommandline>- "{0}" %options% -i -s</ExecutableCommandline>
+				<TitleFormatString>WMA WMAEncode - {0}</TitleFormatString>
+				<SupportedFileExtension>wma</SupportedFileExtension>
+				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<Radiobutton Name="CBR mode {0} kb/s" Default="true">
+					<Value>-q {0} -m cbr2pass</Value>
+					<Trackbar DefaultValue="128">
+						<Min>8</Min>
+						<Max>768</Max>
+						<TickFrequency>12</TickFrequency>
+					</Trackbar>
+					<ToolTip>Constant Bitrate mode</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="VBR Bitrate mode {0} kb/s">
+					<Value>-q {0} -m vbr2pass</Value>
+					<Trackbar DefaultValue="128">
+						<Min>8</Min>
+						<Max>768</Max>
+						<TickFrequency>12</TickFrequency>
+					</Trackbar>
+					<ToolTip>Constant Bitrate mode</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="VBR Quality mode : {0}">
+					<Value>-q {0} -m vbr</Value>
+					<Trackbar DefaultValue="2" FixedValues="true">
+						<Value>10</Value>
+						<Value>25</Value>
+						<Value>50</Value>
+						<Value>75</Value>
+						<Value>90</Value>
+						<Value>98</Value>
+					</Trackbar>
+					<ToolTip>Variable Bitrate mode</ToolTip>
+				</Radiobutton>
+				<Dropdown Name="Codec">
+					<Item Name="Standard">
+						<Value></Value></Item>
+					<Item Name="Professional">
+						<Value>-c pro</Value></Item>
+					<Item Name="Lossless">
+						<Value>-c lsl</Value></Item>
+					<Item Name="Voice">
+						<Value>-c voice</Value></Item>
+					<ToolTip>Professional and lossless codec support multichannels. Use only vbr Quality for codec lossless.
+							standard, std - Windows Media Audio 9.2 
+							professional, pro - Windows Media Audio 10 Professional
+							voice - Windows Media Audio Voice 9
+							lossless, lsl - Windows Media Audio Lossless
+					</ToolTip>
+				</Dropdown>
+			</MultiOptionEncoder>  
+		</Plugin>
+	</AudioEncoder>	
+</BeHappy.Extension>

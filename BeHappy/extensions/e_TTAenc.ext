@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
-	<AudioEncoder Name="TTAenc 3.4.1" UniqueID="e482a270-dc16-11dc-95ff-0800200c9a66">
+	<AudioEncoder Name="TTA TTAenc 3.4.1" UniqueID="e482a270-dc16-11dc-95ff-0800200c9a66">
 		<ExecutableFileName>ttaenc.exe</ExecutableFileName>
-		<Script>32==Audiobits(last)?ConvertAudioTo24bit(last):last</Script>
-		<ExecutableArguments>-e -o "{0}" -</ExecutableArguments>
+		<Script>last.AudioChannels()==6?ConvertAudioTo16bit(last):ConvertAudioTo24bit(last)</Script>
+		<ExecutableArguments>-e - -o "{0}"</ExecutableArguments>
 		<SupportedFileExtension>tta</SupportedFileExtension>
 	</AudioEncoder>
 </BeHappy.Extension>

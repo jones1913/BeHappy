@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="806b3453-17c7-4a12-aaad-e16052b6b791">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>300</DialogWidth>
+				<Url>http://www.thbeck.de/Tak/Tak.html</Url>
+				<Script>16==Audiobits(last)?last:ConvertAudioTo24bit(last)</Script>
+				<ExecutableFileName>takc.exe</ExecutableFileName>
+				<ExecutableCommandline>-e %options% -ihs  -overwrite -silent - "{0}"</ExecutableCommandline>
+				<TitleFormatString>TAK - {0}</TitleFormatString>
+				<SupportedFileExtension>tak</SupportedFileExtension>
+				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<Radiobutton Name="Encoder Preset {0}">
+					<Value>-p{0}</Value>
+					<Trackbar DefaultValue="6" FixedValues="true">
+						<Value>0</Value>
+						<Value>0e</Value>
+						<Value>0m</Value>
+						<Value>1</Value>
+						<Value>1e</Value>
+						<Value>1m</Value>
+						<Value>2</Value>
+						<Value>2e</Value>
+						<Value>2m</Value>
+						<Value>3</Value>
+						<Value>3e</Value>
+						<Value>3m</Value>
+						<Value>4</Value>
+						<Value>4e</Value>
+						<Value>4m</Value>
+						<Value>Max</Value>
+					</Trackbar>
+					<ToolTip>0-4 (fastest to strongest, default is 2).\nAppend E/M [2m] to increase the evaluation level to Extra/Max. [Max] is a synonym for the strongest setting.</ToolTip>
+				</Radiobutton>
+				<Checkbox Name="LossyTAK">
+					<ValueChecked>-fsl512</ValueChecked>
+					<ToolTip>Set to frame size limit to 512k samples for perchannels</ToolTip>
+				</Checkbox>
+			</MultiOptionEncoder>  
+		</Plugin>
+	</AudioEncoder>	
+</BeHappy.Extension>

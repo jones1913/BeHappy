@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="C20E261E-F31C-44F4-AE29-F181B6A70B08">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>550</DialogWidth>
+				<Url>http://wiki.hydrogenaud.io/index.php?title=Fraunhofer_FDK_AAC#fdkaac</Url>
+				<UrlToolTip>Encoder documentation and download.</UrlToolTip>
+				<LogoBitmap>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</LogoBitmap>
+				<Script>16==Audiobits(last)?last:ConvertAudioTo16bit(last)</Script>
+				<ExecutableFileName>fdkaac.exe</ExecutableFileName>
+				<ExecutableCommandline>%options% -I -S -o "{0}" -</ExecutableCommandline>
+				<TitleFormatString>AAC FDK - {0}</TitleFormatString>
+				<SupportedFileExtension>m4a</SupportedFileExtension>
+				<SupportedFileExtension>aac</SupportedFileExtension>
+				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<Radiobutton Name="CBR mode {0} kb/s" Default="true">
+					<Value>-b {0}</Value>
+					<Trackbar DefaultValue="130">
+						<Min>8</Min>
+						<Max>576</Max>
+						<TickFrequency>32</TickFrequency>
+					</Trackbar>
+					<ToolTip>Constant Bitrate mode</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="VBR mode {0}" >
+					<Value>-m {0}</Value>
+					<Trackbar DefaultValue="3">
+						<Min>1</Min>
+						<Max>5</Max>
+					</Trackbar>
+					<ToolTip>VBR mode is not officially supported, and works only on a certain combination\nof parameter settings, sample rate, and channel configuration.\n
+							 Per channel bitrate:
+								Mono  /  Stereo
+								VBR 1:  20  /  32 kbps
+								VBR 2:  32  /  40 kbps
+								VBR 3:  48  /  56 kbps
+								VBR 4:  64  /  72 kbps
+								VBR 5:  96  /  112 kbps
+					</ToolTip>
+				</Radiobutton>
+				<Dropdown Name="AAC Profile">
+					<Item Name="MPEG-4 AAC LC">
+						<Value></Value></Item>
+					<Item Name="MPEG-4 HE-AAC(SBR)">
+						<Value>-p 5</Value></Item>
+					<Item Name="MPEG-4 HE-AAC v2(SBR+PS)">
+						<Value>-p 29</Value></Item>
+					<Item Name="MPEG-4 AAC ELD">
+						<Value>-p 39</Value></Item>
+					<Item Name="MPEG-2 AAC LC">
+						<Value>-p 129</Value></Item>
+					<Item Name="MPEG-2 HE-AAC(SBR)">
+						<Value>-p 132</Value></Item>
+					<Item Name="MPEG-2 HE-AAC v2(SBR+PS)">
+						<Value>-p 156</Value></Item>
+					<ToolTip>Force AAC Profile</ToolTip>
+				</Dropdown>
+				<Dropdown Name="Gapless Mode">
+					<Item Name="iTunSMPB ">
+						<Value></Value></Item>
+					<Item Name="ISO standard">
+						<Value>-G 1</Value></Item>
+					<Item Name="Both">
+						<Value>-G 2</Value></Item>
+					<ToolTip>Encoder delay signaling for gapless playback</ToolTip>
+				</Dropdown>
+				<Dropdown Name="Transport format">
+					<Item Name="RAW ">
+						<Value></Value></Item>
+					<Item Name="ADIF">
+						<Value>-f 1</Value></Item>
+					<Item Name="ADTS">
+						<Value>-f 2</Value></Item>
+					<Item Name="LATM MCP=1">
+						<Value>-f 6</Value></Item>	
+					<Item Name="LATM MCP=0">
+						<Value>-f 7</Value></Item>
+					<Item Name="LOAS/LATM">
+						<Value>-f 10</Value></Item>
+				</Dropdown>
+			</MultiOptionEncoder>  
+		</Plugin>
+	</AudioEncoder>	
+</BeHappy.Extension>
