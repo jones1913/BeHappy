@@ -22,7 +22,7 @@
 						<Value>-c:a libtwolame</Value></Item>
 						<ToolTip>Choose MP2 encoder library</ToolTip>
 				</Dropdown>
-				<Radiobutton Name="CBR for 32, 44.1 and 48kHz sample input {0} kb/s">
+				<Radiobutton Name="CBR for 32; 44.1 and 48kHz sample input {0} kb/s">
 					<Value>-b {0}</Value>
 					<Trackbar FixedValues="true" DefaultValue="8">
 						<Value>32</Value>
@@ -41,7 +41,7 @@
 					</Trackbar>
 					<ToolTip></ToolTip>
 				</Radiobutton>
-				<Radiobutton Name="CBR for 16, 22.05 and 24kHz sample input {0} kb/s">
+				<Radiobutton Name="CBR for 16; 22.05 and 24kHz sample input {0} kb/s">
 					<Value>-b {0}</Value>
 					<Trackbar FixedValues="true" DefaultValue="11">
 						<Value>8</Value>

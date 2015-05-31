@@ -10,6 +10,7 @@
 				<ExecutableFileName>mac.exe</ExecutableFileName>
 				<ExecutableCommandline>- "{0}" %options% </ExecutableCommandline>
 				<TitleFormatString>APE Monkey's Audio - {0}</TitleFormatString>
+				<IsLossless>true</IsLossless>
 				<SupportedFileExtension>ape</SupportedFileExtension>
 				<Dropdown Name="Compressing Level" DefaultIndex="2">
 					<Item Name="Fast">

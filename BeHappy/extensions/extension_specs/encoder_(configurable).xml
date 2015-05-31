@@ -26,6 +26,7 @@
 				<ShowCommandTextbox>true</ShowCommandTextbox>			<!-- OPTIONAL --><!-- show a textbox for additional commandline args; default is "false" -->
 				<UseRawPCM>false</UseRawPCM>							<!-- set to "true" if the encoder only accepts raw input samples; default is "false" -->
 				<HeaderType>0</HeaderType>						<!-- OPTIONAL --><!-- Header written to encoder; 0 = WAV, 1 = W64, 2 = RF64; default is "0" -->
+				<IsLossless>true</IsLossless>					<!-- OPTIONAL --><!-- specify whether encoder produces a lossless audio format (for GUI filter); default is "false" -->
 				<Info>If you can read this you don't need glasses!</Info>	<!-- OPTIONAL --><!-- A dialog with additional informations can be opened on config window (eg. encoder prerequisites, .dlls, ...) -->
 				<Radiobutton Name="A mode {0} kb/s" Default="true">
 				<!-- "Name" is the text of the control in GUI -->

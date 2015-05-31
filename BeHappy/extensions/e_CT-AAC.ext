@@ -13,7 +13,6 @@
 				<SupportedFileExtension>m4a</SupportedFileExtension>
 				<SupportedFileExtension>3gp</SupportedFileExtension>
 				<SupportedFileExtension>3g2</SupportedFileExtension>
-				<SupportedFileExtension>3gpp</SupportedFileExtension>
 				<SupportedFileExtension>aac</SupportedFileExtension>
 				<Info>AACPlus encoder needs Winamp support files. Copy the needed files to " \BeHappy\encoder\aacPlus\* ".</Info>
 				<Radiobutton Name="Constant Bitrate {0} kb/s">

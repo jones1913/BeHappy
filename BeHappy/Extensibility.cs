@@ -194,6 +194,10 @@ namespace BeHappy.Extensibility
 		/// 0 = WAV; 1 = W64; 2 = RF64
 		/// </summary>
 		int HeaderType();
+		/// <summary>
+		/// Encodes to lossless audio format or not (used for GUI filter).
+		/// </summary>
+		bool IsLossless();
 	}
 	
 

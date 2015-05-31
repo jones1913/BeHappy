@@ -11,6 +11,7 @@
 				<TitleFormatString>TAK - {0}</TitleFormatString>
 				<SupportedFileExtension>tak</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<IsLossless>true</IsLossless>
 				<Radiobutton Name="Encoder Preset {0}">
 					<Value>-p{0}</Value>
 					<Trackbar DefaultValue="6" FixedValues="true">

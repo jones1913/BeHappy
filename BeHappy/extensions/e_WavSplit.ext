@@ -6,8 +6,9 @@
 				<DialogWidth>250</DialogWidth>
 				<ExecutableFileName>WavSplit.exe</ExecutableFileName>
 				<ExecutableCommandline>- "{0}" -ignorelength %options%</ExecutableCommandline>
-				<TitleFormatString>WavSplit - {0}</TitleFormatString>
+				<TitleFormatString>WAV WavSplit - {0}</TitleFormatString>
 				<SupportedFileExtension>wav</SupportedFileExtension>
+				<IsLossless>true</IsLossless>
 				<Radiobutton Name="Mono WAVs">
 					<Value></Value>
 				</Radiobutton>

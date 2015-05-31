@@ -11,6 +11,7 @@
 				<TitleFormatString>WV Wavpack - {0}</TitleFormatString>
 				<SupportedFileExtension>wv</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<IsLossless>true</IsLossless>
 				<Radiobutton Name="Fast Mode">
 					<Value>-f</Value>
 					<ToolTip>Faster encode and decode, but some compromise in compression ratio</ToolTip>

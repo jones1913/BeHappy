@@ -127,15 +127,15 @@ When draging only folders then all containing files are added (not recursively).
 
 Note that there is currently no check if the dropped files are compatible with the source plugin.</value>
   </data>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>465, 17</value>
+  </metadata>
   <data name="numericUpDownJobs.ToolTip" xml:space="preserve">
     <value>Number of jobs which are processed simultaneously.
 This does not take account of already multithreading capable encoders.
 Do not set to high if the encoder itself does multithreading,
 and do not set it higher than your virtual CPU cores.</value>
   </data>
-  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>465, 17</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="tabPageAbout.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

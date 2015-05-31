@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BeHappy")]
 [assembly: AssemblyDescription("BeHappy - AviSynth based audio transcoding tool")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Dmitry Alexandrov aka dimzon")]
+[assembly: AssemblyCompany("Free Sofware Foundation")]
 [assembly: AssemblyProduct("BeHappy")]
 [assembly: AssemblyCopyright("Free Sofware Foundation")]
 [assembly: AssemblyTrademark("")]

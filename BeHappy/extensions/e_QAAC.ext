@@ -117,6 +117,7 @@
 				<TitleFormatString>ALAC QAAC - {0}</TitleFormatString>
 				<SupportedFileExtension>m4a</SupportedFileExtension>
 				<SupportedFileExtension>aac</SupportedFileExtension>
+				<IsLossless>true</IsLossless>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
 				<Info>QAAC encoder needs Apple Application Support files. Install it on your system or
 					   manually copy the needed files to " \BeHappy\encoder\qaac\* ".</Info>

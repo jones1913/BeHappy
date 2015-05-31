@@ -17,6 +17,7 @@
 		-->
 		<WriteRiffHeader>true</WriteRiffHeader>			<!-- OPTIONAL --><!-- true = send RIFF WAV header to encoders stdin; false = send raw PCM data; default is "true" -->
 		<HeaderType>0</HeaderType>						<!-- OPTIONAL --><!-- Header written to encoder; 0 = WAV, 1 = W64, 2 = RF64; default is "0" -->
+		<IsLossless>false</IsLossless>					<!-- OPTIONAL --><!-- specify whether encoder produces a lossless audio format (for GUI filter); default is "false" -->
 		<SupportedFileExtension>abc</SupportedFileExtension>		<!-- Supported file extensions for encoder output -->
 		<SupportedFileExtension>xyz</SupportedFileExtension>
 	</AudioEncoder>	

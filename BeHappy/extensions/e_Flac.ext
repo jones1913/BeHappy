@@ -15,6 +15,7 @@
 				<SupportedFileExtension>ogg</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
 				<UseRawPCM>true</UseRawPCM>
+				<IsLossless>true</IsLossless>
 				<Dropdown Name="Compressing Level" DefaultIndex="5">
 					<Item Name="Fast">
 						<Value>--fast</Value></Item>

@@ -5,5 +5,6 @@
 		<Script>last.AudioChannels()==6?ConvertAudioTo16bit(last):ConvertAudioTo24bit(last)</Script>
 		<ExecutableArguments>-e - -o "{0}"</ExecutableArguments>
 		<SupportedFileExtension>tta</SupportedFileExtension>
+		<IsLossless>true</IsLossless>
 	</AudioEncoder>
 </BeHappy.Extension>

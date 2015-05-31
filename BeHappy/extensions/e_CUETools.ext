@@ -12,9 +12,10 @@
 				<TitleFormatString>FLAC CUETools OpenCL - {0}</TitleFormatString>
 				<SupportedFileExtension>flac</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<IsLossless>true</IsLossless>
 				<Info>Supported hardware:\n
 					* NVIDIA GeForce 2XX/4XX/5XX
-					* ATI Radeon HD 5XXX </Info>
+					* AMD Radeon HD 5XXX </Info>
 				<Radiobutton Name="Compression Level {0}">
 					<Value>-{0}</Value>
 					<Trackbar DefaultValue="8">

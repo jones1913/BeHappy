@@ -395,6 +395,8 @@ namespace BeHappy.Extensions
 
 		[XmlElement("HeaderType")]
 		public int Header;
+		[XmlElement("IsLossless")]
+		public bool Lossless = false;
 		
 		public string ExecutableFileName {
 			get	{
@@ -418,6 +420,12 @@ namespace BeHappy.Extensions
 				return ((IAudioEncoder)imp).HeaderType();
 			}
 		}
+		
+		public bool IsLossless {
+			get {
+				return ((IAudioEncoder)imp).IsLossless();
+			}
+		}
 
 		public AudioEncoder()
 		{
@@ -427,9 +435,10 @@ namespace BeHappy.Extensions
 		public static AudioEncoder WAV {
 			get {
 				AudioEncoder encoder = new AudioEncoder();
-				encoder.m_title = "Wav Writer";
+				encoder.m_title = "WAV Writer";
 				encoder.m_writeRiffHeader = true;
 				encoder.m_listOfSupportedFileExtensions = new string[]{"wav"};
+				encoder.Lossless = true;
 				encoder.UniqueID = new Guid("{E6F05427-EF21-467c-AD28-0E43B28F27BB}");
 				return encoder;
 			}
@@ -438,9 +447,10 @@ namespace BeHappy.Extensions
 		public static AudioEncoder RAW {
 			get {
 				AudioEncoder encoder = new AudioEncoder();
-				encoder.m_title = "Raw PCM Writer";
+				encoder.m_title = "PCM Writer";
 				encoder.m_writeRiffHeader = false;
 				encoder.m_listOfSupportedFileExtensions = new string[]{"dat","pcm","raw","*"};
+				encoder.Lossless = true;
 				encoder.UniqueID = new Guid("{983AB413-134B-4852-A42E-C7A52AE13855}");
 				return encoder;
 			}
@@ -464,6 +474,11 @@ namespace BeHappy.Extensions
 		int IAudioEncoder.HeaderType()
 		{
 			return Header;
+		}
+		
+		bool IAudioEncoder.IsLossless()
+		{
+			return Lossless;
 		}
 
 	}
@@ -1155,6 +1170,8 @@ namespace BeHappy.Extensions
 		public string ExecutableCommandline;
 		[XmlElement("HeaderType")]
 		public int Header;
+		[XmlElement("IsLossless")]
+		public bool Lossless = false;
 
 		public MultiOptionEncoder():base()
 		{
@@ -1227,6 +1244,13 @@ namespace BeHappy.Extensions
 		public int HeaderType()
 		{
 			return Header;
+		}
+		/// <summary>
+		/// Encodes to lossless audio format or not (used for GUI filter).
+		/// </summary>
+		public bool IsLossless()
+		{
+			return Lossless;
 		}
 		
 		/// <summary>
