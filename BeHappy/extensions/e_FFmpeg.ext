@@ -336,7 +336,7 @@
 				<Url>https://www.ffmpeg.org/</Url>
 				<Script>32==Audiobits(last)?ConvertAudioTo32bit(last):last</Script>
 				<ExecutableFileName>ffmpeg.exe</ExecutableFileName>
-				<ExecutableCommandline>-i - -y -c:a aac -strict -2 %options% "{0}"</ExecutableCommandline>
+				<ExecutableCommandline>-i - -y -f mp4 %options% "{0}"</ExecutableCommandline>
 				<TitleFormatString>AAC FFmpeg - {0}</TitleFormatString>
 				<SupportedFileExtension>m4a</SupportedFileExtension>
 				<SupportedFileExtension>mp4</SupportedFileExtension>
