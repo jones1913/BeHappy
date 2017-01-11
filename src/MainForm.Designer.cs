@@ -75,22 +75,7 @@ namespace BeHappy
 			this.lstEncoder = new System.Windows.Forms.ComboBox();
 			this.txtOutputFileName = new System.Windows.Forms.TextBox();
 			this.tabPageJobControl = new System.Windows.Forms.TabPage();
-			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.linkLabelAutoJobs = new System.Windows.Forms.LinkLabel();
-			this.labelNumJobs = new System.Windows.Forms.Label();
-			this.numericUpDownJobs = new System.Windows.Forms.NumericUpDown();
-			this.cboPriority = new System.Windows.Forms.ComboBox();
-			this.btnDeleteJob = new System.Windows.Forms.Button();
-			this.lblPriority = new System.Windows.Forms.Label();
-			this.btnDeleteAll = new System.Windows.Forms.Button();
-			this.chkKeepOutput = new System.Windows.Forms.CheckBox();
-			this.btnStart = new System.Windows.Forms.Button();
-			this.txtSimpleLog = new System.Windows.Forms.TextBox();
-			this.btnStop = new System.Windows.Forms.Button();
-			this.btnAbort = new System.Windows.Forms.Button();
-			this.btnMoveDownJob = new System.Windows.Forms.Button();
-			this.btnMoveUpJob = new System.Windows.Forms.Button();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.jobListView = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
@@ -99,6 +84,20 @@ namespace BeHappy
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+			this.btnDeleteJob = new System.Windows.Forms.Button();
+			this.cboPriority = new System.Windows.Forms.ComboBox();
+			this.btnDeleteAll = new System.Windows.Forms.Button();
+			this.lblPriority = new System.Windows.Forms.Label();
+			this.chkKeepOutput = new System.Windows.Forms.CheckBox();
+			this.linkLabelAutoJobs = new System.Windows.Forms.LinkLabel();
+			this.btnStart = new System.Windows.Forms.Button();
+			this.txtSimpleLog = new System.Windows.Forms.TextBox();
+			this.btnStop = new System.Windows.Forms.Button();
+			this.btnAbort = new System.Windows.Forms.Button();
+			this.labelNumJobs = new System.Windows.Forms.Label();
+			this.numericUpDownJobs = new System.Windows.Forms.NumericUpDown();
+			this.btnMoveDownJob = new System.Windows.Forms.Button();
+			this.btnMoveUpJob = new System.Windows.Forms.Button();
 			this.tabPageInfo = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPageAbout = new System.Windows.Forms.TabPage();
@@ -149,8 +148,10 @@ namespace BeHappy
 			this.groupBoxDsp.SuspendLayout();
 			this.groupBoxDestination.SuspendLayout();
 			this.tabPageJobControl.SuspendLayout();
-			this.tableLayoutPanel2.SuspendLayout();
-			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownJobs)).BeginInit();
 			this.tabPageInfo.SuspendLayout();
 			this.tabControl2.SuspendLayout();
@@ -733,227 +734,51 @@ namespace BeHappy
 			// 
 			// tabPageJobControl
 			// 
-			this.tabPageJobControl.Controls.Add(this.tableLayoutPanel2);
+			this.tabPageJobControl.Controls.Add(this.splitContainer1);
 			this.tabPageJobControl.Location = new System.Drawing.Point(4, 22);
 			this.tabPageJobControl.Name = "tabPageJobControl";
 			this.tabPageJobControl.Size = new System.Drawing.Size(722, 400);
 			this.tabPageJobControl.TabIndex = 1;
 			this.tabPageJobControl.Text = "Queue";
 			// 
-			// tableLayoutPanel2
+			// splitContainer1
 			// 
-			this.tableLayoutPanel2.ColumnCount = 1;
-			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Controls.Add(this.panel1, 0, 1);
-			this.tableLayoutPanel2.Controls.Add(this.jobListView, 0, 0);
-			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 2;
-			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.73379F));
-			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 54.26621F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(722, 400);
-			this.tableLayoutPanel2.TabIndex = 2;
+			this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
+			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
-			// panel1
+			// splitContainer1.Panel1
 			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-									| System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.panel1.Controls.Add(this.linkLabelAutoJobs);
-			this.panel1.Controls.Add(this.labelNumJobs);
-			this.panel1.Controls.Add(this.numericUpDownJobs);
-			this.panel1.Controls.Add(this.cboPriority);
-			this.panel1.Controls.Add(this.btnDeleteJob);
-			this.panel1.Controls.Add(this.lblPriority);
-			this.panel1.Controls.Add(this.btnDeleteAll);
-			this.panel1.Controls.Add(this.chkKeepOutput);
-			this.panel1.Controls.Add(this.btnStart);
-			this.panel1.Controls.Add(this.txtSimpleLog);
-			this.panel1.Controls.Add(this.btnStop);
-			this.panel1.Controls.Add(this.btnAbort);
-			this.panel1.Controls.Add(this.btnMoveDownJob);
-			this.panel1.Controls.Add(this.btnMoveUpJob);
-			this.panel1.Location = new System.Drawing.Point(3, 185);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(716, 212);
-			this.panel1.TabIndex = 2;
+			this.splitContainer1.Panel1.Controls.Add(this.jobListView);
+			this.splitContainer1.Panel1MinSize = 80;
 			// 
-			// linkLabelAutoJobs
+			// splitContainer1.Panel2
 			// 
-			this.linkLabelAutoJobs.AutoSize = true;
-			this.linkLabelAutoJobs.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.linkLabelAutoJobs.Location = new System.Drawing.Point(440, 8);
-			this.linkLabelAutoJobs.Name = "linkLabelAutoJobs";
-			this.linkLabelAutoJobs.Size = new System.Drawing.Size(29, 13);
-			this.linkLabelAutoJobs.TabIndex = 15;
-			this.linkLabelAutoJobs.TabStop = true;
-			this.linkLabelAutoJobs.Text = "Auto";
-			this.toolTip1.SetToolTip(this.linkLabelAutoJobs, "Set the number of jobs to a recommened value (70% of detected CPU cores).");
-			this.linkLabelAutoJobs.Click += new System.EventHandler(this.LinkLabelAutoJobsClick);
-			this.linkLabelAutoJobs.MouseEnter += new System.EventHandler(this.LinkLabelMouseEnter);
-			this.linkLabelAutoJobs.MouseLeave += new System.EventHandler(this.LinkLabelMouseLeave);
-			// 
-			// labelNumJobs
-			// 
-			this.labelNumJobs.AutoSize = true;
-			this.labelNumJobs.Location = new System.Drawing.Point(318, 9);
-			this.labelNumJobs.Name = "labelNumJobs";
-			this.labelNumJobs.Size = new System.Drawing.Size(69, 13);
-			this.labelNumJobs.TabIndex = 14;
-			this.labelNumJobs.Text = "Parallel Jobs:";
-			// 
-			// numericUpDownJobs
-			// 
-			this.numericUpDownJobs.Location = new System.Drawing.Point(393, 6);
-			this.numericUpDownJobs.Maximum = new decimal(new int[] {
-									32,
-									0,
-									0,
-									0});
-			this.numericUpDownJobs.Minimum = new decimal(new int[] {
-									1,
-									0,
-									0,
-									0});
-			this.numericUpDownJobs.Name = "numericUpDownJobs";
-			this.numericUpDownJobs.Size = new System.Drawing.Size(44, 20);
-			this.numericUpDownJobs.TabIndex = 13;
-			this.toolTip1.SetToolTip(this.numericUpDownJobs, resources.GetString("numericUpDownJobs.ToolTip"));
-			this.numericUpDownJobs.Value = new decimal(new int[] {
-									1,
-									0,
-									0,
-									0});
-			// 
-			// cboPriority
-			// 
-			this.cboPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboPriority.FormattingEnabled = true;
-			this.cboPriority.Location = new System.Drawing.Point(222, 5);
-			this.cboPriority.Name = "cboPriority";
-			this.cboPriority.Size = new System.Drawing.Size(90, 21);
-			this.cboPriority.TabIndex = 12;
-			this.toolTip1.SetToolTip(this.cboPriority, "Changes the priority of the currently running encoder.");
-			this.cboPriority.SelectedIndexChanged += new System.EventHandler(this.cboPriority_SelectedIndexChanged);
-			// 
-			// btnDeleteJob
-			// 
-			this.btnDeleteJob.Location = new System.Drawing.Point(3, 32);
-			this.btnDeleteJob.Name = "btnDeleteJob";
-			this.btnDeleteJob.Size = new System.Drawing.Size(75, 23);
-			this.btnDeleteJob.TabIndex = 0;
-			this.btnDeleteJob.Text = "&Delete";
-			this.toolTip1.SetToolTip(this.btnDeleteJob, "Delete selected jobs.\r\n(Except processing jobs)");
-			this.btnDeleteJob.Click += new System.EventHandler(this.deleteJob);
-			// 
-			// lblPriority
-			// 
-			this.lblPriority.AutoSize = true;
-			this.lblPriority.Location = new System.Drawing.Point(134, 9);
-			this.lblPriority.Name = "lblPriority";
-			this.lblPriority.Size = new System.Drawing.Size(82, 13);
-			this.lblPriority.TabIndex = 11;
-			this.lblPriority.Text = "P&rocess Priority:";
-			this.toolTip1.SetToolTip(this.lblPriority, "Changes the priority of the currently running encoder.");
-			// 
-			// btnDeleteAll
-			// 
-			this.btnDeleteAll.Location = new System.Drawing.Point(3, 61);
-			this.btnDeleteAll.Name = "btnDeleteAll";
-			this.btnDeleteAll.Size = new System.Drawing.Size(75, 23);
-			this.btnDeleteAll.TabIndex = 9;
-			this.btnDeleteAll.Text = "Delete &All";
-			this.toolTip1.SetToolTip(this.btnDeleteAll, "Delete all jobs.\r\n(Except processing, waiting and postponed jobs)");
-			this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
-			// 
-			// chkKeepOutput
-			// 
-			this.chkKeepOutput.AutoSize = true;
-			this.chkKeepOutput.Location = new System.Drawing.Point(5, 7);
-			this.chkKeepOutput.Name = "chkKeepOutput";
-			this.chkKeepOutput.Size = new System.Drawing.Size(123, 17);
-			this.chkKeepOutput.TabIndex = 10;
-			this.chkKeepOutput.Text = "&Keep output on error";
-			this.toolTip1.SetToolTip(this.chkKeepOutput, "Keeps the output on job abort or error.");
-			this.chkKeepOutput.UseVisualStyleBackColor = true;
-			this.chkKeepOutput.CheckedChanged += new System.EventHandler(this.chkKeepOutput_CheckedChanged);
-			// 
-			// btnStart
-			// 
-			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnStart.Location = new System.Drawing.Point(3, 126);
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(75, 24);
-			this.btnStart.TabIndex = 5;
-			this.btnStart.Text = "&Start";
-			this.btnStart.Click += new System.EventHandler(this.startJobs);
-			// 
-			// txtSimpleLog
-			// 
-			this.txtSimpleLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-									| System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtSimpleLog.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.txtSimpleLog.Location = new System.Drawing.Point(86, 32);
-			this.txtSimpleLog.Multiline = true;
-			this.txtSimpleLog.Name = "txtSimpleLog";
-			this.txtSimpleLog.ReadOnly = true;
-			this.txtSimpleLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtSimpleLog.Size = new System.Drawing.Size(625, 177);
-			this.txtSimpleLog.TabIndex = 4;
-			this.txtSimpleLog.WordWrap = false;
-			// 
-			// btnStop
-			// 
-			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnStop.Enabled = false;
-			this.btnStop.Location = new System.Drawing.Point(3, 156);
-			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(75, 24);
-			this.btnStop.TabIndex = 6;
-			this.btnStop.Text = "S&top";
-			this.toolTip1.SetToolTip(this.btnStop, "Stop joblist processing after currently running job.");
-			this.btnStop.Click += new System.EventHandler(this.stopEncoding);
-			// 
-			// btnAbort
-			// 
-			this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnAbort.Enabled = false;
-			this.btnAbort.Location = new System.Drawing.Point(3, 185);
-			this.btnAbort.Name = "btnAbort";
-			this.btnAbort.Size = new System.Drawing.Size(75, 24);
-			this.btnAbort.TabIndex = 7;
-			this.btnAbort.Text = "A&bort";
-			this.toolTip1.SetToolTip(this.btnAbort, "Stop joblist execution immediately and kill all encoder processes.");
-			this.btnAbort.Click += new System.EventHandler(this.abortEncoding);
-			// 
-			// btnMoveDownJob
-			// 
-			this.btnMoveDownJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnMoveDownJob.Location = new System.Drawing.Point(636, 3);
-			this.btnMoveDownJob.Name = "btnMoveDownJob";
-			this.btnMoveDownJob.Size = new System.Drawing.Size(75, 23);
-			this.btnMoveDownJob.TabIndex = 2;
-			this.btnMoveDownJob.Text = "Move Do&wn";
-			this.toolTip1.SetToolTip(this.btnMoveDownJob, "Moving jobs around does currently not effect the job execution order,\r\nif the lis" +
-						"t contains running jobs.");
-			this.btnMoveDownJob.Click += new System.EventHandler(this.moveDownJob);
-			// 
-			// btnMoveUpJob
-			// 
-			this.btnMoveUpJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnMoveUpJob.Location = new System.Drawing.Point(555, 3);
-			this.btnMoveUpJob.Name = "btnMoveUpJob";
-			this.btnMoveUpJob.Size = new System.Drawing.Size(75, 23);
-			this.btnMoveUpJob.TabIndex = 1;
-			this.btnMoveUpJob.Text = "Move &Up";
-			this.toolTip1.SetToolTip(this.btnMoveUpJob, "Moving jobs around does currently not effect the job execution order,\r\nif the lis" +
-						"t contains running jobs.");
-			this.btnMoveUpJob.Click += new System.EventHandler(this.moveUpJob);
+			this.splitContainer1.Panel2.Controls.Add(this.btnDeleteJob);
+			this.splitContainer1.Panel2.Controls.Add(this.cboPriority);
+			this.splitContainer1.Panel2.Controls.Add(this.btnDeleteAll);
+			this.splitContainer1.Panel2.Controls.Add(this.lblPriority);
+			this.splitContainer1.Panel2.Controls.Add(this.chkKeepOutput);
+			this.splitContainer1.Panel2.Controls.Add(this.linkLabelAutoJobs);
+			this.splitContainer1.Panel2.Controls.Add(this.btnStart);
+			this.splitContainer1.Panel2.Controls.Add(this.txtSimpleLog);
+			this.splitContainer1.Panel2.Controls.Add(this.btnStop);
+			this.splitContainer1.Panel2.Controls.Add(this.btnAbort);
+			this.splitContainer1.Panel2.Controls.Add(this.labelNumJobs);
+			this.splitContainer1.Panel2.Controls.Add(this.numericUpDownJobs);
+			this.splitContainer1.Panel2.Controls.Add(this.btnMoveDownJob);
+			this.splitContainer1.Panel2.Controls.Add(this.btnMoveUpJob);
+			this.splitContainer1.Panel2MinSize = 180;
+			this.splitContainer1.Size = new System.Drawing.Size(722, 400);
+			this.splitContainer1.SplitterDistance = 187;
+			this.splitContainer1.SplitterWidth = 5;
+			this.splitContainer1.TabIndex = 3;
 			// 
 			// jobListView
 			// 
+			this.jobListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.jobListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader1,
 									this.columnHeader2,
@@ -968,11 +793,11 @@ namespace BeHappy
 			this.jobListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.jobListView.HideSelection = false;
 			this.jobListView.LabelWrap = false;
-			this.jobListView.Location = new System.Drawing.Point(3, 3);
+			this.jobListView.Location = new System.Drawing.Point(0, 0);
 			this.jobListView.Name = "jobListView";
 			this.jobListView.ShowGroups = false;
 			this.jobListView.ShowItemToolTips = true;
-			this.jobListView.Size = new System.Drawing.Size(716, 176);
+			this.jobListView.Size = new System.Drawing.Size(718, 183);
 			this.jobListView.TabIndex = 1;
 			this.jobListView.UseCompatibleStateImageBehavior = false;
 			this.jobListView.View = System.Windows.Forms.View.Details;
@@ -1014,6 +839,179 @@ namespace BeHappy
 			// 
 			this.columnHeader6.Text = "Destination";
 			this.columnHeader6.Width = 115;
+			// 
+			// btnDeleteJob
+			// 
+			this.btnDeleteJob.Location = new System.Drawing.Point(8, 36);
+			this.btnDeleteJob.Name = "btnDeleteJob";
+			this.btnDeleteJob.Size = new System.Drawing.Size(75, 23);
+			this.btnDeleteJob.TabIndex = 0;
+			this.btnDeleteJob.Text = "&Delete";
+			this.toolTip1.SetToolTip(this.btnDeleteJob, "Delete selected jobs.\r\n(Except processing jobs)");
+			this.btnDeleteJob.Click += new System.EventHandler(this.deleteJob);
+			// 
+			// cboPriority
+			// 
+			this.cboPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPriority.FormattingEnabled = true;
+			this.cboPriority.Location = new System.Drawing.Point(225, 6);
+			this.cboPriority.Name = "cboPriority";
+			this.cboPriority.Size = new System.Drawing.Size(90, 21);
+			this.cboPriority.TabIndex = 12;
+			this.toolTip1.SetToolTip(this.cboPriority, "Changes the priority of the currently running encoder.");
+			this.cboPriority.SelectedIndexChanged += new System.EventHandler(this.cboPriority_SelectedIndexChanged);
+			// 
+			// btnDeleteAll
+			// 
+			this.btnDeleteAll.Location = new System.Drawing.Point(8, 65);
+			this.btnDeleteAll.Name = "btnDeleteAll";
+			this.btnDeleteAll.Size = new System.Drawing.Size(75, 23);
+			this.btnDeleteAll.TabIndex = 9;
+			this.btnDeleteAll.Text = "Delete &All";
+			this.toolTip1.SetToolTip(this.btnDeleteAll, "Delete all jobs.\r\n(Except processing, waiting and postponed jobs)");
+			this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
+			// 
+			// lblPriority
+			// 
+			this.lblPriority.AutoSize = true;
+			this.lblPriority.Location = new System.Drawing.Point(137, 12);
+			this.lblPriority.Name = "lblPriority";
+			this.lblPriority.Size = new System.Drawing.Size(82, 13);
+			this.lblPriority.TabIndex = 11;
+			this.lblPriority.Text = "P&rocess Priority:";
+			this.toolTip1.SetToolTip(this.lblPriority, "Changes the priority of the currently running encoder.");
+			// 
+			// chkKeepOutput
+			// 
+			this.chkKeepOutput.AutoSize = true;
+			this.chkKeepOutput.Location = new System.Drawing.Point(8, 10);
+			this.chkKeepOutput.Name = "chkKeepOutput";
+			this.chkKeepOutput.Size = new System.Drawing.Size(123, 17);
+			this.chkKeepOutput.TabIndex = 10;
+			this.chkKeepOutput.Text = "&Keep output on error";
+			this.toolTip1.SetToolTip(this.chkKeepOutput, "Keeps the output on job abort or error.");
+			this.chkKeepOutput.UseVisualStyleBackColor = true;
+			this.chkKeepOutput.CheckedChanged += new System.EventHandler(this.chkKeepOutput_CheckedChanged);
+			// 
+			// linkLabelAutoJobs
+			// 
+			this.linkLabelAutoJobs.AutoSize = true;
+			this.linkLabelAutoJobs.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+			this.linkLabelAutoJobs.Location = new System.Drawing.Point(446, 12);
+			this.linkLabelAutoJobs.Name = "linkLabelAutoJobs";
+			this.linkLabelAutoJobs.Size = new System.Drawing.Size(29, 13);
+			this.linkLabelAutoJobs.TabIndex = 15;
+			this.linkLabelAutoJobs.TabStop = true;
+			this.linkLabelAutoJobs.Text = "Auto";
+			this.toolTip1.SetToolTip(this.linkLabelAutoJobs, "Set the number of jobs to a recommened value (70% of detected CPU cores).");
+			this.linkLabelAutoJobs.Click += new System.EventHandler(this.LinkLabelAutoJobsClick);
+			this.linkLabelAutoJobs.MouseEnter += new System.EventHandler(this.LinkLabelMouseEnter);
+			this.linkLabelAutoJobs.MouseLeave += new System.EventHandler(this.LinkLabelMouseLeave);
+			// 
+			// btnStart
+			// 
+			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnStart.Location = new System.Drawing.Point(8, 115);
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Size = new System.Drawing.Size(75, 24);
+			this.btnStart.TabIndex = 5;
+			this.btnStart.Text = "&Start";
+			this.btnStart.Click += new System.EventHandler(this.startJobs);
+			// 
+			// txtSimpleLog
+			// 
+			this.txtSimpleLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+									| System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtSimpleLog.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.txtSimpleLog.Location = new System.Drawing.Point(89, 36);
+			this.txtSimpleLog.Multiline = true;
+			this.txtSimpleLog.Name = "txtSimpleLog";
+			this.txtSimpleLog.ReadOnly = true;
+			this.txtSimpleLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.txtSimpleLog.Size = new System.Drawing.Size(626, 163);
+			this.txtSimpleLog.TabIndex = 4;
+			this.txtSimpleLog.WordWrap = false;
+			// 
+			// btnStop
+			// 
+			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnStop.Enabled = false;
+			this.btnStop.Location = new System.Drawing.Point(8, 145);
+			this.btnStop.Name = "btnStop";
+			this.btnStop.Size = new System.Drawing.Size(75, 24);
+			this.btnStop.TabIndex = 6;
+			this.btnStop.Text = "S&top";
+			this.toolTip1.SetToolTip(this.btnStop, "Stop joblist processing after currently running job.");
+			this.btnStop.Click += new System.EventHandler(this.stopEncoding);
+			// 
+			// btnAbort
+			// 
+			this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnAbort.Enabled = false;
+			this.btnAbort.Location = new System.Drawing.Point(8, 175);
+			this.btnAbort.Name = "btnAbort";
+			this.btnAbort.Size = new System.Drawing.Size(75, 24);
+			this.btnAbort.TabIndex = 7;
+			this.btnAbort.Text = "A&bort";
+			this.toolTip1.SetToolTip(this.btnAbort, "Stop joblist execution immediately and kill all encoder processes.");
+			this.btnAbort.Click += new System.EventHandler(this.abortEncoding);
+			// 
+			// labelNumJobs
+			// 
+			this.labelNumJobs.AutoSize = true;
+			this.labelNumJobs.Location = new System.Drawing.Point(321, 12);
+			this.labelNumJobs.Name = "labelNumJobs";
+			this.labelNumJobs.Size = new System.Drawing.Size(69, 13);
+			this.labelNumJobs.TabIndex = 14;
+			this.labelNumJobs.Text = "Parallel Jobs:";
+			// 
+			// numericUpDownJobs
+			// 
+			this.numericUpDownJobs.Location = new System.Drawing.Point(396, 7);
+			this.numericUpDownJobs.Maximum = new decimal(new int[] {
+									32,
+									0,
+									0,
+									0});
+			this.numericUpDownJobs.Minimum = new decimal(new int[] {
+									1,
+									0,
+									0,
+									0});
+			this.numericUpDownJobs.Name = "numericUpDownJobs";
+			this.numericUpDownJobs.Size = new System.Drawing.Size(44, 20);
+			this.numericUpDownJobs.TabIndex = 13;
+			this.toolTip1.SetToolTip(this.numericUpDownJobs, resources.GetString("numericUpDownJobs.ToolTip"));
+			this.numericUpDownJobs.Value = new decimal(new int[] {
+									1,
+									0,
+									0,
+									0});
+			// 
+			// btnMoveDownJob
+			// 
+			this.btnMoveDownJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnMoveDownJob.Location = new System.Drawing.Point(640, 7);
+			this.btnMoveDownJob.Name = "btnMoveDownJob";
+			this.btnMoveDownJob.Size = new System.Drawing.Size(75, 23);
+			this.btnMoveDownJob.TabIndex = 2;
+			this.btnMoveDownJob.Text = "Move Do&wn";
+			this.toolTip1.SetToolTip(this.btnMoveDownJob, "Moving jobs around does currently not effect the job execution order,\r\nif the lis" +
+						"t contains running jobs.");
+			this.btnMoveDownJob.Click += new System.EventHandler(this.moveDownJob);
+			// 
+			// btnMoveUpJob
+			// 
+			this.btnMoveUpJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnMoveUpJob.Location = new System.Drawing.Point(559, 7);
+			this.btnMoveUpJob.Name = "btnMoveUpJob";
+			this.btnMoveUpJob.Size = new System.Drawing.Size(75, 23);
+			this.btnMoveUpJob.TabIndex = 1;
+			this.btnMoveUpJob.Text = "Move &Up";
+			this.toolTip1.SetToolTip(this.btnMoveUpJob, "Moving jobs around does currently not effect the job execution order,\r\nif the lis" +
+						"t contains running jobs.");
+			this.btnMoveUpJob.Click += new System.EventHandler(this.moveUpJob);
 			// 
 			// tabPageInfo
 			// 
@@ -1441,9 +1439,11 @@ namespace BeHappy
 			this.groupBoxDestination.ResumeLayout(false);
 			this.groupBoxDestination.PerformLayout();
 			this.tabPageJobControl.ResumeLayout(false);
-			this.tableLayoutPanel2.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownJobs)).EndInit();
 			this.tabPageInfo.ResumeLayout(false);
 			this.tabControl2.ResumeLayout(false);
@@ -1456,6 +1456,7 @@ namespace BeHappy
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.Button btnShowScript;
 		private System.Windows.Forms.Label label18;
@@ -1557,8 +1558,6 @@ namespace BeHappy
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.NumericUpDown numericUpDownJobs;
 		private System.Windows.Forms.Label labelNumJobs;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.CheckBox cbxEnsureMP3VBRSync;
 

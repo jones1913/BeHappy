@@ -338,6 +338,7 @@ namespace BeHappy
 			this.Left = c.GuiPosition.iLeft;
 			this.Width = c.GuiPosition.iWidth;
 			this.Height = c.GuiPosition.iHeight;
+			this.splitContainer1.SplitterDistance = c.GuiPosition.iSplitterDistance;
 		}
 
 		private static void loadPluginsConfiguration(List<ExtensionItemBase> plugins, IDictionary c)
@@ -436,6 +437,7 @@ namespace BeHappy
 				c.GuiPosition.iLeft = this.Left;
 				c.GuiPosition.iWidth = this.Width;
 				c.GuiPosition.iHeight = this.Height;
+				c.GuiPosition.iSplitterDistance = this.splitContainer1.SplitterDistance;
 				c.MiscSettings = new MiscSettings();
 				c.MiscSettings.directShowPlayer = this.ds_player;
 				c.SaveToFile(getConfigFileName());
@@ -554,6 +556,7 @@ namespace BeHappy
 				// {2} means unique string (to use as part of identifier)
 				// {3} means '{' character (to allow '{' to be used)
 				// {4} means '}' character (to allow '}' to be used)
+				sb2.AppendLine("# Encoder script:");
 				sb2.AppendFormat(enc.ScriptBlock, sourceFileName, targetFileName, Guid.NewGuid().ToString("N"), "{", "}");
 			}
 			sb1.AppendLine();
@@ -1761,6 +1764,7 @@ namespace BeHappy
 			msgWindow.Show();
 			msgWindow.BringToFront();
 		}
+		
 	}
 
 

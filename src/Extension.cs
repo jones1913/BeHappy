@@ -944,13 +944,14 @@ namespace BeHappy.Extensions
 			if (Dropdowns != null)
 			{
 				var sb = new StringBuilder();
-				int [] indices = GetCurrentDropdownIndices;
+				int[] indices = GetCurrentDropdownIndices;
 				
 				for (int i = 0; i < Dropdowns.Length; i++)
 				{
 					if (forGui)
 						sb.AppendFormat(" {0}:{1}{2}", Dropdowns[i].Name, Dropdowns[i].Item[indices[i]].Name, separator);
-					else sb.Append(Dropdowns[i].Item[indices[i]].Value + separator);
+					else sb.Append(String.IsNullOrEmpty(Dropdowns[i].Item[indices[i]].Value) ? String.Empty :
+					               Dropdowns[i].Item[indices[i]].Value + separator);
 				}
 				return sb.ToString();
 			}
