@@ -151,6 +151,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\EnumProxy.cs" />
+    <Compile Include="src\Controls.cs" />
     <Compile Include="src\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>

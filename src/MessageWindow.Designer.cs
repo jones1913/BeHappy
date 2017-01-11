@@ -32,7 +32,6 @@ namespace BeHappy
 			this.components = new System.ComponentModel.Container();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.btnClose = new System.Windows.Forms.Button();
-			this.btnClear = new System.Windows.Forms.Button();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.SuspendLayout();
 			// 
@@ -63,17 +62,6 @@ namespace BeHappy
 			this.btnClose.UseVisualStyleBackColor = true;
 			this.btnClose.Click += new System.EventHandler(this.BtnCloseClick);
 			// 
-			// btnClear
-			// 
-			this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnClear.Location = new System.Drawing.Point(475, 398);
-			this.btnClear.Name = "btnClear";
-			this.btnClear.Size = new System.Drawing.Size(75, 23);
-			this.btnClear.TabIndex = 2;
-			this.btnClear.Text = "Clear";
-			this.btnClear.UseVisualStyleBackColor = true;
-			this.btnClear.Click += new System.EventHandler(this.BtnClearClick);
-			// 
 			// contextMenuStrip1
 			// 
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -85,7 +73,6 @@ namespace BeHappy
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(643, 424);
-			this.Controls.Add(this.btnClear);
 			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.richTextBox1);
 			this.DoubleBuffered = true;
@@ -97,7 +84,6 @@ namespace BeHappy
 			this.ResumeLayout(false);
 		}
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.Button btnClose;
 		private System.Windows.Forms.RichTextBox richTextBox1;
 	}

@@ -33,11 +33,6 @@ namespace BeHappy
 			richTextBox1.Clear();
 		}
 		
-		void BtnClearClick(object sender, EventArgs e)
-		{
-			richTextBox1.Clear();
-		}
-		
 		void BtnCloseClick(object sender, EventArgs e)
 		{
 			this.Close();

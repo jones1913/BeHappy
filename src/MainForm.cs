@@ -27,9 +27,7 @@ namespace BeHappy
 		private string ds_player = "mplayer2";
 		private ProcessPriorityClass m_enumCurrentPriority;
 		private int m_iCurrentPriorityIndex;
-		private List<ExtensionItemBase> audioSources;
-		private List<ExtensionItemBase> dspProcessors;
-		private List<ExtensionItemBase> audioEncoders;
+		private List<ExtensionItemBase> audioSources, dspProcessors, audioEncoders;
 
 		/// <summary>
 		/// Gets or sets the current priority level
@@ -47,15 +45,12 @@ namespace BeHappy
 			set {m_iCurrentPriorityIndex = value;}
 		}
 		
+		private ContextMenuStrip contextMenu1, contextMenu2;
 		private ToolStripItem[] toolStripItemsJoblist;
-		private List<ToolStripItem> toolStripItemsLstSource;
-		private List<ToolStripItem> toolStripItemsLstEncoder;
-		private ToolStripMenuItem itemResetAudioSource;
-		private ToolStripMenuItem itemResetEncoder;
-		private ToolStripMenuItem itemFilterText;
-		private ToolStripMenuItem itemFilterLossy;
-		private ToolStripMenuItem itemFilterLossless;
-		private ToolStripMenuItem itemPage2;
+		private List<ToolStripItem> toolStripItemsLstAudioSource, toolStripItemsLstAudioSourceFilters1, toolStripItemsLstAudioSourceFilters2;
+		private List<ToolStripItem> toolStripItemsLstEncoder, toolStripItemsLstEncoderFilters1, toolStripItemsLstEncoderFilters2;
+		private ToolStripMenuItem itemResetAudioSource, itemResetEncoder, itemFilterText, itemFilterLossy, itemFilterLossless, filterItemsPageTwo;
+		private ToolStripItem[] toolStripItemsGroupBoxSource, toolStripItemsGroupBoxDest;
 		private MessageWindow msgWindow;
 		
 		private const string groupBoxSourceText = "[1] &Source";
@@ -70,28 +65,6 @@ namespace BeHappy
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-			
-			itemFilterText = new ToolStripMenuItem("     --- Filter ---");
-			itemFilterText.Enabled = false;
-			itemFilterLossy = new ToolStripMenuItem("Lossy", null, FilterItemsClick);
-			itemFilterLossless = new ToolStripMenuItem("Lossless", null, FilterItemsClick);
-			itemResetAudioSource = new ToolStripMenuItem("Reset Configuration", null, resetAudioSource);
-			itemResetEncoder = new ToolStripMenuItem("Reset Configuration", null, resetEncoder);
-			toolStripItemsJoblist = new ToolStripItem[]{new ToolStripMenuItem("Toggle Status", null, toggleJobStatus),
-				new ToolStripMenuItem("Remove", null, deleteJob),
-				new ToolStripSeparator(),
-				new ToolStripMenuItem("Up", null, moveUpJob),
-				new ToolStripMenuItem("Down", null, moveDownJob)};
-
-			toolStripItemsLstSource = new List<ToolStripItem>{itemResetAudioSource,
-				new ToolStripSeparator(),
-				itemFilterText};
-			
-			toolStripItemsLstEncoder = new List<ToolStripItem>{itemResetEncoder,
-				new ToolStripSeparator(),
-				itemFilterText,
-				itemFilterLossy,
-				itemFilterLossless};
 			
 			bKeepOutput = false;
 			m_iCurrentPriorityIndex = 0;
@@ -122,10 +95,24 @@ namespace BeHappy
 			else
 				encoder_dir = "";
 
+			contextMenu1 = new ContextMenuStrip();
+			contextMenu2 = new ContextMenuStrip();
+			contextMenu1.RenderMode = contextMenu2.RenderMode = ToolStripRenderMode.Professional;
+			contextMenu1.ShowImageMargin = contextMenu2.ShowImageMargin = false;
+			contextMenu1.Opening += ContextMenuStrip1Opening;
+			contextMenu1.Opened += ContextMenuStrip1Opened;
+			contextMenu2.Opening += ContextMenuGroupBoxOpening;
+			lstAudioSource.ContextMenuStrip = contextMenu1;
+			lstEncoder.ContextMenuStrip = contextMenu1;
+			jobListView.ContextMenuStrip = contextMenu1;
+			groupBoxSource.AddContextMenuStrip(contextMenu2);
+			groupBoxDestination.AddContextMenuStrip(contextMenu2);
+			
+			BuildContextMenus();
 			loadExtensionsAndApplyConfiguration();
 			
-			linkLabelSourceConfig.Enabled = toolStripItemsLstSource[0].Enabled = currentSource.IsSupportConfiguration;
-			linkLabelEncoderConfig.Enabled = toolStripItemsLstEncoder[0].Enabled = currentEncoder.IsSupportConfiguration;
+			linkLabelSourceConfig.Enabled = itemResetAudioSource.Enabled = currentSource.IsSupportConfiguration;
+			linkLabelEncoderConfig.Enabled = itemResetEncoder.Enabled = currentEncoder.IsSupportConfiguration;
 			
 			SetDSPMoveButtonState();
 			InitPriorityControls();
@@ -141,9 +128,9 @@ namespace BeHappy
 			PropertyInfo pInf = GetType().GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
 			pInf.SetValue(jobListView, true, null);	//remove flickering, seems to have only effect on ListViews
 			
-			toolStripStatusLabel1.Text = "Left click on  \'Add...\'  to add files, right click to add a folder.";
+			toolStripStatusLabel1.Text = ".:.";
 		}
-
+		
 		private void loadExtensionsAndApplyConfiguration()
 		{
 			//1) let's load all extensions
@@ -192,8 +179,17 @@ namespace BeHappy
 			lstAudioSource.Items.AddRange(audioSources.ToArray());
 
 			var tempDSP = new Dictionary<Guid, ExtensionItemBase>();
+			
 			foreach (ExtensionItemBase item in dspProcessors)
-				tempDSP.Add(item.UniqueID, item);
+			{
+				try {
+					tempDSP.Add(item.UniqueID, item);
+				} catch(Exception ex) {
+					if (MessageBox.Show(String.Format("{0}{3}{3}Item: {2}{3}UID: {1}{3}", ex.Message, item.UniqueID, item, Environment.NewLine),
+					                    "Exception:", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) == DialogResult.OK)
+						continue;
+				}
+			}
 			
 			Guid[] dspOrder = c.DspOrder != null ? c.DspOrder : new Guid[0];
 			
@@ -226,11 +222,12 @@ namespace BeHappy
 			lstAudioSource.SelectedIndex = 0;
 
 			SetJobMoveButtonState();
-			AddContextMenuFilters(audioSources, toolStripItemsLstSource);
-			AddContextMenuFilters(audioEncoders, toolStripItemsLstEncoder);
+			AddContextMenuFilters(audioSources, out toolStripItemsLstAudioSourceFilters1, out toolStripItemsLstAudioSourceFilters2);
+			AddContextMenuFilters(audioEncoders, out toolStripItemsLstEncoderFilters1, out toolStripItemsLstEncoderFilters2);
+			
 		}
 
-		private void AddContextMenuFilters(List<ExtensionItemBase> source, List<ToolStripItem> target)
+		private void AddContextMenuFilters(List<ExtensionItemBase> source, out List<ToolStripItem> target1, out List<ToolStripItem> target2)
 		{
 			List<string> filters = new List<string>();
 			
@@ -241,18 +238,33 @@ namespace BeHappy
 			filters = new HashSet<string>(filters).ToList();	//removes duplicate items
 			filters.Sort();
 			
-			foreach (string s in filters)
+			target1 = new List<ToolStripItem>();
+			target2 = new List<ToolStripItem>();
+			
+			if (filters.Count > 22)
 			{
-				target.Add(new ToolStripMenuItem(s, null, FilterItemsClick));
+				for (int i = 0; i < filters.Count; i++)
+				{
+					if (i < (filters.Count / 2) /* +2 */ )
+						target1.Add(new ToolStripMenuItem(filters[i], null, FilterItemsClick));
+					else target2.Add(new ToolStripMenuItem(filters[i], null, FilterItemsClick));
+				}
+			}
+			else
+			{
+				foreach (string s in filters)
+				{
+					target1.Add(new ToolStripMenuItem(s, null, FilterItemsClick));
+				}
 			}
 			
-			((ToolStripMenuItem)target.Find(t => t.Text == "*")).Checked = true;
+			((ToolStripMenuItem)target1.Find(t => t.Text == "*")).Checked = true;
 		}
 		
 		private void FilterItemsClick(object sender, EventArgs e)
 		{
 			var tsi = (ToolStripMenuItem)sender;
-			List<ToolStripItem> allItems;
+			List<ToolStripItem> allItems = new List<ToolStripItem>();
 			List<ExtensionItemBase> newItems;
 			List<ExtensionItemBase> comboItems;
 			ComboBox combo;
@@ -267,11 +279,13 @@ namespace BeHappy
 			}
 			
 			if (combo == lstAudioSource) {
-				allItems = toolStripItemsLstSource;
+				allItems.AddRange(toolStripItemsLstAudioSourceFilters1);
+				allItems.AddRange(toolStripItemsLstAudioSourceFilters2);
 				comboItems = audioSources;
 			}
 			else if (combo == lstEncoder) {
-				allItems = toolStripItemsLstEncoder;
+				allItems.AddRange(toolStripItemsLstEncoderFilters1);
+				allItems.AddRange(toolStripItemsLstEncoderFilters2);
 				comboItems = audioEncoders;
 			}
 			else {
@@ -330,6 +344,106 @@ namespace BeHappy
 				combo.SelectedItem = combo.Items[0];
 		}
 		
+		/// <summary>
+		/// Call this before 'loadExtensionsAndApplyConfiguration()'
+		/// </summary>
+		private void BuildContextMenus()
+		{
+			itemFilterText = new ToolStripMenuItem("--- Plugin Filter ---"){TextAlign = ContentAlignment.MiddleCenter};
+			itemFilterText.Enabled = false;
+			itemFilterLossy = new ToolStripMenuItem("Lossy", null, FilterItemsClick);
+			itemFilterLossless = new ToolStripMenuItem("Lossless", null, FilterItemsClick);
+			itemResetAudioSource = new ToolStripMenuItem("Reset Configuration", null, resetAudioSource);
+			itemResetEncoder = new ToolStripMenuItem("Reset Configuration", null, resetEncoder);
+			toolStripItemsJoblist = new ToolStripItem[]{new ToolStripMenuItem("Toggle Status", null, toggleJobStatus),
+				new ToolStripMenuItem("Remove", null, deleteJob),
+				new ToolStripSeparator(),
+				new ToolStripMenuItem("Up", null, moveUpJob),
+				new ToolStripMenuItem("Down", null, moveDownJob)};
+
+			toolStripItemsLstAudioSource = new List<ToolStripItem>{itemResetAudioSource,
+				new ToolStripSeparator(),
+				itemFilterText};
+			
+			toolStripItemsLstEncoder = new List<ToolStripItem>{itemResetEncoder,
+				new ToolStripSeparator(),
+				itemFilterText,
+				itemFilterLossy,
+				itemFilterLossless};
+			
+			toolStripItemsGroupBoxSource = new ToolStripItem[]{new ToolStripMenuItem("Add Files...", null, (s, e) => OpenFiles(false)),
+				new ToolStripMenuItem("Add Folder...", null, (s, e) => OpenFiles(true)),
+				itemResetAudioSource};
+			 
+			toolStripItemsGroupBoxDest = new ToolStripItem[]{new ToolStripMenuItem("Save...", null ,(s, e) => selectTargetFile(s, e as LinkLabelLinkClickedEventArgs)),
+				itemResetEncoder};
+		}
+				
+		private void ContextMenuGroupBoxOpening(object sender, CancelEventArgs e)
+		{
+			ContextMenuStrip cm = (ContextMenuStrip)sender;
+			Control cl = (cm.SourceControl as LinkLabel).Parent as GroupBoxLinkLabel;
+			cm.Items.Clear();
+			filterItemsPageTwo = null;
+			ToolStripMenuItem tempItem;
+			
+			if (cl == null)
+			{
+				e.Cancel = true;
+				return;
+			}
+			else if (cl == groupBoxSource)
+			{
+				e.Cancel = false;
+				cm.ShowCheckMargin = true;
+				cm.Items.AddRange(toolStripItemsGroupBoxSource.ToArray());
+				
+				if (toolStripItemsLstAudioSourceFilters2.Count > 0)
+				{
+					filterItemsPageTwo = new ToolStripMenuItem(". . .", null, toolStripItemsLstAudioSourceFilters2.ToArray());
+					filterItemsPageTwo.Tag = lstAudioSource;
+					tempItem = new ToolStripMenuItem("Source Plugin Filter", null, toolStripItemsLstAudioSourceFilters1.ToArray());
+					tempItem.DropDownItems.Insert(1, filterItemsPageTwo);
+					tempItem.Tag = lstAudioSource;
+					tempItem.DropDownOpened += (s, a) => filterItemsPageTwo.ShowDropDown();
+					cm.Items.Add(tempItem);
+					
+				}
+				else
+				{
+					cm.Items.Add(new ToolStripMenuItem("Source Plugin Filter", null, toolStripItemsLstAudioSourceFilters1.ToArray()));
+				}
+			}
+			else if (cl == groupBoxDestination)
+			{
+				e.Cancel = false;
+				cm.ShowCheckMargin = true;
+				cm.Items.AddRange(toolStripItemsGroupBoxDest.ToArray());
+				
+				if (toolStripItemsLstEncoderFilters2.Count > 0)
+				{
+					filterItemsPageTwo = new ToolStripMenuItem(". . .", null, toolStripItemsLstEncoderFilters2.ToArray());
+					filterItemsPageTwo.Tag = lstEncoder;
+					tempItem = new ToolStripMenuItem("Encoder Plugin Filter", null, toolStripItemsLstEncoderFilters1.ToArray());
+					tempItem.DropDownItems.Insert(0, itemFilterLossless);
+					tempItem.DropDownItems.Insert(0, itemFilterLossy);
+					tempItem.DropDownItems.Insert(3, filterItemsPageTwo);
+					tempItem.Tag = lstEncoder;
+					tempItem.DropDownOpened += (s, a) => filterItemsPageTwo.ShowDropDown();
+					cm.Items.Add(tempItem);
+				}
+				else
+				{
+					cm.Items.Add(new ToolStripMenuItem("Encoder Plugin Filter", null, toolStripItemsLstEncoderFilters1.ToArray()));
+				}
+			}
+			else
+			{
+				e.Cancel = true;
+			}
+			
+		}
+		
 		private void loadMiscConfiguration(Configuration c)
 		{
 			if (c.MiscSettings != null)
@@ -338,8 +452,8 @@ namespace BeHappy
 //			else
 //				this.ds_player = "mplayer";
 		
-				this.cbxOmitEncoderScript.Checked = c.MiscSettings.omitEncoderScriptChecked;
-				this.cbxStartInstantly.Checked = c.MiscSettings.startJobsInstantlyChecked;
+				this.btnPreview.Checked = c.MiscSettings.omitEncoderScriptChecked;
+				this.btnEnqueue.Checked = c.MiscSettings.startJobsInstantlyChecked;
 			}
 		}
 
@@ -454,8 +568,8 @@ namespace BeHappy
 				c.GuiPosition.iSplitterDistance = this.splitContainer1.SplitterDistance;
 				c.MiscSettings = new MiscSettings();
 				c.MiscSettings.directShowPlayer = this.ds_player;
-				c.MiscSettings.omitEncoderScriptChecked = this.cbxOmitEncoderScript.Checked;
-				c.MiscSettings.startJobsInstantlyChecked = this.cbxStartInstantly.Checked;
+				c.MiscSettings.omitEncoderScriptChecked = this.btnPreview.Checked;
+				c.MiscSettings.startJobsInstantlyChecked = this.btnEnqueue.Checked;
 				c.SaveToFile(getConfigFileName());
 			}
 			catch (Exception ex) {
@@ -465,7 +579,7 @@ namespace BeHappy
 
 		private string getConfigFileName()
 		{
-			return getExeDirectory() + @"\BeHappy.State";
+			return Path.Combine(getExeDirectory(), "BeHappy.State");
 		}
 
 
@@ -616,13 +730,23 @@ namespace BeHappy
 			}
 		}
 
-		private void selectSourceFile(object sender, LinkLabelLinkClickedEventArgs e)
+		private void OpenFiles(bool openFolder)
 		{
 			string[] files;
 			
-			if (e.Button == MouseButtons.Left)
+			if (openFolder)
 			{
-				StringBuilder sb = new StringBuilder();
+				folderBrowserDialog1.ShowNewFolderButton = false;
+				
+				if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+				{
+					files = Directory.GetFiles(folderBrowserDialog1.SelectedPath);
+				}
+				else return;
+			}
+			else
+			{
+				var sb = new StringBuilder();
 				
 				foreach (FileRelatedExtensionItemBase enc in lstAudioSource.Items)
 				{
@@ -641,26 +765,27 @@ namespace BeHappy
 				}
 				else return;
 			}
+						
+			AddFiles(files);
+			toolStripStatusLabel1.Text = string.Format("{0} source files added.", files.Length);
+			setGroupBoxSource_Header();
+		}
+		
+		private void LinkLabelOpenLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				OpenFiles(false);
+			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				folderBrowserDialog1.ShowNewFolderButton = false;
-				
-				if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-				{
-					files = Directory.GetFiles(folderBrowserDialog1.SelectedPath);
-				}
-				else return;
+				OpenFiles(true);
 			}
 			else
 			{
 				toolStripStatusLabel1.Text = "Left click = add files / right click = add folder.";
 				return;
 			}
-			
-			AddFiles(files);
-			toolStripStatusLabel1.Text = string.Format("{0} source files added.", files.Length);
-			
-			setGroupBoxSource_Header();
 		}
 		
 		void LstSourceFilesDragDrop(object sender, DragEventArgs e)
@@ -733,7 +858,7 @@ namespace BeHappy
 			}
 		}
 		
-		private void selectTargetFile(object sender, System.EventArgs e)
+		private void selectTargetFile(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			if (sourceFiles.Length < 1)
 			{
@@ -772,7 +897,7 @@ namespace BeHappy
 			}
 		}
 		
-		void LinkLabelClearClick(object sender, EventArgs e)
+		void LinkLabelClearLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			toolTip1.SetToolTip(lstSourceFiles, String.Empty);
 			lstSourceFiles.Items.Clear();
@@ -846,15 +971,6 @@ namespace BeHappy
 				jbs[i].SendRiffHeader = enc.WriteRiffHeader;
 				jbs[i].HeaderType = htype;
 				jbs[i].ChannelMask = cmask;
-				
-				string debugOut = string.Format("{0}\n{0}\n{1}\n\n" , new string('=', 80), jbs[i].AviSynthScript);
-				
-				Debug.WriteLine(debugOut);
-				
-				if (msgWindow != null && !msgWindow.IsDisposed)
-				{
-					msgWindow.AddText(debugOut);
-				}
 			}
 			
 			return jbs;
@@ -887,7 +1003,7 @@ namespace BeHappy
 			
 			tabControl1.SelectedTab = tabPageJobControl;
 			
-			if (cbxStartInstantly.Checked && timer == null)
+			if (btnEnqueue.Checked && timer == null)
 			{
 				startJobs(sender, e);
 			}
@@ -1122,7 +1238,7 @@ namespace BeHappy
 			saveFileDialog1.Filter = "AviSynth script (*.avs)|*.avs";
 			saveFileDialog1.FileName = Path.HasExtension(targetFileName) ? Path.ChangeExtension(targetFileName, ".avs") : Path.ChangeExtension(sourceFileName, ".avs");
 			
-			if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				using(TextWriter w = new StreamWriter(saveFileDialog1.FileName, false, Encoding.Default))
 				{
@@ -1133,11 +1249,11 @@ namespace BeHappy
 
 		private void lstEncoder_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			toolStripItemsLstEncoder[0].Enabled = linkLabelEncoderConfig.Enabled = currentEncoder.IsSupportConfiguration;
+			itemResetEncoder.Enabled = linkLabelEncoderConfig.Enabled = currentEncoder.IsSupportConfiguration;
 			
-			if(sourceFiles.Length > 1 || targetFileName.Length == 0)
+			if (sourceFiles.Length > 1 || targetFileName.Length == 0)
 				return;
-			if(!currentEncoder.IsSupportedException(Path.GetExtension(targetFileName)))
+			if (!currentEncoder.IsSupportedException(Path.GetExtension(targetFileName)))
 			{
 				int cnt = 0;
 				string tname = Path.GetFileNameWithoutExtension(targetFileName);
@@ -1167,7 +1283,7 @@ namespace BeHappy
 			e.DrawFocusRectangle();
 		}
 
-		private void configureEncoder(object sender, System.EventArgs e)
+		private void configureEncoder(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			configureItemInCombo(currentEncoder, lstEncoder);
 		}
@@ -1189,7 +1305,7 @@ namespace BeHappy
 			combo.SelectedIndex = n;
 
 		}
-		private void configureAudioSource(object sender, System.EventArgs e)
+		private void LinkLabelConfigureAudioSourceLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			configureItemInCombo(currentSource, lstAudioSource);
 		}
@@ -1206,7 +1322,7 @@ namespace BeHappy
 
 		private void lstAudioSource_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			toolStripItemsLstSource[0].Enabled = linkLabelSourceConfig.Enabled = currentSource.IsSupportConfiguration;
+			itemResetAudioSource.Enabled = linkLabelSourceConfig.Enabled = currentSource.IsSupportConfiguration;
 		}
 
 		private void lstDSP_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -1223,11 +1339,11 @@ namespace BeHappy
 		private void configureDSP(object sender, System.EventArgs e)
 		{
 			DigitalSignalProcessor item = lstDSP.SelectedItem as DigitalSignalProcessor;
-			if(item==null)
+			if (item==null)
 				return;
-			if(!item.IsSupportConfiguration)
+			if (!item.IsSupportConfiguration)
 				return;
-			if(item.Configure(this)==ConfigurationResult.OK)
+			if (item.Configure(this)==ConfigurationResult.OK)
 			{
 				lstDSP.Items[lstDSP.Items.IndexOf(item)]=item;
 				(sender as Control).Focus();
@@ -1251,7 +1367,7 @@ namespace BeHappy
 			
 			using(TextWriter w = new StreamWriter(m_tempFileName, false, Encoding.Default))
 			{
-				w.WriteLine(createAvsScript(cbxOmitEncoderScript.Checked));
+				w.WriteLine(createAvsScript(btnPreview.Checked));
 			}
 			Process.Start(getPlayer(), m_tempFileName);
 		}
@@ -1373,7 +1489,7 @@ namespace BeHappy
 
 		private void encoderCallback(Job sender, EncoderCallbackEventArgs s)
 		{
-			if(!this.InvokeRequired)
+			if (!this.InvokeRequired)
 			{
 				int ji = jobs.FindIndex(j => j.Job == sender);	//get the index of the sending job
 				
@@ -1491,7 +1607,7 @@ namespace BeHappy
 			SetJobMoveButtonState();
 		}
 
-		void LinkLabelAutoJobsClick(object sender, EventArgs e)
+		void LinkLabelAutoJobsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			if (Environment.ProcessorCount == 2)
 				numericUpDownJobs.Value = 2;
@@ -1552,7 +1668,7 @@ namespace BeHappy
 			}
 		}
 
-		private void linkLabel1_Click(object sender, LinkLabelLinkClickedEventArgs e)
+		private void LinkLabelUrlLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Process.Start((sender as Control).Tag.ToString());
 			(sender as LinkLabel).LinkVisited = true;
@@ -1699,11 +1815,15 @@ namespace BeHappy
 		{
 			ContextMenuStrip cm = (ContextMenuStrip)sender;
 			Control cl = cm.SourceControl;
-			
 			cm.Items.Clear();
-			itemPage2 = null;
+			filterItemsPageTwo = null;
 			
-			if (cl == jobListView)
+			if (cl == null)
+			{
+				e.Cancel = true;
+				return;
+			}
+			else if (cl == jobListView)
 			{
 				e.Cancel = jobListView.SelectedItems.Count < 1;
 				cm.ShowCheckMargin = false;
@@ -1713,39 +1833,27 @@ namespace BeHappy
 			{
 				e.Cancel = false;
 				cm.ShowCheckMargin = true;
-				if (toolStripItemsLstSource.Count > 25)
+				cm.Items.AddRange(toolStripItemsLstAudioSource.ToArray());
+				cm.Items.AddRange(toolStripItemsLstAudioSourceFilters1.ToArray());
+				if (toolStripItemsLstAudioSourceFilters2.Count > 0)
 				{
-					List<ToolStripItem> collectionPage2 = new List<ToolStripItem>();
-					for (int i = 0; i < toolStripItemsLstSource.Count; i++)
-					{
-						if (i < (toolStripItemsLstSource.Count / 2) + 2) cm.Items.Add(toolStripItemsLstSource[i]);
-						else collectionPage2.Add(toolStripItemsLstSource[i]);
-					}
-					itemPage2 = new ToolStripMenuItem(". . .", null, collectionPage2.ToArray());
-					itemPage2.Tag = cl;
-					cm.Items.Insert(4, itemPage2);
+					filterItemsPageTwo = new ToolStripMenuItem(". . .", null, toolStripItemsLstAudioSourceFilters2.ToArray());
+					filterItemsPageTwo.Tag = cl;
+					cm.Items.Insert(4, filterItemsPageTwo);
 				}
-				else
-					cm.Items.AddRange(toolStripItemsLstSource.ToArray());
 			}
 			else if (cl == lstEncoder)
 			{
 				e.Cancel = false;
 				cm.ShowCheckMargin = true;
-				if (toolStripItemsLstEncoder.Count > 25)
+				cm.Items.AddRange(toolStripItemsLstEncoder.ToArray());
+				cm.Items.AddRange(toolStripItemsLstEncoderFilters1.ToArray());
+				if (toolStripItemsLstEncoderFilters2.Count > 0)
 				{
-					List<ToolStripItem> collectionPage2 = new List<ToolStripItem>();
-					for (int i = 0; i < toolStripItemsLstEncoder.Count; i++)
-					{
-						if (i < (toolStripItemsLstEncoder.Count / 2) + 3) cm.Items.Add(toolStripItemsLstEncoder[i]);
-						else collectionPage2.Add(toolStripItemsLstEncoder[i]);
-					}
-					itemPage2 = new ToolStripMenuItem(". . .", null, collectionPage2.ToArray());
-					itemPage2.Tag = cl;
-					cm.Items.Insert(6, itemPage2);
+					filterItemsPageTwo = new ToolStripMenuItem(". . .", null, toolStripItemsLstEncoderFilters2.ToArray());
+					filterItemsPageTwo.Tag = cl;
+					cm.Items.Insert(6, filterItemsPageTwo);
 				}
-				else
-					cm.Items.AddRange(toolStripItemsLstEncoder.ToArray());
 			}
 			else
 			{
@@ -1755,11 +1863,11 @@ namespace BeHappy
 				
 		void ContextMenuStrip1Opened(object sender, EventArgs e)
 		{
-			if (itemPage2 != null)
-				itemPage2.ShowDropDown();
+			if (filterItemsPageTwo != null)
+				filterItemsPageTwo.ShowDropDown();
 		}
 		
-		void LinkLblReloadPluginsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		void LinkLabelReloadPluginsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			lstEncoder.Items.Clear();
 			lstDSP.Items.Clear();
