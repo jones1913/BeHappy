@@ -58,6 +58,12 @@ namespace BeHappy
 		private ToolStripMenuItem itemPage2;
 		private MessageWindow msgWindow;
 		
+		private const string groupBoxSourceText = "[1] &Source";
+		private int getSourceFilesCount {
+			get {return sourceFiles.Length;}
+		}
+		private Action setGroupBoxSource_Header;
+		
 		public MainForm()
 		{
 			//
@@ -91,6 +97,11 @@ namespace BeHappy
 			m_iCurrentPriorityIndex = 0;
 			m_enumCurrentPriority = ProcessPriorityClass.Idle;
 
+			setGroupBoxSource_Header = () => {
+				groupBoxSource.Text = getSourceFilesCount < 1 ? groupBoxSourceText :
+					String.Format("{0}  ({1} files loaded)", groupBoxSourceText, getSourceFilesCount);
+			};
+			
 			using (TextReader r = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("BeHappy.gpl.txt")))
 			{
 				txtGPL.Text = r.ReadToEnd();
@@ -324,9 +335,12 @@ namespace BeHappy
 			if (c.MiscSettings != null)
 			{
 				this.ds_player = c.MiscSettings.directShowPlayer;
-			}
 //			else
 //				this.ds_player = "mplayer";
+		
+				this.cbxOmitEncoderScript.Checked = c.MiscSettings.omitEncoderScriptChecked;
+				this.cbxStartInstantly.Checked = c.MiscSettings.startJobsInstantlyChecked;
+			}
 		}
 
 		private void loadGuiPositionConfiguration(Configuration c)
@@ -440,6 +454,8 @@ namespace BeHappy
 				c.GuiPosition.iSplitterDistance = this.splitContainer1.SplitterDistance;
 				c.MiscSettings = new MiscSettings();
 				c.MiscSettings.directShowPlayer = this.ds_player;
+				c.MiscSettings.omitEncoderScriptChecked = this.cbxOmitEncoderScript.Checked;
+				c.MiscSettings.startJobsInstantlyChecked = this.cbxStartInstantly.Checked;
 				c.SaveToFile(getConfigFileName());
 			}
 			catch (Exception ex) {
@@ -642,7 +658,9 @@ namespace BeHappy
 			}
 			
 			AddFiles(files);
-			toolStripStatusLabel1.Text = string.Format("{0} source files added, {1} elements total.", files.Length, sourceFiles.Length);
+			toolStripStatusLabel1.Text = string.Format("{0} source files added.", files.Length);
+			
+			setGroupBoxSource_Header();
 		}
 		
 		void LstSourceFilesDragDrop(object sender, DragEventArgs e)
@@ -668,15 +686,17 @@ namespace BeHappy
 						flscount += fls.Length;
 					}
 					
-					toolStripStatusLabel1.Text = string.Format("Added {0} files from {1} folders. {2} elements total.", flscount, files.Count, sourceFiles.Length);
+					toolStripStatusLabel1.Text = string.Format("Added {0} files from {1} folders.", flscount, files.Count);
 				}
 				else
 				{
 					fls = files.FindAll(f => (File.GetAttributes(f) & FileAttributes.Directory) != FileAttributes.Directory).ToArray();
 					AddFiles(fls);
 					
-					toolStripStatusLabel1.Text = string.Format("{0} source files added, {1} elements total.", fls.Length, sourceFiles.Length);
+					toolStripStatusLabel1.Text = string.Format("{0} source files added.", fls.Length);
 				}
+				
+				setGroupBoxSource_Header();
 			}
 		}
 
@@ -761,6 +781,7 @@ namespace BeHappy
 			lstSourceFiles.DropDownWidth = lstSourceFiles.Width;
 			toolStripStatusLabel1.Text = String.Empty;
 			labelDragDrop.Visible = false;
+			setGroupBoxSource_Header();
 		}
 
 		void LstSourceFilesSelectedIndexChanged(object sender, EventArgs e)
@@ -865,6 +886,11 @@ namespace BeHappy
 			}
 			
 			tabControl1.SelectedTab = tabPageJobControl;
+			
+			if (cbxStartInstantly.Checked && timer == null)
+			{
+				startJobs(sender, e);
+			}
 		}
 
 		private static void updateListViewItem(ListViewItem item)
@@ -1329,6 +1355,7 @@ namespace BeHappy
 		private void jobsFinished()
 		{
 			timer.Stop();
+			timer = null;
 			btnStart.Enabled = true;
 			btnAbort.Enabled = btnStop.Enabled = false;
 			cboPriority.Enabled = false;

@@ -35,6 +35,7 @@ namespace BeHappy
 			this.tabPageNewJob = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.groupBoxOperations = new System.Windows.Forms.GroupBox();
+			this.cbxStartInstantly = new System.Windows.Forms.CheckBox();
 			this.btnShowScript = new System.Windows.Forms.Button();
 			this.label19 = new System.Windows.Forms.Label();
 			this.linkLblReloadPlugins = new System.Windows.Forms.LinkLabel();
@@ -198,14 +199,15 @@ namespace BeHappy
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 4;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.3431F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.6569F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(722, 400);
 			this.tableLayoutPanel1.TabIndex = 7;
 			// 
 			// groupBoxOperations
 			// 
+			this.groupBoxOperations.Controls.Add(this.cbxStartInstantly);
 			this.groupBoxOperations.Controls.Add(this.btnShowScript);
 			this.groupBoxOperations.Controls.Add(this.label19);
 			this.groupBoxOperations.Controls.Add(this.linkLblReloadPlugins);
@@ -214,19 +216,32 @@ namespace BeHappy
 			this.groupBoxOperations.Controls.Add(this.cbxOmitEncoderScript);
 			this.groupBoxOperations.Controls.Add(this.btnPreview);
 			this.groupBoxOperations.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBoxOperations.Location = new System.Drawing.Point(555, 239);
+			this.groupBoxOperations.Location = new System.Drawing.Point(555, 232);
 			this.groupBoxOperations.Name = "groupBoxOperations";
 			this.tableLayoutPanel1.SetRowSpan(this.groupBoxOperations, 2);
-			this.groupBoxOperations.Size = new System.Drawing.Size(164, 158);
+			this.groupBoxOperations.Size = new System.Drawing.Size(164, 165);
 			this.groupBoxOperations.TabIndex = 6;
 			this.groupBoxOperations.TabStop = false;
 			this.groupBoxOperations.Text = "[5] Operations";
+			// 
+			// cbxStartInstantly
+			// 
+			this.cbxStartInstantly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.cbxStartInstantly.Checked = true;
+			this.cbxStartInstantly.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxStartInstantly.Location = new System.Drawing.Point(14, 122);
+			this.cbxStartInstantly.Name = "cbxStartInstantly";
+			this.cbxStartInstantly.Size = new System.Drawing.Size(140, 17);
+			this.cbxStartInstantly.TabIndex = 8;
+			this.cbxStartInstantly.Text = "Start jobs instantly";
+			this.toolTip1.SetToolTip(this.cbxStartInstantly, "Add the current values as new job and start all \'waiting\' jobs immediately.");
+			this.cbxStartInstantly.UseVisualStyleBackColor = false;
 			// 
 			// btnShowScript
 			// 
 			this.btnShowScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnShowScript.AutoSize = true;
-			this.btnShowScript.Location = new System.Drawing.Point(60, 47);
+			this.btnShowScript.Location = new System.Drawing.Point(60, 46);
 			this.btnShowScript.Name = "btnShowScript";
 			this.btnShowScript.Size = new System.Drawing.Size(44, 23);
 			this.btnShowScript.TabIndex = 7;
@@ -237,7 +252,7 @@ namespace BeHappy
 			// 
 			this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(12, 52);
+			this.label19.Location = new System.Drawing.Point(12, 51);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(37, 13);
 			this.label19.TabIndex = 6;
@@ -248,7 +263,7 @@ namespace BeHappy
 			this.linkLblReloadPlugins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.linkLblReloadPlugins.AutoSize = true;
 			this.linkLblReloadPlugins.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.linkLblReloadPlugins.Location = new System.Drawing.Point(12, 30);
+			this.linkLblReloadPlugins.Location = new System.Drawing.Point(12, 29);
 			this.linkLblReloadPlugins.Name = "linkLblReloadPlugins";
 			this.linkLblReloadPlugins.Size = new System.Drawing.Size(75, 13);
 			this.linkLblReloadPlugins.TabIndex = 5;
@@ -264,7 +279,7 @@ namespace BeHappy
 			// 
 			this.btnExportScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnExportScript.AutoSize = true;
-			this.btnExportScript.Location = new System.Drawing.Point(110, 47);
+			this.btnExportScript.Location = new System.Drawing.Point(110, 46);
 			this.btnExportScript.Name = "btnExportScript";
 			this.btnExportScript.Size = new System.Drawing.Size(47, 23);
 			this.btnExportScript.TabIndex = 1;
@@ -274,23 +289,23 @@ namespace BeHappy
 			// btnAddToJobList
 			// 
 			this.btnAddToJobList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnAddToJobList.Location = new System.Drawing.Point(12, 129);
+			this.btnAddToJobList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnAddToJobList.Location = new System.Drawing.Point(11, 119);
 			this.btnAddToJobList.Name = "btnAddToJobList";
-			this.btnAddToJobList.Size = new System.Drawing.Size(146, 23);
+			this.btnAddToJobList.Size = new System.Drawing.Size(146, 40);
 			this.btnAddToJobList.TabIndex = 0;
 			this.btnAddToJobList.Text = "En&queue";
+			this.btnAddToJobList.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.btnAddToJobList.Click += new System.EventHandler(this.submitJobToJobControl);
 			// 
 			// cbxOmitEncoderScript
 			// 
 			this.cbxOmitEncoderScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.cbxOmitEncoderScript.AutoSize = true;
-			this.cbxOmitEncoderScript.BackColor = System.Drawing.Color.Transparent;
 			this.cbxOmitEncoderScript.Checked = true;
 			this.cbxOmitEncoderScript.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOmitEncoderScript.Location = new System.Drawing.Point(25, 84);
+			this.cbxOmitEncoderScript.Location = new System.Drawing.Point(14, 78);
 			this.cbxOmitEncoderScript.Name = "cbxOmitEncoderScript";
-			this.cbxOmitEncoderScript.Size = new System.Drawing.Size(117, 17);
+			this.cbxOmitEncoderScript.Size = new System.Drawing.Size(140, 17);
 			this.cbxOmitEncoderScript.TabIndex = 0;
 			this.cbxOmitEncoderScript.Text = "Omit encoder script";
 			this.cbxOmitEncoderScript.UseVisualStyleBackColor = false;
@@ -298,9 +313,10 @@ namespace BeHappy
 			// btnPreview
 			// 
 			this.btnPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnPreview.Location = new System.Drawing.Point(11, 76);
+			this.btnPreview.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnPreview.Location = new System.Drawing.Point(11, 75);
 			this.btnPreview.Name = "btnPreview";
-			this.btnPreview.Size = new System.Drawing.Size(146, 47);
+			this.btnPreview.Size = new System.Drawing.Size(146, 40);
 			this.btnPreview.TabIndex = 1;
 			this.btnPreview.Text = "&Preview";
 			this.btnPreview.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -443,7 +459,7 @@ namespace BeHappy
 			this.groupBoxTweak.Location = new System.Drawing.Point(555, 3);
 			this.groupBoxTweak.Name = "groupBoxTweak";
 			this.tableLayoutPanel1.SetRowSpan(this.groupBoxTweak, 2);
-			this.groupBoxTweak.Size = new System.Drawing.Size(164, 230);
+			this.groupBoxTweak.Size = new System.Drawing.Size(164, 223);
 			this.groupBoxTweak.TabIndex = 5;
 			this.groupBoxTweak.TabStop = false;
 			this.groupBoxTweak.Text = "[2] Tweak";
@@ -452,7 +468,7 @@ namespace BeHappy
 			// 
 			this.numericUpDownHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownHeader.Enabled = false;
-			this.numericUpDownHeader.Location = new System.Drawing.Point(78, 197);
+			this.numericUpDownHeader.Location = new System.Drawing.Point(78, 190);
 			this.numericUpDownHeader.Maximum = new decimal(new int[] {
 									4,
 									0,
@@ -467,7 +483,7 @@ namespace BeHappy
 			// 
 			this.cbxHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbxHeader.AutoSize = true;
-			this.cbxHeader.Location = new System.Drawing.Point(7, 200);
+			this.cbxHeader.Location = new System.Drawing.Point(6, 193);
 			this.cbxHeader.Name = "cbxHeader";
 			this.cbxHeader.Size = new System.Drawing.Size(52, 17);
 			this.cbxHeader.TabIndex = 10;
@@ -479,7 +495,7 @@ namespace BeHappy
 			// 
 			this.numericUpDownChMask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownChMask.Enabled = false;
-			this.numericUpDownChMask.Location = new System.Drawing.Point(77, 171);
+			this.numericUpDownChMask.Location = new System.Drawing.Point(77, 164);
 			this.numericUpDownChMask.Maximum = new decimal(new int[] {
 									262143,
 									0,
@@ -493,7 +509,7 @@ namespace BeHappy
 			// 
 			this.cbxChMask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbxChMask.AutoSize = true;
-			this.cbxChMask.Location = new System.Drawing.Point(6, 174);
+			this.cbxChMask.Location = new System.Drawing.Point(6, 167);
 			this.cbxChMask.Name = "cbxChMask";
 			this.cbxChMask.Size = new System.Drawing.Size(65, 17);
 			this.cbxChMask.TabIndex = 8;
@@ -504,7 +520,7 @@ namespace BeHappy
 			// 
 			this.numericUpDownBuffer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownBuffer.Enabled = false;
-			this.numericUpDownBuffer.Location = new System.Drawing.Point(78, 145);
+			this.numericUpDownBuffer.Location = new System.Drawing.Point(78, 138);
 			this.numericUpDownBuffer.Minimum = new decimal(new int[] {
 									1,
 									0,
@@ -523,7 +539,7 @@ namespace BeHappy
 			// 
 			this.cbxBuffer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbxBuffer.AutoSize = true;
-			this.cbxBuffer.Location = new System.Drawing.Point(6, 148);
+			this.cbxBuffer.Location = new System.Drawing.Point(6, 141);
 			this.cbxBuffer.Name = "cbxBuffer";
 			this.cbxBuffer.Size = new System.Drawing.Size(54, 17);
 			this.cbxBuffer.TabIndex = 6;
@@ -534,7 +550,7 @@ namespace BeHappy
 			// 
 			this.cbxEnsureMP3VBRSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbxEnsureMP3VBRSync.AutoSize = true;
-			this.cbxEnsureMP3VBRSync.Location = new System.Drawing.Point(6, 42);
+			this.cbxEnsureMP3VBRSync.Location = new System.Drawing.Point(6, 35);
 			this.cbxEnsureMP3VBRSync.Name = "cbxEnsureMP3VBRSync";
 			this.cbxEnsureMP3VBRSync.Size = new System.Drawing.Size(136, 17);
 			this.cbxEnsureMP3VBRSync.TabIndex = 5;
@@ -545,7 +561,7 @@ namespace BeHappy
 			// 
 			this.numericUpDownSplitB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownSplitB.Enabled = false;
-			this.numericUpDownSplitB.Location = new System.Drawing.Point(78, 117);
+			this.numericUpDownSplitB.Location = new System.Drawing.Point(78, 110);
 			this.numericUpDownSplitB.Name = "numericUpDownSplitB";
 			this.numericUpDownSplitB.Size = new System.Drawing.Size(80, 20);
 			this.numericUpDownSplitB.TabIndex = 4;
@@ -554,7 +570,7 @@ namespace BeHappy
 			// 
 			this.numericUpDownSplitA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownSplitA.Enabled = false;
-			this.numericUpDownSplitA.Location = new System.Drawing.Point(78, 94);
+			this.numericUpDownSplitA.Location = new System.Drawing.Point(78, 87);
 			this.numericUpDownSplitA.Name = "numericUpDownSplitA";
 			this.numericUpDownSplitA.Size = new System.Drawing.Size(80, 20);
 			this.numericUpDownSplitA.TabIndex = 3;
@@ -563,7 +579,7 @@ namespace BeHappy
 			// 
 			this.cbxSplit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbxSplit.AutoSize = true;
-			this.cbxSplit.Location = new System.Drawing.Point(6, 109);
+			this.cbxSplit.Location = new System.Drawing.Point(6, 102);
 			this.cbxSplit.Name = "cbxSplit";
 			this.cbxSplit.Size = new System.Drawing.Size(46, 17);
 			this.cbxSplit.TabIndex = 2;
@@ -574,7 +590,7 @@ namespace BeHappy
 			// 
 			this.numericUpDownDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownDelay.Enabled = false;
-			this.numericUpDownDelay.Location = new System.Drawing.Point(78, 65);
+			this.numericUpDownDelay.Location = new System.Drawing.Point(78, 58);
 			this.numericUpDownDelay.Name = "numericUpDownDelay";
 			this.numericUpDownDelay.Size = new System.Drawing.Size(80, 20);
 			this.numericUpDownDelay.TabIndex = 1;
@@ -583,7 +599,7 @@ namespace BeHappy
 			// 
 			this.cbxDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbxDelay.AutoSize = true;
-			this.cbxDelay.Location = new System.Drawing.Point(6, 68);
+			this.cbxDelay.Location = new System.Drawing.Point(6, 61);
 			this.cbxDelay.Name = "cbxDelay";
 			this.cbxDelay.Size = new System.Drawing.Size(53, 17);
 			this.cbxDelay.TabIndex = 0;
@@ -601,7 +617,7 @@ namespace BeHappy
 			this.groupBoxDsp.Location = new System.Drawing.Point(3, 83);
 			this.groupBoxDsp.Name = "groupBoxDsp";
 			this.tableLayoutPanel1.SetRowSpan(this.groupBoxDsp, 2);
-			this.groupBoxDsp.Size = new System.Drawing.Size(546, 234);
+			this.groupBoxDsp.Size = new System.Drawing.Size(546, 233);
 			this.groupBoxDsp.TabIndex = 5;
 			this.groupBoxDsp.TabStop = false;
 			this.groupBoxDsp.Text = "[3] Digital Signal Processing";
@@ -610,7 +626,7 @@ namespace BeHappy
 			// 
 			this.cbxDisableDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.cbxDisableDSP.AutoSize = true;
-			this.cbxDisableDSP.Location = new System.Drawing.Point(6, 207);
+			this.cbxDisableDSP.Location = new System.Drawing.Point(6, 206);
 			this.cbxDisableDSP.Name = "cbxDisableDSP";
 			this.cbxDisableDSP.Size = new System.Drawing.Size(61, 17);
 			this.cbxDisableDSP.TabIndex = 1;
@@ -625,14 +641,14 @@ namespace BeHappy
 			this.lstDSP.IntegralHeight = false;
 			this.lstDSP.Location = new System.Drawing.Point(6, 19);
 			this.lstDSP.Name = "lstDSP";
-			this.lstDSP.Size = new System.Drawing.Size(534, 180);
+			this.lstDSP.Size = new System.Drawing.Size(534, 179);
 			this.lstDSP.TabIndex = 0;
 			this.lstDSP.SelectedIndexChanged += new System.EventHandler(this.lstDSP_SelectedIndexChanged);
 			// 
 			// btnMoveDownDSP
 			// 
 			this.btnMoveDownDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnMoveDownDSP.Location = new System.Drawing.Point(465, 205);
+			this.btnMoveDownDSP.Location = new System.Drawing.Point(465, 204);
 			this.btnMoveDownDSP.Name = "btnMoveDownDSP";
 			this.btnMoveDownDSP.Size = new System.Drawing.Size(75, 23);
 			this.btnMoveDownDSP.TabIndex = 4;
@@ -643,7 +659,7 @@ namespace BeHappy
 			// 
 			this.btnConfigureDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnConfigureDSP.Enabled = false;
-			this.btnConfigureDSP.Location = new System.Drawing.Point(303, 205);
+			this.btnConfigureDSP.Location = new System.Drawing.Point(303, 204);
 			this.btnConfigureDSP.Name = "btnConfigureDSP";
 			this.btnConfigureDSP.Size = new System.Drawing.Size(75, 23);
 			this.btnConfigureDSP.TabIndex = 2;
@@ -653,7 +669,7 @@ namespace BeHappy
 			// btnMoveUpDSP
 			// 
 			this.btnMoveUpDSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnMoveUpDSP.Location = new System.Drawing.Point(384, 205);
+			this.btnMoveUpDSP.Location = new System.Drawing.Point(384, 204);
 			this.btnMoveUpDSP.Name = "btnMoveUpDSP";
 			this.btnMoveUpDSP.Size = new System.Drawing.Size(75, 23);
 			this.btnMoveUpDSP.TabIndex = 3;
@@ -911,7 +927,7 @@ namespace BeHappy
 			// btnStart
 			// 
 			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnStart.Location = new System.Drawing.Point(8, 115);
+			this.btnStart.Location = new System.Drawing.Point(8, 101);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(75, 24);
 			this.btnStart.TabIndex = 5;
@@ -929,7 +945,7 @@ namespace BeHappy
 			this.txtSimpleLog.Name = "txtSimpleLog";
 			this.txtSimpleLog.ReadOnly = true;
 			this.txtSimpleLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtSimpleLog.Size = new System.Drawing.Size(626, 163);
+			this.txtSimpleLog.Size = new System.Drawing.Size(626, 149);
 			this.txtSimpleLog.TabIndex = 4;
 			this.txtSimpleLog.WordWrap = false;
 			// 
@@ -937,7 +953,7 @@ namespace BeHappy
 			// 
 			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnStop.Enabled = false;
-			this.btnStop.Location = new System.Drawing.Point(8, 145);
+			this.btnStop.Location = new System.Drawing.Point(8, 131);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(75, 24);
 			this.btnStop.TabIndex = 6;
@@ -949,7 +965,7 @@ namespace BeHappy
 			// 
 			this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnAbort.Enabled = false;
-			this.btnAbort.Location = new System.Drawing.Point(8, 175);
+			this.btnAbort.Location = new System.Drawing.Point(8, 161);
 			this.btnAbort.Name = "btnAbort";
 			this.btnAbort.Size = new System.Drawing.Size(75, 24);
 			this.btnAbort.TabIndex = 7;
@@ -1456,6 +1472,7 @@ namespace BeHappy
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox cbxStartInstantly;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.Button btnShowScript;

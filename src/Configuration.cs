@@ -15,7 +15,6 @@ namespace BeHappy
 	public class Configuration
 	{
 
-
 		public sealed class __pluginPersistance
 		{
 			[XmlAttribute("UniqueID")]
@@ -115,8 +114,9 @@ namespace BeHappy
     {
         [XmlElement("DirectShowPlayer")]
         public string directShowPlayer;
-        [XmlElement("PreferMP4overM4A")]
-        public bool preferMP4overM4A;
-
+        [XmlElement("OmitEncoderScript")]
+        public bool omitEncoderScriptChecked;
+		[XmlElement("StartJobsInstantly")]
+        public bool startJobsInstantlyChecked;
     }
 }
