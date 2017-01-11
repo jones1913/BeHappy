@@ -134,11 +134,9 @@ namespace BeHappy
                 while (!m_process.HasExited) {
                     Thread.Sleep(0);
                     string text1 = r.ReadToEnd(); //r.ReadLine();
-                    if (text1 != null) {
-                        if (text1.Length > 0) {
+					if (!String.IsNullOrEmpty(text1)) {
                             e.Message = text1;
                             raiseEvent(m_job, e);
-                        }
                     }
                     Thread.Sleep(0);
                 }

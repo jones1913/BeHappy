@@ -35,8 +35,9 @@ namespace BeHappy
 			this.tabPageNewJob = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.groupBoxOperations = new System.Windows.Forms.GroupBox();
+			this.btnShowScript = new System.Windows.Forms.Button();
+			this.label19 = new System.Windows.Forms.Label();
 			this.linkLblReloadPlugins = new System.Windows.Forms.LinkLabel();
-			this.linkLblDebugWindow = new System.Windows.Forms.LinkLabel();
 			this.btnExportScript = new System.Windows.Forms.Button();
 			this.btnAddToJobList = new System.Windows.Forms.Button();
 			this.cbxOmitEncoderScript = new System.Windows.Forms.CheckBox();
@@ -204,8 +205,9 @@ namespace BeHappy
 			// 
 			// groupBoxOperations
 			// 
+			this.groupBoxOperations.Controls.Add(this.btnShowScript);
+			this.groupBoxOperations.Controls.Add(this.label19);
 			this.groupBoxOperations.Controls.Add(this.linkLblReloadPlugins);
-			this.groupBoxOperations.Controls.Add(this.linkLblDebugWindow);
 			this.groupBoxOperations.Controls.Add(this.btnExportScript);
 			this.groupBoxOperations.Controls.Add(this.btnAddToJobList);
 			this.groupBoxOperations.Controls.Add(this.cbxOmitEncoderScript);
@@ -219,49 +221,53 @@ namespace BeHappy
 			this.groupBoxOperations.TabStop = false;
 			this.groupBoxOperations.Text = "[5] Operations";
 			// 
+			// btnShowScript
+			// 
+			this.btnShowScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnShowScript.AutoSize = true;
+			this.btnShowScript.Location = new System.Drawing.Point(60, 47);
+			this.btnShowScript.Name = "btnShowScript";
+			this.btnShowScript.Size = new System.Drawing.Size(44, 23);
+			this.btnShowScript.TabIndex = 7;
+			this.btnShowScript.Text = "Show";
+			this.btnShowScript.Click += new System.EventHandler(this.BtnShowScriptClick);
+			// 
+			// label19
+			// 
+			this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label19.AutoSize = true;
+			this.label19.Location = new System.Drawing.Point(12, 52);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(37, 13);
+			this.label19.TabIndex = 6;
+			this.label19.Text = "Script:";
+			// 
 			// linkLblReloadPlugins
 			// 
 			this.linkLblReloadPlugins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.linkLblReloadPlugins.AutoSize = true;
 			this.linkLblReloadPlugins.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.linkLblReloadPlugins.Location = new System.Drawing.Point(93, 30);
+			this.linkLblReloadPlugins.Location = new System.Drawing.Point(12, 30);
 			this.linkLblReloadPlugins.Name = "linkLblReloadPlugins";
-			this.linkLblReloadPlugins.Size = new System.Drawing.Size(49, 13);
+			this.linkLblReloadPlugins.Size = new System.Drawing.Size(75, 13);
 			this.linkLblReloadPlugins.TabIndex = 5;
 			this.linkLblReloadPlugins.TabStop = true;
-			this.linkLblReloadPlugins.Text = "RldPlgns";
-			this.toolTip1.SetToolTip(this.linkLblReloadPlugins, "Reload all extension plugins and save-state file.");
+			this.linkLblReloadPlugins.Text = "ReloadPlugins";
+			this.toolTip1.SetToolTip(this.linkLblReloadPlugins, "Reload all extension plugins and save-state file. (Can crash the application)");
 			this.linkLblReloadPlugins.Visible = false;
 			this.linkLblReloadPlugins.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLblReloadPluginsLinkClicked);
 			this.linkLblReloadPlugins.MouseEnter += new System.EventHandler(this.LinkLabelMouseEnter);
 			this.linkLblReloadPlugins.MouseLeave += new System.EventHandler(this.LinkLabelMouseLeave);
 			// 
-			// linkLblDebugWindow
-			// 
-			this.linkLblDebugWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.linkLblDebugWindow.AutoSize = true;
-			this.linkLblDebugWindow.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.linkLblDebugWindow.Location = new System.Drawing.Point(12, 30);
-			this.linkLblDebugWindow.Name = "linkLblDebugWindow";
-			this.linkLblDebugWindow.Size = new System.Drawing.Size(67, 13);
-			this.linkLblDebugWindow.TabIndex = 4;
-			this.linkLblDebugWindow.TabStop = true;
-			this.linkLblDebugWindow.Text = "DbgWndw...";
-			this.toolTip1.SetToolTip(this.linkLblDebugWindow, "Show a window where you can inspect the generated avs script and encoder commandl" +
-						"ine.\r\n(After the job is enqeued)");
-			this.linkLblDebugWindow.Visible = false;
-			this.linkLblDebugWindow.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLblDebugWindowLinkClicked);
-			this.linkLblDebugWindow.MouseEnter += new System.EventHandler(this.LinkLabelMouseEnter);
-			this.linkLblDebugWindow.MouseLeave += new System.EventHandler(this.LinkLabelMouseLeave);
-			// 
 			// btnExportScript
 			// 
 			this.btnExportScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnExportScript.Location = new System.Drawing.Point(12, 100);
+			this.btnExportScript.AutoSize = true;
+			this.btnExportScript.Location = new System.Drawing.Point(110, 47);
 			this.btnExportScript.Name = "btnExportScript";
-			this.btnExportScript.Size = new System.Drawing.Size(146, 23);
+			this.btnExportScript.Size = new System.Drawing.Size(47, 23);
 			this.btnExportScript.TabIndex = 1;
-			this.btnExportScript.Text = "Export Avisynth Script";
+			this.btnExportScript.Text = "Export";
 			this.btnExportScript.Click += new System.EventHandler(this.exportAviSynthScriptToFile);
 			// 
 			// btnAddToJobList
@@ -278,9 +284,10 @@ namespace BeHappy
 			// 
 			this.cbxOmitEncoderScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbxOmitEncoderScript.AutoSize = true;
+			this.cbxOmitEncoderScript.BackColor = System.Drawing.Color.Transparent;
 			this.cbxOmitEncoderScript.Checked = true;
 			this.cbxOmitEncoderScript.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOmitEncoderScript.Location = new System.Drawing.Point(25, 52);
+			this.cbxOmitEncoderScript.Location = new System.Drawing.Point(25, 84);
 			this.cbxOmitEncoderScript.Name = "cbxOmitEncoderScript";
 			this.cbxOmitEncoderScript.Size = new System.Drawing.Size(117, 17);
 			this.cbxOmitEncoderScript.TabIndex = 0;
@@ -290,7 +297,7 @@ namespace BeHappy
 			// btnPreview
 			// 
 			this.btnPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnPreview.Location = new System.Drawing.Point(12, 48);
+			this.btnPreview.Location = new System.Drawing.Point(11, 76);
 			this.btnPreview.Name = "btnPreview";
 			this.btnPreview.Size = new System.Drawing.Size(146, 47);
 			this.btnPreview.TabIndex = 1;
@@ -1449,6 +1456,8 @@ namespace BeHappy
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.Button btnShowScript;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label label16;
@@ -1465,7 +1474,6 @@ namespace BeHappy
 		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.LinkLabel linkLblDebugWindow;
 		private System.Windows.Forms.LinkLabel linkLblReloadPlugins;
 		private System.Windows.Forms.LinkLabel linkLabelAutoJobs;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;

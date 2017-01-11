@@ -28,6 +28,11 @@ namespace BeHappy
 			richTextBox1.ScrollToCaret();
 		}
 		
+		public void ClearText()
+		{
+			richTextBox1.Clear();
+		}
+		
 		void BtnClearClick(object sender, EventArgs e)
 		{
 			richTextBox1.Clear();

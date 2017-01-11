@@ -56,6 +56,7 @@ namespace BeHappy
 		private ToolStripMenuItem itemFilterLossy;
 		private ToolStripMenuItem itemFilterLossless;
 		private ToolStripMenuItem itemPage2;
+		private MessageWindow msgWindow;
 		
 		public MainForm()
 		{
@@ -533,7 +534,9 @@ namespace BeHappy
 					}
 				}
 			}
-			sb2.AppendFormat("{0}{1}# [Encoder: {2}]{1}{0}{1}", SEPARATOP, Environment.NewLine, enc.Title);
+			sb2.AppendFormat("{0}{1}# [Encoder: {2}]{1}# [Command: {3} {4}{1}{0}{1}", SEPARATOP, Environment.NewLine, enc.Title,
+			                enc.ExecutableFileName, enc.GetExecutableArguments(Path.GetExtension(targetFileName).ToLower()));
+			
 			if (!String.IsNullOrEmpty(enc.ScriptBlock) && !omitEncoderScript)
 			{
 				if (!string.IsNullOrEmpty(enc.AvsPlugin))
@@ -820,7 +823,7 @@ namespace BeHappy
 				jbs[i].HeaderType = htype;
 				jbs[i].ChannelMask = cmask;
 				
-				string debugOut = string.Format("{0}\n{0}\n{1}\n{2} {3}\n\n" , new string('=', 80), jbs[i].AviSynthScript, jbs[i].EncoderExecutable, jbs[i].CommandLine);
+				string debugOut = string.Format("{0}\n{0}\n{1}\n\n" , new string('=', 80), jbs[i].AviSynthScript);
 				
 				Debug.WriteLine(debugOut);
 				
@@ -1412,17 +1415,7 @@ namespace BeHappy
 				{
 					if (s == "-testmode")
 					{
-						if (MessageBox.Show("The test mode is intended for testing extension plugins.\n" +
-						                    "Two buttons where added to [Operations] section to open debug window and reload extensions." +
-						                    "\n\nOK\t=\tUnderstand and proceed\nCancel\t=\tWhat a mistake, get me out of here",
-						                    "\"-testmode\" specified!",
-						                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question ,MessageBoxDefaultButton.Button1) == DialogResult.Cancel)
-							Application.Exit();
-						else
-						{
-							linkLblDebugWindow.Visible = true;
-							linkLblReloadPlugins.Visible = true;
-						}
+						linkLblReloadPlugins.Visible = true;
 					}
 				}
 			}
@@ -1735,17 +1728,6 @@ namespace BeHappy
 			if (itemPage2 != null)
 				itemPage2.ShowDropDown();
 		}
-
-		private MessageWindow msgWindow;
-		
-		void LinkLblDebugWindowLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			if (msgWindow == null || msgWindow.IsDisposed)
-				msgWindow = new MessageWindow();
-			
-			msgWindow.Show();
-			msgWindow.BringToFront();
-		}
 		
 		void LinkLblReloadPluginsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
@@ -1768,6 +1750,17 @@ namespace BeHappy
 			lb.LinkColor = Color.Blue;
 		}
 		
+		
+		void BtnShowScriptClick(object sender, EventArgs e)
+		{			
+			if (msgWindow == null || msgWindow.IsDisposed)
+				msgWindow = new MessageWindow();
+			
+			msgWindow.ClearText();
+			msgWindow.AddText(createAvsScript());
+			msgWindow.Show();
+			msgWindow.BringToFront();
+		}
 	}
 
 
