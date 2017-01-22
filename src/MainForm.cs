@@ -75,7 +75,7 @@ namespace BeHappy
 					String.Format("{0}  ({1} files loaded)", groupBoxSourceText, getSourceFilesCount);
 			};
 			
-			using (TextReader r = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("BeHappy.gpl.txt")))
+			using (TextReader r = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("BeHappy.LICENSE.txt")))
 			{
 				txtGPL.Text = r.ReadToEnd();
 			}

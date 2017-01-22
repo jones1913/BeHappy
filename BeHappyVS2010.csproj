@@ -106,14 +106,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\MessageWindow.resx">
-      <DependentUpon>src\MessageWindow.cs</DependentUpon>
+      <DependentUpon>MessageWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="compile2010.bat" />
     <EmbeddedResource Include="App.ico" />
     <Content Include="AvisynthWrapper.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="gpl.txt" />
     <Compile Include="src\AmplifyDSP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,19 +132,19 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\ConfigurationFormBase.Designer.cs">
-      <DependentUpon>src\ConfigurationFormBase.cs</DependentUpon>
+      <DependentUpon>ConfigurationFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ConfigurationFormForMultiOption.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\ConfigurationFormForMultiOption.Designer.cs">
-      <DependentUpon>src\ConfigurationFormForMultiOption.cs</DependentUpon>
+      <DependentUpon>ConfigurationFormForMultiOption.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ConfigureFormForNormalizeDSP.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\ConfigureFormForNormalizeDSP.Designer.cs">
-      <DependentUpon>src\ConfigureFormForNormalizeDSP.cs</DependentUpon>
+      <DependentUpon>ConfigureFormForNormalizeDSP.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Encoder.cs">
       <SubType>Code</SubType>
@@ -157,7 +156,7 @@
     </Compile>
     <Compile Include="src\MessageWindow.cs" />
     <Compile Include="src\MessageWindow.Designer.cs">
-      <DependentUpon>src\MessageWindow.cs</DependentUpon>
+      <DependentUpon>MessageWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Extensibility.cs" />
     <Compile Include="src\Extension.cs">
@@ -173,43 +172,44 @@
     <Compile Include="src\ResourceGlobal.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>src\ResourceGlobal.resx</DependentUpon>
+      <DependentUpon>ResourceGlobal.resx</DependentUpon>
     </Compile>
     <Compile Include="src\TimeStretchDSP.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\TimeStretchDSP.Designer.cs">
-      <DependentUpon>src\TimeStretchDSP.cs</DependentUpon>
+      <DependentUpon>TimeStretchDSP.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Utils.cs" />
     <EmbeddedResource Include="src\AmplifyDSP.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>src\AmplifyDSP.cs</DependentUpon>
+      <DependentUpon>AmplifyDSP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\ConfigurationFormBase.resx">
-      <DependentUpon>src\ConfigurationFormBase.cs</DependentUpon>
+      <DependentUpon>ConfigurationFormBase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\ConfigurationFormForMultiOption.resx">
-      <DependentUpon>src\ConfigurationFormForMultiOption.cs</DependentUpon>
+      <DependentUpon>ConfigurationFormForMultiOption.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\ConfigureFormForNormalizeDSP.resx">
-      <DependentUpon>src\ConfigureFormForNormalizeDSP.cs</DependentUpon>
+      <DependentUpon>ConfigureFormForNormalizeDSP.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\MainForm.resx">
-      <DependentUpon>src\MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\ResourceGlobal.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>src\ResourceGlobal.Designer.cs</LastGenOutput>
+      <LastGenOutput>ResourceGlobal.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\TimeStretchDSP.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>src\TimeStretchDSP.cs</DependentUpon>
+      <DependentUpon>TimeStretchDSP.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
