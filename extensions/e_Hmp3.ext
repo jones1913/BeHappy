@@ -55,9 +55,9 @@
 					<Item Name="None">
 						<Value></Value></Item>
 					<Item Name="HF1">
-						<Value>-hf1</Value></Item>
+						<Value>-HF1</Value></Item>
 					<Item Name="HF2">
-						<Value>-hf2</Value></Item>
+						<Value>-HF2</Value></Item>
 					<ToolTip>High frequency encoding. Allows coding above 16000Hz.
 							hf1=(mode-1 granules), hf2=(all granules), -B96 or -V80 need</ToolTip>
 				</Dropdown>

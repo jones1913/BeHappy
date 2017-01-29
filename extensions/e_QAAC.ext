@@ -115,8 +115,8 @@
 				<ExecutableFileName>qaac\qaac.exe</ExecutableFileName>
 				<ExecutableCommandline>%options% -A --verbose --no-optimize --threading -i -r keep - -o "{0}"</ExecutableCommandline>
 				<TitleFormatString>ALAC QAAC - {0}</TitleFormatString>
+				<SupportedFileExtension>alac</SupportedFileExtension>
 				<SupportedFileExtension>m4a</SupportedFileExtension>
-				<SupportedFileExtension>aac</SupportedFileExtension>
 				<IsLossless>true</IsLossless>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
 				<Info>QAAC encoder needs Apple Application Support files. Install it on your system or
@@ -134,12 +134,7 @@
 					<ValueChecked>--no-dither</ValueChecked>
 					<ToolTip>Turn off dither when quantizing to lower bit depth.</ToolTip>
 				</Checkbox>
-				<Checkbox Name="No Delay">
-					<ValueChecked>--no-delay</ValueChecked>
-					<ToolTip>Compensate encoder delay by prepending 960 samples of scilence, then trimming 3 AAC frames from
-							the beginning (and also tweak iTunSMPB). This option is mainly intended for resolving A/V sync issue of video.
-					</ToolTip>
-				</Checkbox>
+
 			</MultiOptionEncoder>  
 		</Plugin>
 	</AudioEncoder>				

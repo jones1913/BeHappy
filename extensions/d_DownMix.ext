@@ -88,6 +88,16 @@
 						{4}
 					</Value>
 				</Radiobutton>
+				<Radiobutton Name="Simple (F+C)">
+					<Value>
+						# Simple Stereo only Front + Center
+						function f{2}(clip a) {3}
+                                                f = GetChannel(a, 1, 2)
+                                                c = GetChannel(a, 3, 3)
+                                                return MixAudio(f, c, 1.0, 0.7071)
+						{4}
+					</Value>
+				</Radiobutton>
 				<Radiobutton Name="7.1 -> 5.1">
 					<Value>
 						# Downmix 7.1 to 5.1

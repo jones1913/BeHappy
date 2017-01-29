@@ -25,7 +25,7 @@
 				<ExecutableFileName>neroaacenc.exe</ExecutableFileName>
 				<ExecutableCommandline>%options% -ignorelength -if - -of "{0}"</ExecutableCommandline>
 				<TitleFormatString>AAC Nero - {0}</TitleFormatString>
-				<SupportedFileExtension>mp4</SupportedFileExtension>
+				<SupportedFileExtension>m4a</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
 				<UseRawPCM>false</UseRawPCM>
 				<Radiobutton Name="CBR mode {0} kb/s">

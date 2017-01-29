@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="862d8c17-e30c-4153-af72-e2c63721b546">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>400</DialogWidth>
+				<Info>
+                                Only allowed:
+                                Stereo audio.
+                                Int samples (8, 16, 24 or 32 bits).
+				</Info>
+
+				<Url>http://losslessaudio.org/</Url>
+				<UrlToolTip>Encoder documentation and download.</UrlToolTip>
+ <LogoBitmap>iVBORw0KGgoAAAANSUhEUgAAAGAAAABQCAMAAADRPICnAAAACXBIWXMAAAsSAAALEgHS3X78AAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAADAFBMVEUBBwEELgYNNw4tPQsuGy4sLCw4OzhJAwAGUggzXwUHbwgGcQczbwQ8dQMvUS8vUzAqcytXTw9LdQF0dgxNTjhpaik/d0BMTU5LU0tLVFFJb0pOcU9RcFJyd3WOLzn/AAAEjwUIjQUDmQU2igIBqgMBsgQTtBcpiysviTErsy5pgQIBxgMBzwQA2AMV2hkA6AMA9wQA/gVOh09YhVlviG90h3SSlQWrsAGOjyTBsADRzwH7+wCGeYaNoo6hmKMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsQBe8AAAAQHRSTlP///////////////////////////////////////////////////////////////////////////////////8AwnuxRAAABFdJREFUeNpitGegLQAIICYam88AEEA0twAggGhuAUAA0dwCgACiuQUAAURzCwACiOYWAAQQCyEFVxjUGRgZfjPcY1AC8u4y6JBoAUAA0dwHAAFEwAc/GTSA5B8gVmYAKdUA+og0PwAEEM19ABBAeH1wjUENSP5nuMrwnYGNwQgspkKiBQABRHMfAAQQXh/8A5OMDHoMN5FcDklPxAKAAKK5DwACiIAPQOmHmeE6gyoDTOF/htck+QAggGjuA4AAwuGDrwxfGH4w8DO8ZGAF5uLvwBysAU9ZskBZbqItAAggmvsAIICw+OAigygDFwMnEMKAIDAV/WNgAob/DQYRhqcMfCRYABBANPcBQABh+OAhgyIWZeoMz4Gp6S+DMND9qiRZABBANPcBQACxoLtfEIdCkPgXsPtJcxNAANHcBwABhOYDVpwKfwPd/wrq/hcklKkAAURzHwAEEJoPXgMxOzC9MCGVR3+B9dpTIEsJZ/zgAwABRHMfAAQQmg/0weXQfyB+BGSJgUsiBrDrWdFqCWIBQADR3AcAAYSlLAKVlDwM4sCwvwwMdR48KYsYABBANPcBQADhqdGYGQygNcNfYOlKrksAAojmPgAIIIJtU25wnNwBxgQ/1Bd/GSRIsAAggGjuA4AAYiFOmQrYF4LgFMXM8BaYtogFAAFEcx8ABBAL8UpVgH4QAcYDE9AfxLfuAAKI5j4ACCAWUhSrQGs8dmDpSqwPAAKI5j4ACCAW0pS/AvuAGVjOEgsAAojmPgAIIBbyyhfi0xFAANHcBwABxEKeNnaGbyht8ecMkjha3AABRHMfAAQQmT5gZXiP1BZnB+bwH9C6EB0ABBDNfQAQQET44A6wPmMH1msfGHiR0r8YOOzfMMhA62wmoDp9LLoBAojmPgAIIBZiwpsH3LoG9XPEkEQPM2gByS/Qlvc/HKkIIIBo7gOAACLKB6CeAahdIQ0kYeAp1P2wlvZtBlOsugECiOY+AAggInzwFNhDA7lQHakm/gJut4J6Ckxg+j0O9zMwAAQQzX0AEEBE+MCU4TTQ9dLANKSOVBbBYkMaiG/idD8DA0AA0dwHAAFEVFlkCixx5MF+UAW261jhfbnfwDYeF173MzAABBDNfQAQQESWpvrgdh3IDxLgNupNcH/zC5D9Ea/7GRgAAojmPgAIIKLrAxVgLcwPbt3xg0uej+Bc8Q0YJ/gBQADR3AcAAUSkD04y6ABbEV+B7ka0K36C+9X6BHQCBBDNfQAQQET54CsQ/wDCvwx3GdiA4c4OLqFAwAjac/6OcxQPIIBo7gOAACKqTn4LDPOfQHezMXAAXfsYyBNjeMSgDBR5CS6XfgLF2MF9UkwAEEA09wFAALEQkwMUgX3+zwwPgHEgB2xf/wL6hAeIf4NdD6kxmBj0cOgGCCCa+wAggIhKRZA+/wWgux8B080TYAvpDtDt7+Gh/hgog8ulAAFEcx8ABBAjrWdjAQKI5j4ACDAAIVKe7xXA6WMAAAAASUVORK5CYII=</LogoBitmap>
+				<Script>IsAudioFloat(last)?ConvertAudioTo24bit(last):last</Script>
+				<TitleFormatString>OFR OptimFROG - {0}</TitleFormatString>
+				<ExecutableFileName>ofr.exe</ExecutableFileName>
+				<ExecutableCommandline>--encode %options% - --output "{0}"</ExecutableCommandline>
+				<SupportedFileExtension>ofr</SupportedFileExtension>
+				<ShowCommandTextbox>true</ShowCommandTextbox>
+				<IsLossless>true</IsLossless>
+				<Radiobutton Name="Max compression Preset">
+					<Value>--preset max</Value>
+					<ToolTip>Max Compression Preset</ToolTip>
+				</Radiobutton>
+				<Radiobutton Name="Compression Preset: {0}">
+					<Value>--preset {0}</Value>
+					<Trackbar DefaultValue="2">
+						<Min>0</Min>
+						<Max>10</Max>
+						<TickFrequency>1</TickFrequency>
+						<Multiplier>1</Multiplier>
+					</Trackbar>
+					<ToolTip>From low to high</ToolTip>
+				</Radiobutton>
+			</MultiOptionEncoder>
+		</Plugin>
+	</AudioEncoder>
+</BeHappy.Extension>

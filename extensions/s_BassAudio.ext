@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
   <AudioSource Name="BassAudio" UniqueID="368e0760-ae08-11da-a746-0800200c9a66">
-	<LoadAvsPlugin>bassaudio.dll</LoadAvsPlugin>
+    <LoadAvsPlugin>bassaudio.dll</LoadAvsPlugin>
     <Script>bassAudioSource("{0}")</Script>
     <SupportedFileExtension>aac</SupportedFileExtension>
     <SupportedFileExtension>aiff</SupportedFileExtension>
@@ -20,11 +20,11 @@
     <SupportedFileExtension>wav</SupportedFileExtension>
     <SupportedFileExtension>wma</SupportedFileExtension>
     <SupportedFileExtension>wv</SupportedFileExtension>
-	<SupportedFileExtension>midi</SupportedFileExtension>
-	<SupportedFileExtension>opus</SupportedFileExtension>
-	<SupportedFileExtension>aix</SupportedFileExtension>
-	<SupportedFileExtension>adx</SupportedFileExtension>
-	<SupportedFileExtension>alac</SupportedFileExtension>
-	<SupportedFileExtension>ofr</SupportedFileExtension>
+    <SupportedFileExtension>midi</SupportedFileExtension>
+    <SupportedFileExtension>opus</SupportedFileExtension>
+    <SupportedFileExtension>aix</SupportedFileExtension>
+    <SupportedFileExtension>adx</SupportedFileExtension>
+    <SupportedFileExtension>alac</SupportedFileExtension>
+    <SupportedFileExtension>ofr</SupportedFileExtension>
   </AudioSource>
 </BeHappy.Extension>

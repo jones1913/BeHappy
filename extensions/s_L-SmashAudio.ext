@@ -32,6 +32,7 @@
 					<Trackbar DefaultValue="-1">
 						<Min>-1</Min>
 						<Max>12</Max>
+                                                <TickFrequency>1</TickFrequency>
 					</Trackbar>
 					<ToolTip>Track index "-1" picks the first audio track.</ToolTip>
 				</Radiobutton>
@@ -60,6 +61,7 @@
 					<Trackbar>
 						<Min>0</Min>
 						<Max>12</Max>
+                                                <TickFrequency>1</TickFrequency>
 					</Trackbar>
 					<ToolTip>Track index "0" picks the first audio track.</ToolTip>
 				</Radiobutton>

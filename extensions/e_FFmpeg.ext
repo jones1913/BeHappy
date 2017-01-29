@@ -23,7 +23,7 @@
 						<ToolTip>Choose MP2 encoder library</ToolTip>
 				</Dropdown>
 				<Radiobutton Name="CBR for 32; 44.1 and 48kHz sample input {0} kb/s">
-					<Value>-b {0}</Value>
+					<Value>-b:a {0}k</Value>
 					<Trackbar FixedValues="true" DefaultValue="8">
 						<Value>32</Value>
 						<Value>48</Value>
@@ -42,7 +42,7 @@
 					<ToolTip></ToolTip>
 				</Radiobutton>
 				<Radiobutton Name="CBR for 16; 22.05 and 24kHz sample input {0} kb/s">
-					<Value>-b {0}</Value>
+					<Value>-b:a {0}k</Value>
 					<Trackbar FixedValues="true" DefaultValue="11">
 						<Value>8</Value>
 						<Value>16</Value>
@@ -121,13 +121,13 @@
 				<Dropdown Name="(Ext. Info2) Dolby Surround EX">
 					<Item Name="Not indicated">
 						<Value></Value></Item>
-					<Item Name="DS EX Encoded">
-						<Value>-xbsi2 -dsurex_mode 1</Value></Item>
 					<Item Name="Not DS EX Encoded">
-						<Value>-xbsi2 -dsurex_mode 2</Value></Item>
+						<Value>-dsurex_mode 1</Value></Item>
+					<Item Name="DS EX Encoded">
+						<Value>-dsurex_mode 2</Value></Item>
 					<ToolTip>This code is part of extended bitstream info 2. Dolby Surround EX Mode. Indicates whether the stream
-						uses Dolby Surround EX (7.1 matrixed to 5.1). Using this option does NOT mean the encoder will actually apply
-						Dolby Surround EX processing.
+						uses Dolby Surround EX (7.1 or 6.1 matrixed to 5.1). Using this option does NOT mean the encoder
+						will actually apply Dolby Surround EX processing.
 					</ToolTip>
 				</Dropdown>
 				<Dropdown Name="(Audio Pro. Info) Room Type" DefaultIndex="0">
@@ -212,7 +212,7 @@
 						audio for a given bitrate
 					</ToolTip>
 				</Dropdown>
-				<Dropdown Name="Center Mix Level" DefaultIndex="1">
+				<Dropdown Name="Center Mix Level" DefaultIndex="0">
 					<Item Name="-3.0 dB">
 						<Value>-center_mixlev 0.707</Value></Item>
 					<Item Name="-4.5 dB">
@@ -271,13 +271,13 @@
 				<Dropdown Name="(Ext. Info2) Dolby Surround EX">
 					<Item Name="Not indicated">
 						<Value></Value></Item>
-					<Item Name="DS EX Encoded">
-						<Value>-xbsi2 -dsurex_mode 1</Value></Item>
 					<Item Name="Not DS EX Encoded">
-						<Value>-xbsi2 -dsurex_mode 2</Value></Item>
+						<Value>-dsurex_mode 1</Value></Item>
+					<Item Name="DS EX Encoded">
+						<Value>-dsurex_mode 2</Value></Item>
 					<ToolTip>This code is part of extended bitstream info 2. Dolby Surround EX Mode. Indicates whether the stream
-						uses Dolby Surround EX (7.1 matrixed to 5.1). Using this option does NOT mean the encoder will actually apply
-						Dolby Surround EX processing.
+						uses Dolby Surround EX (7.1 or 6.1 matrixed to 5.1). Using this option does NOT mean the encoder
+						will actually apply Dolby Surround EX processing.
 					</ToolTip>
 				</Dropdown>
 				<Dropdown Name="(Audio Pro. Info) Room Type" DefaultIndex="0">
@@ -336,23 +336,13 @@
 				<Url>https://www.ffmpeg.org/</Url>
 				<Script>32==Audiobits(last)?ConvertAudioTo32bit(last):last</Script>
 				<ExecutableFileName>ffmpeg.exe</ExecutableFileName>
-				<ExecutableCommandline>-i - -y -f mp4 %options% "{0}"</ExecutableCommandline>
+				<ExecutableCommandline>-i - -y -c:a aac %options% "{0}"</ExecutableCommandline>
 				<TitleFormatString>AAC FFmpeg - {0}</TitleFormatString>
 				<SupportedFileExtension>m4a</SupportedFileExtension>
 				<SupportedFileExtension>mp4</SupportedFileExtension>
 				<SupportedFileExtension>3gp</SupportedFileExtension>
 				<SupportedFileExtension>3g2</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
-				<Dropdown Name="AAC Encoder Library">
-					<Item Name="Native">
-						<Value>-c:a aac -strict -2</Value></Item>
-					<Item Name="libFDK">
-						<Value>-c:a libfdk_aac</Value></Item>
-					<Item Name="libFAAC">
-						<Value>-c:a libfaac</Value></Item>
-					<ToolTip>LibFDK is the Fraunhofer AAC encoder library, developed for Android. LibFAAC is the Freeware Advanced Audio Coder.\n
-							Both of them need to be explicit enabled in your FFmpeg build.</ToolTip>
-				</Dropdown>
 				<Radiobutton Name="Constant Bitrate {0} kb/s" Default="true">
 					<Value>-b:a {0}k</Value>
 					<Trackbar DefaultValue="16">
@@ -365,10 +355,10 @@
 				</Radiobutton>
 				<Radiobutton Name="VBR mode Quality: {0:f1}">
 					<Value>-q:a {0:f1}</Value>
-					<Trackbar DefaultValue="50">
+					<Trackbar DefaultValue="9">
 						<Min>1</Min>
-						<Max>100</Max>
-						<TickFrequency>10</TickFrequency>
+						<Max>20</Max>
+						<TickFrequency>1</TickFrequency>
 						<Multiplier>0.1</Multiplier>
 					</Trackbar>
 					<ToolTip>Variable Bitrate mode</ToolTip>
