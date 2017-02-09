@@ -336,12 +336,10 @@
 				<Url>https://www.ffmpeg.org/</Url>
 				<Script>32==Audiobits(last)?ConvertAudioTo32bit(last):last</Script>
 				<ExecutableFileName>ffmpeg.exe</ExecutableFileName>
-				<ExecutableCommandline>-i - -y -c:a aac %options% "{0}"</ExecutableCommandline>
+				<ExecutableCommandline>-i - -y -c:a aac -f mp4 %options% "{0}"</ExecutableCommandline>
 				<TitleFormatString>AAC FFmpeg - {0}</TitleFormatString>
 				<SupportedFileExtension>m4a</SupportedFileExtension>
 				<SupportedFileExtension>mp4</SupportedFileExtension>
-				<SupportedFileExtension>3gp</SupportedFileExtension>
-				<SupportedFileExtension>3g2</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
 				<Radiobutton Name="Constant Bitrate {0} kb/s" Default="true">
 					<Value>-b:a {0}k</Value>

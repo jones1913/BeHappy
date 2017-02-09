@@ -7,6 +7,19 @@
 				<LogoBitmap>iVBORw0KGgoAAAANSUhEUgAAAHAAAABACAAAAADn8aw6AAAFVklEQVRYw+1YeVBVZRS/CJiaA0WY7cMQmePgNkPQZI0R0hhOMzQqjIApMjUxhWOyWA7aNlIUypLGNuyPXZAH70EBgYGFsS/6gKJBQNR4gqyyvOX03rvn3nfvfS97xuX+5e+vc87v3u/33W855/suAf8H6onB3u6rne2tzY0NvzX9DVMTalNfJe5fbby7XlrGxDg0lVVc7pUrl0JwrvvnUg6qQCnVGZKOOb4FF2QSsQE64SZlSnoUvAoOSS4YgRxa9E75Tf4EVR3FxiBRqyUMVyznS1BVV2QUzSBn+aWzPAk2FhrHMLSzA1f4Eewp4KCwtufa0F9t1UqQsolSXgRnz+ezUT5JUXc4TL6SD8HmXDZ+XKCpLg6VO8uD4HxeDhuMtVjBoXIVPAgOZ7NRp6emOVT2T3zMYXsWG73/TmV18CFYlcmGnPGBHCp7hg/Bygw2+ilCUcVhMhp5yTSX0tgomcAtUcIh0nLu8iLYmspBem1b75UWcapBnKfk3ZNiIv7gqTwNJZsE/dwuVlApSjIBRRP8VfyOxP9EdreKxzONIi3+3sjrMukMZXp5av3hHshuuM37MVEtPUdC3NdWX16QkpSSLsopKCopq2wdmgPTYXrFVxR8r8OfsCjcxyHqrihOg3MLggnCQkVsbKwYhBPUbI746C5BBWHu12lhBRePB4IPBBchKBd9c9Tvzc0vvrb3o69Subm4M/PbYN8dm7ftCYpI7aSCEm8SmfrnQjE0gP5UTcwXoYF+nm7b3vL5MDymcoQSlCe5WxAMrAxoZ9ybjjkwOeKVLDJb70RfQj95w4yM2Goro0L03sZlBAdP6QQn/S0IA+zBGiC1M+TW1Gp/LiwnndX6u8RZ5A9qqkuuA2EE9lrBy8+j5/RJ9LmwlynOV3drCkLvYe/QyBP+q9FbobkEZqG9Wz8WrhgqBsUONLceOnIyKinzdIjP61YaN0wjeAY/bwOmyWR81EwG0O9I2stOkbezkY1IvgvwDppZ+mVgTkYemoZjSH7N+IGjqD/h0kRAI47zS2NUqX0BH74E4EFa5vnUS0XIecDMStKyGKNbTKbJKZxMwjkktrjpFkOVUDnh97TSMeorukCKlg/NlWLEC86j5aZvjFpFCSBnr5bl9tv3h0t0ZzoiHmN79YcJ7DoxuLAOB1RGk1HIBcABtM7Q3IglGbEcBjhqZMGY7+7TCHqil23wEW9AOVru+s5swlAduKElpckQjIRonYL1RiStbwFBraZm+j1nnJurEGDQmRyM7AdwogceMYgj8yTe/gezQv3cNqwxZyrGAOHCaVQdhoGPQWlLWlb0hej3x+ieAg43EYlcnz0GciBx63fX9IMy3lt4mBLMBcIfzXUtOrphF/r+M1CN5iHI0yWBsRjchs/8ovGoRqyjpwBUsjAb0rW5ACnaJepyUnydFq1bgbOkAqL/cUp9k8c+d6qXj2j3QSA6F2XE2l3v+7yKbxGeo7ol4kgPlO2zdKZyvQ6Z9Apdu/3gp1GRwX6uuEkcbmiTt8zZYG5XeWmTr+oJ0rNThzPJ9YnY7dHD1pz3LHdmqEAdYUcYxdMJC1gtWgJWMeJWPkXkLb0eA8dBnxUdP2f+2JqO32JJMWa2HmmYAlSNUW8/yhYzc/wgZ5ZRniZbJMlfBh4IPS2q7qLP7Ufw4bb59Iggr4DjcfkXjVz/RmU1uekVrcOcnzOq3uo0TYv7vH2DPosTVY6ZUoCfw/wuVMVvpLeHQILUfqwRShCLpLVCIMEBuiwIJFhnkEeXWLABU/gdoQTnrbjldakXjViXAOMEPHmf0goOCHnUT7Ahtgh7t7gdHM274D8KJWwcmlKKjgAAAABJRU5ErkJggg==</LogoBitmap>
 				<Url>https://www.opus-codec.org</Url>
 				<UrlToolTip>Encoder documentation and download.</UrlToolTip>
+				<Info>
+				Recommended Bitrates (wiki.xiph.org):
+				
+				Use Case		Channels		Bitrate (Kb/s)
+				--------------------------------------------------
+				Audiobooks/Podcasts	1	24
+				Audiobooks/Podcasts	2	32
+				Music Streaming/Radio	2	64 - 96
+				Music Storage		2	96 - 128
+				Music Storage		6 (5.1)	128 - 256
+				Music Storage		8 (7.1)	256 - 450
+				Music Archiving		1 - 8	Use FLAC
+				</Info>
 				<Script></Script>
 				<ExecutableFileName>opusenc.exe</ExecutableFileName>
 				<ExecutableCommandline>%options% --ignorelength - "{0}"</ExecutableCommandline>
