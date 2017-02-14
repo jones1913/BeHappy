@@ -1424,7 +1424,15 @@ namespace BeHappy
 		{
 			foreach (ListViewItem item in jobListView.Items)
 			{
-				item.SubItems[4].Text = ((Job)item.Tag).Progress.ToString("D2") + " %";
+				if (((Job)item.Tag).State != JobState.Processing)
+					continue;
+				
+				if (((Job)item.Tag).Progress > 0)
+				{
+						item.SubItems[4].Text = ((Job)item.Tag).Progress.ToString("D2") + " %";
+				}
+				else if (((Job)item.Tag).NeedsIndex)
+					item.SubItems[4].Text = "Index";
 			}
 			
 			if (!breakAfterCurrentJob)
@@ -1451,6 +1459,7 @@ namespace BeHappy
 					jbs.Job.State = JobState.Processing;
 					jbs.Job.StartAt = DateTime.Now;
 					jbs.Job.bKeepOutput = bKeepOutput;
+					jbs.Job.CheckIndexNeeded();
 					
 					DataRow dr = ((DataRowView)cboPriority.SelectedItem).Row;
 					jbs.Job.iPriority = Convert.ToInt32(dr.ItemArray.GetValue(1));

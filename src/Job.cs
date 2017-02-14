@@ -56,10 +56,22 @@ namespace BeHappy {
 
                 public Job() {
                 	Progress = 0;
+                	NeedsIndex = false;
                 }
 
                 public string Name {
                         get { return string.Format("{0} -> {1}", System.IO.Path.GetFileName(this.SourceFile), System.IO.Path.GetFileName(this.TargetFile));}
+                }
+                
+                [XmlIgnore]
+                public bool NeedsIndex {
+                	get;
+                	private set;
+                }
+                
+                public void CheckIndexNeeded()
+                {
+                	NeedsIndex = AviSynthScript.ToLower().Contains("ffaudiosource") || AviSynthScript.ToLower().Contains("lwlibavaudiosource");
                 }
 
         }
