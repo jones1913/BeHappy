@@ -902,7 +902,7 @@ namespace BeHappy
 			// btnStart
 			// 
 			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnStart.Location = new System.Drawing.Point(8, 109);
+			this.btnStart.Location = new System.Drawing.Point(8, 107);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(75, 24);
 			this.btnStart.TabIndex = 5;
@@ -920,7 +920,7 @@ namespace BeHappy
 			this.txtSimpleLog.Name = "txtSimpleLog";
 			this.txtSimpleLog.ReadOnly = true;
 			this.txtSimpleLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtSimpleLog.Size = new System.Drawing.Size(626, 157);
+			this.txtSimpleLog.Size = new System.Drawing.Size(626, 155);
 			this.txtSimpleLog.TabIndex = 4;
 			this.txtSimpleLog.WordWrap = false;
 			// 
@@ -928,7 +928,7 @@ namespace BeHappy
 			// 
 			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnStop.Enabled = false;
-			this.btnStop.Location = new System.Drawing.Point(8, 139);
+			this.btnStop.Location = new System.Drawing.Point(8, 137);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(75, 24);
 			this.btnStop.TabIndex = 6;
@@ -940,7 +940,7 @@ namespace BeHappy
 			// 
 			this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnAbort.Enabled = false;
-			this.btnAbort.Location = new System.Drawing.Point(8, 169);
+			this.btnAbort.Location = new System.Drawing.Point(8, 167);
 			this.btnAbort.Name = "btnAbort";
 			this.btnAbort.Size = new System.Drawing.Size(75, 24);
 			this.btnAbort.TabIndex = 7;
@@ -1066,7 +1066,7 @@ namespace BeHappy
 			// 
 			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Location = new System.Drawing.Point(4, 315);
+			this.linkLabel1.Location = new System.Drawing.Point(4, 298);
 			this.linkLabel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.linkLabel1.Name = "linkLabel1";
 			this.linkLabel1.Size = new System.Drawing.Size(156, 13);
@@ -1245,7 +1245,7 @@ namespace BeHappy
 			// 
 			this.linkLabelUrl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabelUrl1.AutoSize = true;
-			this.linkLabelUrl1.Location = new System.Drawing.Point(4, 298);
+			this.linkLabelUrl1.Location = new System.Drawing.Point(4, 332);
 			this.linkLabelUrl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.linkLabelUrl1.Name = "linkLabelUrl1";
 			this.linkLabelUrl1.Size = new System.Drawing.Size(226, 13);
@@ -1280,7 +1280,7 @@ namespace BeHappy
 			// 
 			this.linkLabelUrl3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabelUrl3.AutoSize = true;
-			this.linkLabelUrl3.Location = new System.Drawing.Point(4, 281);
+			this.linkLabelUrl3.Location = new System.Drawing.Point(4, 315);
 			this.linkLabelUrl3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.linkLabelUrl3.Name = "linkLabelUrl3";
 			this.linkLabelUrl3.Size = new System.Drawing.Size(231, 13);
@@ -1297,15 +1297,15 @@ namespace BeHappy
 			// 
 			this.linkLabelUrl4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabelUrl4.AutoSize = true;
-			this.linkLabelUrl4.Location = new System.Drawing.Point(4, 332);
+			this.linkLabelUrl4.Location = new System.Drawing.Point(4, 281);
 			this.linkLabelUrl4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.linkLabelUrl4.Name = "linkLabelUrl4";
-			this.linkLabelUrl4.Size = new System.Drawing.Size(231, 13);
+			this.linkLabelUrl4.Size = new System.Drawing.Size(128, 13);
 			this.linkLabelUrl4.TabIndex = 6;
 			this.linkLabelUrl4.TabStop = true;
-			this.linkLabelUrl4.Tag = "https://www.codeplex.com/BeHappy";
-			this.linkLabelUrl4.Text = "BeHappy workspace @ CodePlex (deprecated)";
-			this.toolTip1.SetToolTip(this.linkLabelUrl4, "https://www.codeplex.com/BeHappy");
+			this.linkLabelUrl4.Tag = "https://www.github.com/jones1913/BeHappy/wiki";
+			this.linkLabelUrl4.Text = "BeHappy WIKI @ GitHub";
+			this.toolTip1.SetToolTip(this.linkLabelUrl4, "https://www.github.com/jones1913/BeHappy/wiki");
 			this.linkLabelUrl4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelUrlLinkClicked);
 			this.linkLabelUrl4.MouseEnter += new System.EventHandler(this.LinkLabelMouseEnter);
 			this.linkLabelUrl4.MouseLeave += new System.EventHandler(this.LinkLabelMouseLeave);
