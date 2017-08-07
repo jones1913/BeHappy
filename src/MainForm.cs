@@ -856,6 +856,8 @@ namespace BeHappy
 				lstSourceFiles.DropDownStyle = ComboBoxStyle.DropDownList;
 				targetFileName = Path.GetDirectoryName(sourceFileName);
 			}
+			
+			lstAudioSource.Refresh();
 		}
 		
 		private void selectTargetFile(object sender, LinkLabelLinkClickedEventArgs e)
@@ -907,6 +909,7 @@ namespace BeHappy
 			toolStripStatusLabel1.Text = String.Empty;
 			labelDragDrop.Visible = false;
 			setGroupBoxSource_Header();
+			lstAudioSource.Refresh();
 		}
 
 		void LstSourceFilesSelectedIndexChanged(object sender, EventArgs e)
@@ -1266,11 +1269,36 @@ namespace BeHappy
 			}
 		}
 		
+				
+		void LstAudioSourceDrawItem(object sender, DrawItemEventArgs e)
+		{
+			if (e.Index == -1) return;
+			
+			var cb = sender as ComboBox;
+			if (cb == null) return;
+			var brsh = new SolidBrush(e.ForeColor);
+			
+			foreach (string file in sourceFiles)
+			{
+				if (!((Extensions.AudioSource)cb.Items[e.Index]).ListOfSupportedFileExtensions.Contains(Path.GetExtension(file).TrimStart('.')))
+				{
+					brsh.Color = Color.Gray;
+					break;
+				}
+			}
+			
+			e.DrawBackground();
+			e.Graphics.DrawString(cb.Items[e.Index].ToString(), e.Font, brsh, e.Bounds);
+			e.DrawFocusRectangle();
+		}
+
 		void LstEncoderDrawItem(object sender, DrawItemEventArgs e)
 		{
 			if (e.Index == -1) return;
 			
-			var cb = (ComboBox)sender;
+			var cb = sender as ComboBox;
+			if (cb == null) return;
+			
 			var brsh = new SolidBrush(e.ForeColor);
 			
 			if (!(string.IsNullOrEmpty(((Extensions.AudioEncoder)cb.Items[e.Index]).ExecutableFileName) || File.Exists(Path.Combine(Application.StartupPath, encoder_dir, ((Extensions.AudioEncoder)cb.Items[e.Index]).ExecutableFileName))))
@@ -1282,7 +1310,7 @@ namespace BeHappy
 			e.Graphics.DrawString(cb.Items[e.Index].ToString(), e.Font, brsh, e.Bounds);
 			e.DrawFocusRectangle();
 		}
-
+		
 		private void configureEncoder(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			configureItemInCombo(currentEncoder, lstEncoder);

@@ -595,6 +595,7 @@ namespace BeHappy
 			// 
 			this.lstAudioSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.lstAudioSource.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.lstAudioSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.lstAudioSource.Location = new System.Drawing.Point(6, 47);
 			this.lstAudioSource.MaxDropDownItems = 15;
@@ -602,7 +603,9 @@ namespace BeHappy
 			this.lstAudioSource.Size = new System.Drawing.Size(458, 21);
 			this.lstAudioSource.Sorted = true;
 			this.lstAudioSource.TabIndex = 2;
-			this.toolTip1.SetToolTip(this.lstAudioSource, "Use right click for more options.");
+			this.toolTip1.SetToolTip(this.lstAudioSource, "The entry is grayed out if one of the source files is not compatible with this pl" +
+						"ugin.\r\n\r\nUse right click for more options.");
+			this.lstAudioSource.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.LstAudioSourceDrawItem);
 			this.lstAudioSource.SelectedIndexChanged += new System.EventHandler(this.lstAudioSource_SelectedIndexChanged);
 			// 
 			// linkLabelClear
@@ -902,7 +905,7 @@ namespace BeHappy
 			// btnStart
 			// 
 			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnStart.Location = new System.Drawing.Point(8, 107);
+			this.btnStart.Location = new System.Drawing.Point(8, 103);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(75, 24);
 			this.btnStart.TabIndex = 5;
@@ -920,7 +923,7 @@ namespace BeHappy
 			this.txtSimpleLog.Name = "txtSimpleLog";
 			this.txtSimpleLog.ReadOnly = true;
 			this.txtSimpleLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtSimpleLog.Size = new System.Drawing.Size(626, 155);
+			this.txtSimpleLog.Size = new System.Drawing.Size(626, 151);
 			this.txtSimpleLog.TabIndex = 4;
 			this.txtSimpleLog.WordWrap = false;
 			// 
@@ -928,7 +931,7 @@ namespace BeHappy
 			// 
 			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnStop.Enabled = false;
-			this.btnStop.Location = new System.Drawing.Point(8, 137);
+			this.btnStop.Location = new System.Drawing.Point(8, 133);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(75, 24);
 			this.btnStop.TabIndex = 6;
@@ -940,7 +943,7 @@ namespace BeHappy
 			// 
 			this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnAbort.Enabled = false;
-			this.btnAbort.Location = new System.Drawing.Point(8, 167);
+			this.btnAbort.Location = new System.Drawing.Point(8, 163);
 			this.btnAbort.Name = "btnAbort";
 			this.btnAbort.Size = new System.Drawing.Size(75, 24);
 			this.btnAbort.TabIndex = 7;
