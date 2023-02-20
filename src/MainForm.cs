@@ -13,8 +13,8 @@ using System.Windows.Forms;
 using System.Xml;
 using BeHappy.Extensibility;
 using BeHappy.Extensions;
-using System.Threading;
 using System.Data;
+using BeHappy.src;
 
 namespace BeHappy
 {
