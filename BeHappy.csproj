@@ -31,7 +31,6 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
-    <NoWin32Manifest>False</NoWin32Manifest>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -79,6 +78,9 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
@@ -217,6 +219,7 @@
       <DependentUpon>TimeStretchDSP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LICENSE.txt" />
+    <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
