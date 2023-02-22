@@ -115,9 +115,6 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <EmbeddedResource Include="App.ico" />
-    <Content Include="AvisynthWrapper.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Compile Include="src\AmplifyDSP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,12 +221,17 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="AvisynthWrapper_x64.dll" />
+    <Content Include="AvisynthWrapper_x86.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy /S /I /Y "$(SolutionDir)extensions" "$(TargetDir)extensions"
+xcopy /S /I /Y "$(SolutionDir)dll\$(PlatformName)\plugins" "$(TargetDir)plugins"
+copy /Y "$(SolutionDir)dll\$(PlatformName)\*.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
