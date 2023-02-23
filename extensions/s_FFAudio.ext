@@ -8,7 +8,6 @@
 				<SupportedFileExtension>avi</SupportedFileExtension>
 				<SupportedFileExtension>mkv</SupportedFileExtension>
 				<SupportedFileExtension>webm</SupportedFileExtension>
-				<SupportedFileExtension>weba</SupportedFileExtension>
 				<SupportedFileExtension>mp2</SupportedFileExtension>
 				<SupportedFileExtension>mp3</SupportedFileExtension>
 				<SupportedFileExtension>mp4</SupportedFileExtension>
@@ -28,20 +27,26 @@
 				<SupportedFileExtension>eac3</SupportedFileExtension>
 				<LoadAvsPlugin>ffms2.dll</LoadAvsPlugin>
 				<Script>FFAudioSource("{0}", %options%)</Script>
-				<Radiobutton Name="Stream Index {0}">
-					<Value>track={0}</Value>
-					<Trackbar DefaultValue="-1">
-						<Min>-1</Min>
-						<Max>12</Max>
-                                                <TickFrequency>1</TickFrequency>
+				<Radiobutton Name="Apply DRC scale {0}">
+					<Value>drc_scale={0}</Value>
+					<Trackbar DefaultValue="0">
+						<Min>0</Min>
+						<Max>20</Max>
+						<TickFrequency>1</TickFrequency>
+						<Multiplier>0.1</Multiplier>
 					</Trackbar>
-					<ToolTip>Track index "-1" picks the first audio track.
-								Note that the track order detected by this filter may be different from what other applications report.</ToolTip>
+					<ToolTip>0.0 to full range decode.</ToolTip>
 				</Radiobutton>
 				<Checkbox Name="Write index file">
 					<ValueUnChecked>cache=false</ValueUnChecked>
 					<ToolTip>Write the index file to disk.</ToolTip>
 				</Checkbox>
+				<NumericUpdown Name="Stream Index" DefaultValue="-1">
+					<Value>track ={0}</Value>
+					<Min>-1</Min>
+					<Max>12</Max>
+					<ToolTip>Track index "-1" picks the first audio track.</ToolTip>
+				</NumericUpdown>
 			</MultiOptionSource>
 		</Plugin>
 	</AudioSource>

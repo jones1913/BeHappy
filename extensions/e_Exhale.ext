@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioEncoder UniqueID="0d5ae762-719e-11ec-90d6-0242ac120003">
+		<Plugin>
+			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
+				<DialogWidth>450</DialogWidth>
+				<Url>https://gitlab.com/ecodis/exhale</Url>
+				<UrlToolTip>Encoder documentation and download.</UrlToolTip>
+				<ExecutableFileName>exhale.exe</ExecutableFileName>
+				<ExecutableCommandline>%options% "{0}"</ExecutableCommandline>
+				<TitleFormatString>AAC Exhale - {0}</TitleFormatString>
+				<SupportedFileExtension>m4a</SupportedFileExtension>
+				<SupportedFileExtension>mp4</SupportedFileExtension>
+				<ShowCommandTextbox>false</ShowCommandTextbox>
+				<Info>The CVBR Present settings result in the following average bitrates:
+					Quality	-	(kbit/s) Stereo 
+					Non SBR 		With SBR		
+					0 	48	a 	36
+					1	64	b 	48
+					2	80	c 	60
+					3	96	d 	72
+					4	112	e 	84	
+					5	128	f 	96
+					6	144	g 	108
+					7	160
+					8	176
+					9	192
+				</Info>
+				<Radiobutton Name="xHE-AAC Present {0}" Default="true">
+					<Value>{0}</Value>
+					<Trackbar DefaultValue="5">
+						<Min>0</Min>
+						<Max>9</Max>
+						<TickFrequency>1</TickFrequency>
+					</Trackbar>
+					<ToolTip>Recommended for high bitrates</ToolTip>
+				</Radiobutton>
+			<Radiobutton Name="xHE-AAC SBR Present {0}">
+					<Value>{0}</Value>
+					<ToolTip>Recommended for low bitrates</ToolTip>
+					<Trackbar FixedValues="true" DefaultValue="3">
+						<Value>a</Value>
+						<Value>b</Value>
+						<Value>c</Value>
+						<Value>d</Value>
+						<Value>e</Value>
+						<Value>f</Value>
+						<Value>g</Value>
+					</Trackbar>
+				</Radiobutton>	
+			</MultiOptionEncoder>  
+		</Plugin>
+	</AudioEncoder>	
+</BeHappy.Extension>
