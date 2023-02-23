@@ -128,7 +128,6 @@ namespace BeHappy
 			PropertyInfo pInf = GetType().GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
 			pInf.SetValue(jobListView, true, null);	//remove flickering, seems to have only effect on ListViews
 			
-			toolStripStatusLabel1.Text = ".:.";
 		}
 		
 		private void loadExtensionsAndApplyConfiguration()

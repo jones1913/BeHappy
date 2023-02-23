@@ -221,10 +221,6 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="AvisynthWrapper_x64.dll" />
-    <Content Include="AvisynthWrapper_x86.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
