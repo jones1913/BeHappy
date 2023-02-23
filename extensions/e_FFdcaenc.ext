@@ -30,8 +30,8 @@
 					<ToolTip>Exact Bitrate 1509.75 needed for movies</ToolTip>
 				</Radiobutton>
 				<Radiobutton Name="Movie compatible 48 KHz 768 Kb/s">
-					<Value>-b 755.5</Value>
-					<ToolTip>Exact Bitrate 755.50 needed for movies</ToolTip>
+					<Value>-b 754.5</Value>
+					<ToolTip>Exact Bitrate 754.50 needed for movies</ToolTip>
 				</Radiobutton>
 				<Radiobutton Name="CD-Audio Surround compatible 44.1 KHz">
 					<Value>-e -r -b 1411.2</Value>
@@ -55,7 +55,7 @@
 						<Value>512</Value>
 						<Value>576</Value>
 						<Value>640</Value>
-						<Value>755.50</Value>
+						<Value>754.50</Value>
 						<Value>768</Value>
 						<Value>960</Value>
 						<Value>1024</Value>

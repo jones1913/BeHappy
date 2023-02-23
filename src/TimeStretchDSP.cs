@@ -113,7 +113,7 @@ namespace BeHappy.TimeStretch
 		string IExtensionItemCommon.GetScript()
 		{
 			return string.Format(System.Globalization.CultureInfo.InvariantCulture,
-			                     "TimeStretchPlugin(last, {0}={1})", this.c.Control, this.c.ActualTempo);
+			                     "TimeStretch(last, {0}={1})", this.c.Control, this.c.ActualTempo);
 		}
 		
 		string IExtensionItemCommon.GetAvsPlugin()
