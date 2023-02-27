@@ -3,8 +3,8 @@
 	<AudioDSP Name="Sample DSP" UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">
 	<!-- Name = Name shown in GUI
 		Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
-		<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>		<!-- Try to load the avs plugin from "BeHappy\plugins32" folder first -->
-		<Script>DspFunction()</Script>					<!-- AVS script -->
+		<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>		<!-- Try to load the avs plugin from "BeHappy\plugins[32|64]" folder first -->
+		<Script>DspFunction()</Script>				<!-- AVS script -->
 		<!-- A part of AviSynth script
 			{0} = input file name
 			{1} = output file name

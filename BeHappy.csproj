@@ -225,8 +225,9 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>xcopy /S /I /Y "$(SolutionDir)extensions" "$(TargetDir)extensions"
-xcopy /S /I /Y "$(SolutionDir)dll\$(PlatformName)\plugins" "$(TargetDir)plugins"
+    <PostBuildEvent>if "$(PlatformName)" == "x64" ( xcopy /S /I /Y "$(SolutionDir)dll\$(PlatformName)\plugins" "$(TargetDir)plugins64" )
+if "$(PlatformName)" == "x86" ( xcopy /S /I /Y "$(SolutionDir)dll\$(PlatformName)\plugins" "$(TargetDir)plugins32" )
+xcopy /S /I /Y "$(SolutionDir)extensions" "$(TargetDir)extensions"
 copy /Y "$(SolutionDir)dll\$(PlatformName)\*.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">

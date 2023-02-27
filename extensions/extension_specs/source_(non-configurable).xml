@@ -3,7 +3,7 @@
 	<AudioSource Name="Sample Source" UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">
 	<!-- Name = Name shown in GUI
 		Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
-		<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>		<!-- Try to load the avs plugin from "BeHappy\plugins32" folder first -->
+		<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>		<!-- Try to load the avs plugin from "BeHappy\plugins[32|64]" folder first -->
 		<Script>SourceFunction("{0}")</Script>			<!-- AVS source script -->
 		<!-- A part of AviSynth script
 			{0} = input file name

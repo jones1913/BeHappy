@@ -365,7 +365,8 @@ namespace BeHappy.Extensions
 				source.m_listOfSupportedFileExtensions = new string[]{"*"};
 				source.m_title = "DirectShowSource";
 				source.UniqueID = new Guid("{7457AF8E-600F-49fe-8AAE-710227D68DE6}");
-				return source;
+				source.LoadAvsPlugin = "DirectShowSource.dll";
+                return source;
 			}
 		}
 	}

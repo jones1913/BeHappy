@@ -3,12 +3,12 @@
 	<AudioEncoder UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">		<!-- Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
 		<Plugin>
 			<MultiOptionEncoder Type="BeHappy.Extensions.MultiOptionEncoder, BeHappy">
-				<DialogWidth>400</DialogWidth>						<!-- trial and error? -->
+				<DialogWidth>400</DialogWidth>					<!-- trial and error? -->
 				<Url>https://www.encoder-site.org</Url>				<!-- OPTIONAL --><!-- Link to encoder download or doc. NO links to content with questionable legality please! -->
 				<UrlToolTip>Encoder documentation and download.</UrlToolTip>	<!-- OPTIONAL --><!-- Description what one can find on Url -->
 				<LogoBitmap>###</LogoBitmap>	<!-- OPTIONAL --><!-- PNG/JPG/BMP image as base64 text code --><!-- http://www.base64-image.de -->
 				<Script>ConvertAudioTo24bit(last)</Script>			<!-- OPTIONAL --><!-- conversion script if encoder needs specific bit depth or so -->
-				<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>			<!-- try to load the avs plugin from "BeHappy\plugins32" folder first; probably more useful in source and dsp extensions -->
+				<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>			<!-- try to load the avs plugin from "BeHappy\plugins[32|64]" folder first; probably more useful in source and dsp extensions -->
 				<TitleFormatString>Sample Plugin - {0}</TitleFormatString>		<!-- String used for representation in GUI
 					{0} = all current specified options -->
 				<ExecutableFileName>encoder.exe</ExecutableFileName>			<!-- Subdirectories in encoder dir are possible eg. "xyenc\encoder.exe" -->

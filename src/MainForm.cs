@@ -88,9 +88,9 @@ namespace BeHappy
 			numericUpDownDelay.Minimum = numericUpDownSplitA.Minimum = numericUpDownSplitB.Minimum = decimal.MinValue+16;
 			numericUpDownDelay.Maximum = numericUpDownSplitA.Maximum = numericUpDownSplitB.Maximum = decimal.MaxValue-16;
 
-			this.Text = string.Format("{0} v{1}", Application.ProductName, Application.ProductVersion);
+			this.Text = string.Format("{0}  v{1}  [{2}]", Application.ProductName, Application.ProductVersion, Environment.Is64BitProcess ? "x64" : "x86");
 			
-			if (Directory.Exists(getExeDirectory() + "\\encoder"))
+			if (Directory.Exists(Path.Combine(getExeDirectory(), "encoder")))
 				encoder_dir = "encoder\\";
 			else
 				encoder_dir = "";
@@ -594,7 +594,7 @@ namespace BeHappy
 			string SEPARATOP = new string('#',40);
 			StringBuilder sb2 = new StringBuilder();
 			StringBuilder sb1 = new StringBuilder();
-			string pluginDir = Path.Combine(getExeDirectory(), "plugins32");
+			string pluginDir = Path.Combine(getExeDirectory(), Environment.Is64BitProcess ? "plugins64" : "plugins32");
 			sb1.AppendFormat("{0}{1}#Created by {2} v{3}{1}#Creation timestamp: {4}{1}{0}{1}#Source FileName:{5}{1}#Target FileName:{6}{1}{0}{1}" , SEPARATOP, Environment.NewLine, Application.ProductName, Application.ProductVersion, DateTime.Now, sourceFileName, targetFileName);
 			AudioSource source = lstAudioSource.SelectedItem as AudioSource;
 			if (!string.IsNullOrEmpty(source.AvsPlugin))

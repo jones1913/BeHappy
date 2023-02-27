@@ -3,11 +3,11 @@
 	<AudioDSP UniqueID="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">		<!-- Always specify a new UID! --><!-- https://www.uuidgenerator.net/version4/ -->
 		<Plugin>
 			<MultiOptionDSP Type="BeHappy.Extensions.MultiOptionDSP, BeHappy">
-				<DialogWidth>400</DialogWidth>						<!-- Trial and error? -->
+				<DialogWidth>400</DialogWidth>					<!-- Trial and error? -->
 				<Url>https://www.plugin-site.org</Url>				<!-- OPTIONAL --><!-- Link to avs plugin download or doc. NO links to content with questionable legality please! -->
 				<UrlToolTip>Plugin documentation and download.</UrlToolTip>	<!-- OPTIONAL --><!-- Description what one can find on Url -->
 				<LogoBitmap>###</LogoBitmap>		<!-- OPTIONAL --><!-- PNG/JPG/BMP image as base64 text code --><!-- http://www.base64-image.de -->
-				<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>			<!-- Try to load the avs plugin from "BeHappy\plugins32" folder first -->
+				<LoadAvsPlugin>plugin.dll</LoadAvsPlugin>			<!-- Try to load the avs plugin from "BeHappy\plugins[32|64]" folder first -->
 				<ShowCommandTextbox>false</ShowCommandTextbox>		<!-- OPTIONAL --><!-- show a textbox for additional script parameters; default is "false" -->
 				<TitleFormatString>Sample Plugin - {0}</TitleFormatString>		<!-- String used for representation in GUI
 					{0} = current RadioButtonOption + TrackBar value -->
