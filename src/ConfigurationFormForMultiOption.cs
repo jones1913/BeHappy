@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace BeHappy.DSP.ConfigurationForms
@@ -44,7 +42,7 @@ namespace BeHappy.DSP.ConfigurationForms
 			{
 				linkLabelInfo = new LinkLabel();
 				linkLabelInfo.AutoSize = true;
-				linkLabelInfo.Text = " ? ";
+				linkLabelInfo.Text = "Info";
 				linkLabelInfo.BackColor = Color.Transparent;
 				linkLabelInfo.LinkBehavior = LinkBehavior.HoverUnderline;
 				linkLabelInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -308,6 +306,9 @@ namespace BeHappy.DSP.ConfigurationForms
 				tableLayoutPanel1.RowStyles.RemoveAt(tableLayoutPanel1.GetRow(tableLayoutPanel2));
 				tableLayoutPanel1.Controls.Remove(tableLayoutPanel2);
 			}
+
+			Utils.ChangeFontRecursive(new Control[]{this},
+				Utils.HasMono ? new Font(SystemFonts.MessageBoxFont.Name, 8) : SystemFonts.MessageBoxFont);
 		}
 
 		void trackBar_ValueChanged(object sender, EventArgs e)

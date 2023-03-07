@@ -14,9 +14,11 @@ namespace BeHappy.TimeStretch
 		{
 			// This call is required by the Windows Form Designer.
 			InitializeComponent();
+            Utils.ChangeFontRecursive(new Control[] { this },
+				Utils.HasMono ? new Font(SystemFonts.MessageBoxFont.Name, 8) : SystemFonts.MessageBoxFont);
 
-			// init default
-			m_strTimeStretchMethod = "tempo";
+            // init default
+            m_strTimeStretchMethod = "tempo";
 
 			rbtnFrameRate_CheckedChanged(null, null);
 		}

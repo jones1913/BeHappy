@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using BeHappy.Extensibility;
@@ -14,6 +11,8 @@ namespace BeHappy.Amplify
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
+            Utils.ChangeFontRecursive(new Control[] { this },
+                Utils.HasMono ? new Font(SystemFonts.MessageBoxFont.Name, 8) : SystemFonts.MessageBoxFont);
         }
     }
 

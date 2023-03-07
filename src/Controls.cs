@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace BeHappy
 {
@@ -89,12 +88,13 @@ namespace BeHappy
 			this.Height = 40;
 			this.MinimumSize = new Size(80, 40);
 			this.TextAlign = ContentAlignment.BottomCenter;
-			this.Font = new System.Drawing.Font(this.Font, FontStyle.Bold);
+			this.Font = new Font(this.Font, FontStyle.Bold);
 			checkBox = new CheckBox();
 			checkBox.AutoSize = false;
 			checkBox.Text = "checkBox";
-			checkBox.Font = new System.Drawing.Font(this.Font, FontStyle.Regular);
+			checkBox.Font = new Font(this.Font.Name, 8, FontStyle.Regular);
 			checkBox.UseVisualStyleBackColor = true;
+			checkBox.BackColor = Color.Transparent;
 			checkBox.Location = new Point(3, 3);
 			checkBox.Height = 17;
 			checkBox.Width = this.Width - 6;

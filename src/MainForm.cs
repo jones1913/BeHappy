@@ -49,7 +49,7 @@ namespace BeHappy
 		private ToolStripItem[] toolStripItemsJoblist;
 		private List<ToolStripItem> toolStripItemsLstAudioSource, toolStripItemsLstAudioSourceFilters1, toolStripItemsLstAudioSourceFilters2;
 		private List<ToolStripItem> toolStripItemsLstEncoder, toolStripItemsLstEncoderFilters1, toolStripItemsLstEncoderFilters2;
-		private ToolStripMenuItem itemResetAudioSource, itemResetEncoder, itemFilterText, itemFilterLossy, itemFilterLossless, filterItemsPageTwo;
+		private ToolStripMenuItem itemResetAudioSource, itemResetEncoder, itemFilterText, itemFilterLossy, itemFilterLossless, filterItemsPageTwo, itemConfigureAudioSource, itemConfigureEncoder;
 		private ToolStripItem[] toolStripItemsGroupBoxSource, toolStripItemsGroupBoxDest;
 		private MessageWindow msgWindow;
 		
@@ -61,11 +61,25 @@ namespace BeHappy
 		
 		public MainForm()
 		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
-			
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
+
+			// set font to SegoeUI:9 , groupboxes require explicit font setting
+			Utils.ChangeFontRecursive(new Control[] {this, this.groupBoxDestination, this.groupBoxDsp, this.groupBoxOperations,
+				this.groupBoxSource, this.groupBoxTweak},
+				// wine-mono seems to overscale fonts, so make it 1 pt smaler
+				Utils.HasMono ? new Font(SystemFonts.MessageBoxFont.Name, 8) : SystemFonts.MessageBoxFont);
+
+			btnStart.Font = new Font(this.Font, FontStyle.Bold);
+            labelDragDrop.Font = new Font(this.Font, FontStyle.Italic);
+			labelDragDrop.Left = lstSourceFiles.Left + 4;
+			labelDragDrop.Top = lstSourceFiles.Top + 3;
+
+			if (Utils.HasMono)
+				this.statusStrip1.SizingGrip = false;
+            
 			bKeepOutput = false;
 			m_iCurrentPriorityIndex = 0;
 			m_enumCurrentPriority = ProcessPriorityClass.Idle;
@@ -77,7 +91,7 @@ namespace BeHappy
 			
 			using (TextReader r = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("BeHappy.LICENSE.txt")))
 			{
-				txtGPL.Text = r.ReadToEnd();
+				txtGPL.Text = Utils.ChangeLineEndings(r.ReadToEnd());
 			}
 
 			using (Stream ricon = this.GetType().Assembly.GetManifestResourceStream("BeHappy.App.ico"))
@@ -91,7 +105,7 @@ namespace BeHappy
 			this.Text = string.Format("{0}  v{1}  [{2}]", Application.ProductName, Application.ProductVersion, Environment.Is64BitProcess ? "x64" : "x86");
 			
 			if (Directory.Exists(Path.Combine(getExeDirectory(), "encoder")))
-				encoder_dir = "encoder\\";
+				encoder_dir = "encoder" + Path.DirectorySeparatorChar;
 			else
 				encoder_dir = "";
 
@@ -102,6 +116,7 @@ namespace BeHappy
 			contextMenu1.Opening += ContextMenuStrip1Opening;
 			contextMenu1.Opened += ContextMenuStrip1Opened;
 			contextMenu2.Opening += ContextMenuGroupBoxOpening;
+			contextMenu1.Font = contextMenu2.Font = this.Font;
 			lstAudioSource.ContextMenuStrip = contextMenu1;
 			lstEncoder.ContextMenuStrip = contextMenu1;
 			jobListView.ContextMenuStrip = contextMenu1;
@@ -129,7 +144,7 @@ namespace BeHappy
 			pInf.SetValue(jobListView, true, null);	//remove flickering, seems to have only effect on ListViews
 			
 		}
-		
+
 		private void loadExtensionsAndApplyConfiguration()
 		{
 			//1) let's load all extensions
@@ -137,7 +152,7 @@ namespace BeHappy
 			dspProcessors = new List<ExtensionItemBase>();
 			audioEncoders = new List<ExtensionItemBase>();
 			Extension extension = Extension.Default;
-			string ExtensionDirectory = getExeDirectory() + "\\extensions";
+			string ExtensionDirectory = Path.Combine(getExeDirectory(), "extensions");
 			if (!Directory.Exists(ExtensionDirectory))
 				ExtensionDirectory = getExeDirectory();
 
@@ -354,28 +369,42 @@ namespace BeHappy
 			itemFilterLossless = new ToolStripMenuItem("Lossless", null, FilterItemsClick);
 			itemResetAudioSource = new ToolStripMenuItem("Reset Configuration", null, resetAudioSource);
 			itemResetEncoder = new ToolStripMenuItem("Reset Configuration", null, resetEncoder);
-			toolStripItemsJoblist = new ToolStripItem[]{new ToolStripMenuItem("Toggle Status", null, toggleJobStatus),
+			itemConfigureAudioSource = new ToolStripMenuItem("Configure...", null, (s, e) => configureItemInCombo(currentSource, lstAudioSource));
+			itemConfigureEncoder = new ToolStripMenuItem("Configure...", null, (s, e) => configureItemInCombo(currentEncoder, lstEncoder));
+            toolStripItemsJoblist = new ToolStripItem[]{
+				new ToolStripMenuItem("Toggle Status", null, toggleJobStatus),
 				new ToolStripMenuItem("Remove", null, deleteJob),
 				new ToolStripSeparator(),
 				new ToolStripMenuItem("Up", null, moveUpJob),
 				new ToolStripMenuItem("Down", null, moveDownJob)};
 
-			toolStripItemsLstAudioSource = new List<ToolStripItem>{itemResetAudioSource,
+			toolStripItemsLstAudioSource = new List<ToolStripItem>{
+				itemConfigureAudioSource,
+				itemResetAudioSource,
 				new ToolStripSeparator(),
 				itemFilterText};
 			
-			toolStripItemsLstEncoder = new List<ToolStripItem>{itemResetEncoder,
+			toolStripItemsLstEncoder = new List<ToolStripItem>{
+				itemConfigureEncoder,
+				itemResetEncoder,
 				new ToolStripSeparator(),
 				itemFilterText,
 				itemFilterLossy,
 				itemFilterLossless};
 			
-			toolStripItemsGroupBoxSource = new ToolStripItem[]{new ToolStripMenuItem("Add Files...", null, (s, e) => OpenFiles(false)),
+			toolStripItemsGroupBoxSource = new ToolStripItem[]{
+				new ToolStripMenuItem("Add Files...", null, (s, e) => OpenFiles(false)),
 				new ToolStripMenuItem("Add Folder...", null, (s, e) => OpenFiles(true)),
-				itemResetAudioSource};
+                new ToolStripMenuItem("Clear files", null, (s, e) => LstSourceFilesClear()),
+                new ToolStripSeparator(),
+				itemConfigureAudioSource,
+                itemResetAudioSource};
 			 
-			toolStripItemsGroupBoxDest = new ToolStripItem[]{new ToolStripMenuItem("Save...", null ,(s, e) => selectTargetFile(s, e as LinkLabelLinkClickedEventArgs)),
-				itemResetEncoder};
+			toolStripItemsGroupBoxDest = new ToolStripItem[]{
+				new ToolStripMenuItem("Save...", null ,(s, e) => selectTargetFile(s, e as LinkLabelLinkClickedEventArgs)),
+                new ToolStripSeparator(),
+				itemConfigureEncoder,
+                itemResetEncoder};
 		}
 				
 		private void ContextMenuGroupBoxOpening(object sender, CancelEventArgs e)
@@ -453,6 +482,7 @@ namespace BeHappy
 		
 				this.btnPreview.Checked = c.MiscSettings.omitEncoderScriptChecked;
 				this.btnEnqueue.Checked = c.MiscSettings.startJobsInstantlyChecked;
+				this.cbxVisualStyle.Checked = c.MiscSettings.visualStyleChecked;
 			}
 		}
 
@@ -558,7 +588,6 @@ namespace BeHappy
 
 				c.DspOrder = (Guid[])col.ToArray(typeof(Guid));
 				c.CurrentEncoder = currentEncoder.UniqueID;
-
 				c.GuiPosition = new GuiPosition();
 				c.GuiPosition.iTop = this.Top;
 				c.GuiPosition.iLeft = this.Left;
@@ -569,6 +598,7 @@ namespace BeHappy
 				c.MiscSettings.directShowPlayer = this.ds_player;
 				c.MiscSettings.omitEncoderScriptChecked = this.btnPreview.Checked;
 				c.MiscSettings.startJobsInstantlyChecked = this.btnEnqueue.Checked;
+				c.MiscSettings.visualStyleChecked = this.cbxVisualStyle.Checked;
 				c.SaveToFile(getConfigFileName());
 			}
 			catch (Exception ex) {
@@ -900,16 +930,21 @@ namespace BeHappy
 		
 		void LinkLabelClearLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			toolTip1.SetToolTip(lstSourceFiles, String.Empty);
-			lstSourceFiles.Items.Clear();
-			lstSourceFiles.DropDownStyle = ComboBoxStyle.DropDown;
-			lstSourceFiles.Text = String.Empty;
-			lstSourceFiles.DropDownWidth = lstSourceFiles.Width;
-			toolStripStatusLabel1.Text = String.Empty;
-			labelDragDrop.Visible = false;
-			setGroupBoxSource_Header();
-			lstAudioSource.Refresh();
+			LstSourceFilesClear();
 		}
+
+		void LstSourceFilesClear()
+		{
+            toolTip1.SetToolTip(lstSourceFiles, String.Empty);
+            lstSourceFiles.Items.Clear();
+            lstSourceFiles.DropDownStyle = ComboBoxStyle.DropDown;
+            lstSourceFiles.Text = String.Empty;
+            lstSourceFiles.DropDownWidth = lstSourceFiles.Width;
+            toolStripStatusLabel1.Text = String.Empty;
+            labelDragDrop.Visible = false;
+            setGroupBoxSource_Header();
+            lstAudioSource.Refresh();
+        }
 
 		void LstSourceFilesSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -1150,7 +1185,7 @@ namespace BeHappy
 
 		#endregion
 
-		private void moveUpDSP(object sender, System.EventArgs e)
+		private void moveUpDSP(object sender, EventArgs e)
 		{
 			int nIndex = lstDSP.SelectedIndex;
 			if(nIndex>=0)
@@ -1171,7 +1206,7 @@ namespace BeHappy
 			SetDSPMoveButtonState();
 		}
 
-		private void moveDownDSP(object sender, System.EventArgs e)
+		private void moveDownDSP(object sender, EventArgs e)
 		{
 			int nIndex = lstDSP.SelectedIndex;
 			if(nIndex>=0)
@@ -1201,7 +1236,7 @@ namespace BeHappy
 			return Application.StartupPath;
 		}
 
-		private void disableDSP(object sender, System.EventArgs e)
+		private void disableDSP(object sender, EventArgs e)
 		{
 			bool a,b;
 			ExtensionItemBase item = lstDSP.SelectedItem as ExtensionItemBase;
@@ -1213,12 +1248,12 @@ namespace BeHappy
 			btnConfigureDSP.Enabled = b && a;
 		}
 
-		private void enableDelay(object sender, System.EventArgs e)
+		private void enableDelay(object sender, EventArgs e)
 		{
 			numericUpDownDelay.Enabled=(sender as CheckBox).Checked;
 		}
 
-		private void enableSplit(object sender, System.EventArgs e)
+		private void enableSplit(object sender, EventArgs e)
 		{
 			numericUpDownSplitA.Enabled=numericUpDownSplitB.Enabled=(sender as CheckBox).Checked;
 		}
@@ -1228,7 +1263,7 @@ namespace BeHappy
 			get {return this.GetType();}
 		}
 
-		private void exportAviSynthScriptToFile(object sender, System.EventArgs e)
+		private void exportAviSynthScriptToFile(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty(sourceFileName))
 			{
@@ -1251,7 +1286,7 @@ namespace BeHappy
 
 		private void lstEncoder_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			itemResetEncoder.Enabled = linkLabelEncoderConfig.Enabled = currentEncoder.IsSupportConfiguration;
+			itemResetEncoder.Enabled = linkLabelEncoderConfig.Enabled = itemConfigureEncoder.Enabled = currentEncoder.IsSupportConfiguration;
 			
 			if (sourceFiles.Length > 1 || targetFileName.Length == 0)
 				return;
@@ -1349,10 +1384,10 @@ namespace BeHappy
 
 		private void lstAudioSource_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			itemResetAudioSource.Enabled = linkLabelSourceConfig.Enabled = currentSource.IsSupportConfiguration;
+			itemResetAudioSource.Enabled = linkLabelSourceConfig.Enabled = itemConfigureAudioSource.Enabled = currentSource.IsSupportConfiguration;
 		}
 
-		private void lstDSP_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void lstDSP_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ExtensionItemBase item = lstDSP.SelectedItem as ExtensionItemBase;
 			if (item != null)
@@ -1363,7 +1398,7 @@ namespace BeHappy
 			SetDSPMoveButtonState();
 		}
 
-		private void configureDSP(object sender, System.EventArgs e)
+		private void configureDSP(object sender, EventArgs e)
 		{
 			DigitalSignalProcessor item = lstDSP.SelectedItem as DigitalSignalProcessor;
 			if (item==null)
@@ -1384,7 +1419,7 @@ namespace BeHappy
 
 		private string m_tempFileName = Path.GetTempPath() + "preview-" + Guid.NewGuid().ToString("n")+".avs";
 
-		private void startPreview(object sender, System.EventArgs e)
+		private void startPreview(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty(sourceFileName))
 			{
@@ -1735,7 +1770,14 @@ namespace BeHappy
 			numericUpDownBuffer.Enabled = cbxBuffer.Checked;
 		}
 
-		private void chkKeepOutput_CheckedChanged(object sender, EventArgs e)
+        private void cbxVisualStyle_CheckedChanged(object sender, EventArgs e)
+        {
+			tabPageNewJob.UseVisualStyleBackColor = cbxVisualStyle.Checked;
+			tabPageJobControl.UseVisualStyleBackColor = cbxVisualStyle.Checked;
+            tabPageInfo.UseVisualStyleBackColor = cbxVisualStyle.Checked;
+        }
+
+        private void chkKeepOutput_CheckedChanged(object sender, EventArgs e)
 		{
 			bKeepOutput = chkKeepOutput.Checked;
 			
@@ -1803,7 +1845,7 @@ namespace BeHappy
 				bool bSetPriority = true;
 				if (enumItem == ProcessPriorityClass.High)
 				{
-					bSetPriority = (System.Windows.Forms.DialogResult.Yes == MessageBox.Show(ResourceGlobal.MsgHighPriorityWarning,
+					bSetPriority = (DialogResult.Yes == MessageBox.Show(ResourceGlobal.MsgHighPriorityWarning,
 					                                                                         ResourceGlobal.CaptionHighPriorityWarning,
 					                                                                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning));
 				}
