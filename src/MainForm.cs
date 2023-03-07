@@ -79,7 +79,7 @@ namespace BeHappy
 
 			if (Utils.HasMono)
 				this.statusStrip1.SizingGrip = false;
-            
+
 			bKeepOutput = false;
 			m_iCurrentPriorityIndex = 0;
 			m_enumCurrentPriority = ProcessPriorityClass.Idle;
@@ -859,7 +859,7 @@ namespace BeHappy
 			labelDragDrop.Visible = false;
 			
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
-				e.Effect = DragDropEffects.All;
+				e.Effect = DragDropEffects.Copy;
 		}
 		
 		void AddFiles(string[] files)

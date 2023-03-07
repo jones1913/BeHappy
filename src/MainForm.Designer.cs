@@ -541,6 +541,7 @@ namespace BeHappy
             // 
             // groupBoxSource
             // 
+            this.groupBoxSource.AllowDrop = true;
             this.groupBoxSource.Controls.Add(this.labelDragDrop);
             this.groupBoxSource.Controls.Add(this.lstSourceFiles);
             this.groupBoxSource.Controls.Add(this.lstAudioSource);
@@ -556,6 +557,8 @@ namespace BeHappy
             this.groupBoxSource.TabIndex = 7;
             this.groupBoxSource.TabStop = false;
             this.groupBoxSource.Text = "[1] &Source";
+            this.groupBoxSource.DragDrop += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragDrop);
+            this.groupBoxSource.DragEnter += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragEnter);
             // 
             // labelDragDrop
             // 
@@ -569,8 +572,6 @@ namespace BeHappy
             this.labelDragDrop.TabIndex = 6;
             this.labelDragDrop.Text = "Drag\'n Drop is enabled here...";
             this.labelDragDrop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelDragDrop.DragDrop += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragDrop);
-            this.labelDragDrop.DragEnter += new System.Windows.Forms.DragEventHandler(this.LstSourceFilesDragEnter);
             // 
             // lstSourceFiles
             // 
