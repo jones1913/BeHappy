@@ -887,6 +887,21 @@ namespace BeHappy
 			}
 			
 			lstAudioSource.Refresh();
+
+			List<string> fileExt = new List<string>();
+			foreach (string f in sourceFiles)
+			{
+				fileExt.Add(Path.GetExtension(f).TrimStart('.'));
+			}
+
+			foreach (AudioSource item in audioSources.Cast<AudioSource>())
+			{
+				if (fileExt.All(f => item.ListOfSupportedFileExtensions.Contains(f)))
+				{
+					lstAudioSource.SelectedItem = item;
+					break;
+				}
+			}
 		}
 		
 		private void selectTargetFile(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1314,7 +1329,9 @@ namespace BeHappy
 			
 			foreach (string file in sourceFiles)
 			{
-				if (!((Extensions.AudioSource)cb.Items[e.Index]).ListOfSupportedFileExtensions.Contains(Path.GetExtension(file).TrimStart('.')))
+				if (((AudioSource)cb.Items[e.Index]).ListOfSupportedFileExtensions.Contains("*"))
+					continue;
+				else if (!((AudioSource)cb.Items[e.Index]).ListOfSupportedFileExtensions.Contains(Path.GetExtension(file).TrimStart('.')))
 				{
 					brsh.Color = Color.Gray;
 					break;
@@ -1335,7 +1352,7 @@ namespace BeHappy
 			
 			var brsh = new SolidBrush(e.ForeColor);
 			
-			if (!(string.IsNullOrEmpty(((Extensions.AudioEncoder)cb.Items[e.Index]).ExecutableFileName) || File.Exists(Path.Combine(Application.StartupPath, encoder_dir, ((Extensions.AudioEncoder)cb.Items[e.Index]).ExecutableFileName))))
+			if (!(string.IsNullOrEmpty(((AudioEncoder)cb.Items[e.Index]).ExecutableFileName) || File.Exists(Path.Combine(Application.StartupPath, encoder_dir, ((AudioEncoder)cb.Items[e.Index]).ExecutableFileName))))
 			{
 				brsh.Color = Color.Gray;
 			}
