@@ -42,7 +42,7 @@
 					<ToolTip>Write the index file to disk.</ToolTip>
 				</Checkbox>
 				<NumericUpdown Name="Stream Index" DefaultValue="-1">
-					<Value>track ={0}</Value>
+					<Value>track={0}</Value>
 					<Min>-1</Min>
 					<Max>12</Max>
 					<ToolTip>Track index "-1" picks the first audio track.</ToolTip>

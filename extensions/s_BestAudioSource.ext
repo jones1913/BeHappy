@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<BeHappy.Extension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://workspaces.gotdotnet.com/behappy">
+	<AudioSource UniqueID="18397773-d2b6-4777-8b8d-0c46af538996">
+		<Plugin>
+			<MultiOptionSource Type="BeHappy.Extensions.MultiOptionSource, BeHappy">
+				<DialogWidth>250</DialogWidth>
+				<TitleFormatString>BestAudioSource - {0}</TitleFormatString>
+				<SupportedFileExtension>avi</SupportedFileExtension>
+				<SupportedFileExtension>mkv</SupportedFileExtension>
+				<SupportedFileExtension>webm</SupportedFileExtension>
+				<SupportedFileExtension>mp2</SupportedFileExtension>
+				<SupportedFileExtension>mp3</SupportedFileExtension>
+				<SupportedFileExtension>mp4</SupportedFileExtension>
+				<SupportedFileExtension>mp4a</SupportedFileExtension>
+				<SupportedFileExtension>m4a</SupportedFileExtension>
+				<SupportedFileExtension>flv</SupportedFileExtension>
+				<SupportedFileExtension>m2ts</SupportedFileExtension>
+				<SupportedFileExtension>ts</SupportedFileExtension>
+				<SupportedFileExtension>ac3</SupportedFileExtension>
+				<SupportedFileExtension>dts</SupportedFileExtension>
+				<SupportedFileExtension>wav</SupportedFileExtension>
+				<SupportedFileExtension>ogg</SupportedFileExtension>
+				<SupportedFileExtension>opus</SupportedFileExtension>
+				<SupportedFileExtension>flac</SupportedFileExtension>
+				<SupportedFileExtension>dtshd</SupportedFileExtension>
+				<SupportedFileExtension>thd</SupportedFileExtension>
+				<SupportedFileExtension>eac3</SupportedFileExtension>
+				<LoadAvsPlugin>BestAudioSource.dll</LoadAvsPlugin>
+				<Script>BestAudioSource("{0}", %options%)</Script>
+				<Radiobutton Name="Apply DRC scale {0}">
+					<Value>drc_scale={0}</Value>
+					<Trackbar DefaultValue="0">
+						<Min>0</Min>
+						<Max>20</Max>
+						<TickFrequency>1</TickFrequency>
+						<Multiplier>0.1</Multiplier>
+					</Trackbar>
+					<ToolTip>0.0 to full range decode.</ToolTip>
+				</Radiobutton>
+				<NumericUpdown Name="Stream Index" DefaultValue="-1">
+					<Value>track={0}</Value>
+					<Min>-1</Min>
+					<Max>12</Max>
+					<ToolTip>Track index "-1" picks the first audio track.</ToolTip>
+				</NumericUpdown>
+			</MultiOptionSource>
+		</Plugin>
+	</AudioSource>
+</BeHappy.Extension>
+		
