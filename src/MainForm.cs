@@ -69,13 +69,16 @@ namespace BeHappy
 			// set font to SegoeUI:9 , groupboxes require explicit font setting
 			Utils.ChangeFontRecursive(new Control[] {this, this.groupBoxDestination, this.groupBoxDsp, this.groupBoxOperations,
 				this.groupBoxSource, this.groupBoxTweak},
-				// wine-mono seems to overscale fonts, so make it 1 pt smaler
+				// wine-mono seems to overscale fonts, so make it 1 pt smaller
 				Utils.HasMono ? new Font(SystemFonts.MessageBoxFont.Name, 8) : SystemFonts.MessageBoxFont);
 
-			btnStart.Font = new Font(this.Font, FontStyle.Bold);
+			btnStart.Font = btnEnqueue.Font = new Font(this.Font, FontStyle.Bold);
             labelDragDrop.Font = new Font(this.Font, FontStyle.Italic);
 			labelDragDrop.Left = lstSourceFiles.Left + 4;
 			labelDragDrop.Top = lstSourceFiles.Top + 3;
+
+			// splitterdistance initial value behaves incorrectly on hi-dpi, so set it to a fixed value
+			splitContainer1.SplitterDistance =  (int)(splitContainer1.Height * 0.4);
 
 			if (Utils.HasMono)
 				this.statusStrip1.SizingGrip = false;
@@ -495,7 +498,7 @@ namespace BeHappy
 			this.Left = c.GuiPosition.iLeft;
 			this.Width = c.GuiPosition.iWidth;
 			this.Height = c.GuiPosition.iHeight;
-			this.splitContainer1.SplitterDistance = c.GuiPosition.iSplitterDistance;
+			//this.splitContainer1.SplitterDistance = c.GuiPosition.iSplitterDistance;     //broken on hi-dpi
 		}
 
 		private static void loadPluginsConfiguration(List<ExtensionItemBase> plugins, IDictionary c)
@@ -593,7 +596,7 @@ namespace BeHappy
 				c.GuiPosition.iLeft = this.Left;
 				c.GuiPosition.iWidth = this.Width;
 				c.GuiPosition.iHeight = this.Height;
-				c.GuiPosition.iSplitterDistance = this.splitContainer1.SplitterDistance;
+				//c.GuiPosition.iSplitterDistance = this.splitContainer1.SplitterDistance;     //broken on hi-dpi
 				c.MiscSettings = new MiscSettings();
 				c.MiscSettings.directShowPlayer = this.ds_player;
 				c.MiscSettings.omitEncoderScriptChecked = this.btnPreview.Checked;
@@ -1080,7 +1083,7 @@ namespace BeHappy
 			{
 				items[i] = new ListViewItem(jbs[i].Name);
 				items[i].Tag = jbs[i];
-				for(int j = 0; j < 6; j++)
+				for (int j = 0; j < 6; j++)
 					items[i].SubItems.Add(string.Empty);
 				updateListViewItem(items[i]);
 			}
@@ -1448,7 +1451,22 @@ namespace BeHappy
 			{
 				w.WriteLine(createAvsScript(btnPreview.Checked));
 			}
-			Process.Start(getPlayer(), m_tempFileName);
+
+			try
+			{
+				Process.Start(getPlayer(), m_tempFileName);
+			}
+			catch (Exception ex)
+			{
+                if (msgWindow == null || msgWindow.IsDisposed)
+                    msgWindow = new MessageWindow();
+
+                msgWindow.ClearText();
+                msgWindow.AddText(ex.ToString() + Environment.NewLine);
+				msgWindow.Text = ex.Message;
+                msgWindow.Show();
+                msgWindow.BringToFront();
+            }
 		}
 
 		#region Job Encoding
@@ -1991,11 +2009,26 @@ namespace BeHappy
 			
 			msgWindow.ClearText();
 			msgWindow.AddText(createAvsScript());
+			msgWindow.Text = "Script";
 			msgWindow.Show();
 			msgWindow.BringToFront();
 		}
-		
-	}
+
+		// workaround for listview hi-dpi bugs
+        private void ScaleListViewColumns(ListView listview, SizeF factor)
+        {
+            foreach (ColumnHeader column in listview.Columns)
+            {
+                column.Width = (int)Math.Round(column.Width * factor.Width);
+            }
+        }
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+            ScaleListViewColumns(jobListView, factor);
+        }
+    }
 
 
 	internal class Jobs

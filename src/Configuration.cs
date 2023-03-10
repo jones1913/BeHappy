@@ -106,8 +106,8 @@ namespace BeHappy
         public int iWidth;
         [XmlElement("Height")]
         public int iHeight;
-        [XmlElement("QueueSplitter")]
-        public int iSplitterDistance;
+        //[XmlElement("QueueSplitter")]
+        //public int iSplitterDistance;     //broken on hi-dpi
     }
     [XmlRoot(Namespace = Constants.DefaultXmlNamespace, ElementName = "BeHappy.MiscSettings")]
     public sealed class MiscSettings

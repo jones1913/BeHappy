@@ -90,13 +90,13 @@ namespace BeHappy
             this.btnMoveDownJob = new System.Windows.Forms.Button();
             this.labelNumJobs = new System.Windows.Forms.Label();
             this.btnDeleteJob = new System.Windows.Forms.Button();
-            this.numericUpDownJobs = new System.Windows.Forms.NumericUpDown();
             this.btnAbort = new System.Windows.Forms.Button();
             this.linkLabelAutoJobs = new System.Windows.Forms.LinkLabel();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnDeleteAll = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnMoveUpJob = new System.Windows.Forms.Button();
+            this.numericUpDownJobs = new System.Windows.Forms.NumericUpDown();
             this.tabPageInfo = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
@@ -226,11 +226,9 @@ namespace BeHappy
             this.btnPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPreview.CheckBoxText = "Omit encoder script";
             this.btnPreview.Checked = false;
-            this.btnPreview.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPreview.Location = new System.Drawing.Point(12, 87);
-            this.btnPreview.MinimumSize = new System.Drawing.Size(80, 40);
+            this.btnPreview.Location = new System.Drawing.Point(15, 89);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(146, 40);
+            this.btnPreview.Size = new System.Drawing.Size(142, 38);
             this.btnPreview.TabIndex = 1;
             this.btnPreview.Text = "&Preview";
             this.btnPreview.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -241,11 +239,9 @@ namespace BeHappy
             this.btnEnqueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEnqueue.CheckBoxText = "Start jobs instantly";
             this.btnEnqueue.Checked = false;
-            this.btnEnqueue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEnqueue.Location = new System.Drawing.Point(12, 131);
-            this.btnEnqueue.MinimumSize = new System.Drawing.Size(80, 40);
+            this.btnEnqueue.Location = new System.Drawing.Point(15, 133);
             this.btnEnqueue.Name = "btnEnqueue";
-            this.btnEnqueue.Size = new System.Drawing.Size(146, 40);
+            this.btnEnqueue.Size = new System.Drawing.Size(142, 38);
             this.btnEnqueue.TabIndex = 0;
             this.btnEnqueue.Text = "En&queue";
             this.btnEnqueue.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -753,7 +749,7 @@ namespace BeHappy
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel2);
             this.splitContainer1.Panel2MinSize = 180;
             this.splitContainer1.Size = new System.Drawing.Size(736, 431);
-            this.splitContainer1.SplitterDistance = 159;
+            this.splitContainer1.SplitterDistance = 182;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -777,7 +773,7 @@ namespace BeHappy
             this.jobListView.Name = "jobListView";
             this.jobListView.ShowGroups = false;
             this.jobListView.ShowItemToolTips = true;
-            this.jobListView.Size = new System.Drawing.Size(732, 155);
+            this.jobListView.Size = new System.Drawing.Size(732, 178);
             this.jobListView.TabIndex = 1;
             this.jobListView.UseCompatibleStateImageBehavior = false;
             this.jobListView.View = System.Windows.Forms.View.Details;
@@ -792,17 +788,16 @@ namespace BeHappy
             // columnHeader2
             // 
             this.columnHeader2.Text = "State";
-            this.columnHeader2.Width = 70;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Start";
-            this.columnHeader3.Width = 120;
+            this.columnHeader3.Width = 110;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Stop";
-            this.columnHeader4.Width = 120;
+            this.columnHeader4.Width = 110;
             // 
             // columnHeader7
             // 
@@ -813,25 +808,25 @@ namespace BeHappy
             // columnHeader5
             // 
             this.columnHeader5.Text = "Source";
-            this.columnHeader5.Width = 115;
+            this.columnHeader5.Width = 130;
             // 
             // columnHeader6
             // 
             this.columnHeader6.Text = "Destination";
-            this.columnHeader6.Width = 115;
+            this.columnHeader6.Width = 130;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 9;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.28668F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.126411F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.22122F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.28668F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.28668F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.28668F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.094808F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.20542F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.20542F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.28527F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.125397F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.21944F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.28527F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.28527F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.28834F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.094048F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.20848F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.20848F));
             this.tableLayoutPanel2.Controls.Add(this.txtSimpleLog, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.chkKeepOutput, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.lblPriority, 2, 0);
@@ -839,13 +834,13 @@ namespace BeHappy
             this.tableLayoutPanel2.Controls.Add(this.btnMoveDownJob, 8, 0);
             this.tableLayoutPanel2.Controls.Add(this.labelNumJobs, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnDeleteJob, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.numericUpDownJobs, 5, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnAbort, 0, 6);
             this.tableLayoutPanel2.Controls.Add(this.linkLabelAutoJobs, 6, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnStop, 0, 5);
             this.tableLayoutPanel2.Controls.Add(this.btnDeleteAll, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.btnStart, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.btnMoveUpJob, 7, 0);
+            this.tableLayoutPanel2.Controls.Add(this.numericUpDownJobs, 5, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -857,7 +852,7 @@ namespace BeHappy
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(732, 263);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(732, 240);
             this.tableLayoutPanel2.TabIndex = 17;
             // 
             // txtSimpleLog
@@ -867,13 +862,13 @@ namespace BeHappy
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.txtSimpleLog, 8);
             this.txtSimpleLog.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtSimpleLog.Location = new System.Drawing.Point(85, 40);
+            this.txtSimpleLog.Location = new System.Drawing.Point(85, 37);
             this.txtSimpleLog.Multiline = true;
             this.txtSimpleLog.Name = "txtSimpleLog";
             this.txtSimpleLog.ReadOnly = true;
             this.tableLayoutPanel2.SetRowSpan(this.txtSimpleLog, 6);
             this.txtSimpleLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSimpleLog.Size = new System.Drawing.Size(644, 220);
+            this.txtSimpleLog.Size = new System.Drawing.Size(644, 200);
             this.txtSimpleLog.TabIndex = 4;
             this.txtSimpleLog.WordWrap = false;
             // 
@@ -882,7 +877,7 @@ namespace BeHappy
             this.chkKeepOutput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkKeepOutput.AutoSize = true;
             this.tableLayoutPanel2.SetColumnSpan(this.chkKeepOutput, 2);
-            this.chkKeepOutput.Location = new System.Drawing.Point(3, 10);
+            this.chkKeepOutput.Location = new System.Drawing.Point(3, 8);
             this.chkKeepOutput.Name = "chkKeepOutput";
             this.chkKeepOutput.Size = new System.Drawing.Size(123, 17);
             this.chkKeepOutput.TabIndex = 10;
@@ -895,7 +890,7 @@ namespace BeHappy
             // 
             this.lblPriority.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblPriority.AutoSize = true;
-            this.lblPriority.Location = new System.Drawing.Point(152, 12);
+            this.lblPriority.Location = new System.Drawing.Point(152, 10);
             this.lblPriority.Name = "lblPriority";
             this.lblPriority.Size = new System.Drawing.Size(82, 13);
             this.lblPriority.TabIndex = 11;
@@ -907,7 +902,7 @@ namespace BeHappy
             this.cboPriority.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPriority.FormattingEnabled = true;
-            this.cboPriority.Location = new System.Drawing.Point(248, 8);
+            this.cboPriority.Location = new System.Drawing.Point(248, 6);
             this.cboPriority.Name = "cboPriority";
             this.cboPriority.Size = new System.Drawing.Size(76, 21);
             this.cboPriority.TabIndex = 12;
@@ -917,7 +912,7 @@ namespace BeHappy
             // btnMoveDownJob
             // 
             this.btnMoveDownJob.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnMoveDownJob.Location = new System.Drawing.Point(634, 7);
+            this.btnMoveDownJob.Location = new System.Drawing.Point(642, 5);
             this.btnMoveDownJob.Name = "btnMoveDownJob";
             this.btnMoveDownJob.Size = new System.Drawing.Size(75, 23);
             this.btnMoveDownJob.TabIndex = 2;
@@ -930,7 +925,7 @@ namespace BeHappy
             // 
             this.labelNumJobs.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelNumJobs.AutoSize = true;
-            this.labelNumJobs.Location = new System.Drawing.Point(337, 12);
+            this.labelNumJobs.Location = new System.Drawing.Point(337, 10);
             this.labelNumJobs.Name = "labelNumJobs";
             this.labelNumJobs.Size = new System.Drawing.Size(69, 13);
             this.labelNumJobs.TabIndex = 14;
@@ -939,7 +934,7 @@ namespace BeHappy
             // btnDeleteJob
             // 
             this.btnDeleteJob.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnDeleteJob.Location = new System.Drawing.Point(3, 44);
+            this.btnDeleteJob.Location = new System.Drawing.Point(3, 39);
             this.btnDeleteJob.Name = "btnDeleteJob";
             this.btnDeleteJob.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteJob.TabIndex = 0;
@@ -947,35 +942,11 @@ namespace BeHappy
             this.toolTip1.SetToolTip(this.btnDeleteJob, "Delete selected jobs.\r\n(Except processing jobs)");
             this.btnDeleteJob.Click += new System.EventHandler(this.deleteJob);
             // 
-            // numericUpDownJobs
-            // 
-            this.numericUpDownJobs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownJobs.Location = new System.Drawing.Point(412, 3);
-            this.numericUpDownJobs.Maximum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            0});
-            this.numericUpDownJobs.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownJobs.Name = "numericUpDownJobs";
-            this.numericUpDownJobs.Size = new System.Drawing.Size(76, 20);
-            this.numericUpDownJobs.TabIndex = 13;
-            this.toolTip1.SetToolTip(this.numericUpDownJobs, resources.GetString("numericUpDownJobs.ToolTip"));
-            this.numericUpDownJobs.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // btnAbort
             // 
             this.btnAbort.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnAbort.Enabled = false;
-            this.btnAbort.Location = new System.Drawing.Point(3, 230);
+            this.btnAbort.Location = new System.Drawing.Point(3, 210);
             this.btnAbort.Name = "btnAbort";
             this.btnAbort.Size = new System.Drawing.Size(75, 24);
             this.btnAbort.TabIndex = 7;
@@ -988,7 +959,7 @@ namespace BeHappy
             this.linkLabelAutoJobs.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelAutoJobs.AutoSize = true;
             this.linkLabelAutoJobs.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabelAutoJobs.Location = new System.Drawing.Point(494, 12);
+            this.linkLabelAutoJobs.Location = new System.Drawing.Point(509, 10);
             this.linkLabelAutoJobs.Name = "linkLabelAutoJobs";
             this.linkLabelAutoJobs.Size = new System.Drawing.Size(29, 13);
             this.linkLabelAutoJobs.TabIndex = 15;
@@ -1003,7 +974,7 @@ namespace BeHappy
             // 
             this.btnStop.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(3, 191);
+            this.btnStop.Location = new System.Drawing.Point(3, 175);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 24);
             this.btnStop.TabIndex = 6;
@@ -1014,7 +985,7 @@ namespace BeHappy
             // btnDeleteAll
             // 
             this.btnDeleteAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnDeleteAll.Location = new System.Drawing.Point(3, 81);
+            this.btnDeleteAll.Location = new System.Drawing.Point(3, 73);
             this.btnDeleteAll.Name = "btnDeleteAll";
             this.btnDeleteAll.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteAll.TabIndex = 9;
@@ -1025,7 +996,7 @@ namespace BeHappy
             // btnStart
             // 
             this.btnStart.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnStart.Location = new System.Drawing.Point(3, 154);
+            this.btnStart.Location = new System.Drawing.Point(3, 141);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 24);
             this.btnStart.TabIndex = 5;
@@ -1035,7 +1006,7 @@ namespace BeHappy
             // btnMoveUpJob
             // 
             this.btnMoveUpJob.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnMoveUpJob.Location = new System.Drawing.Point(553, 7);
+            this.btnMoveUpJob.Location = new System.Drawing.Point(561, 5);
             this.btnMoveUpJob.Name = "btnMoveUpJob";
             this.btnMoveUpJob.Size = new System.Drawing.Size(75, 23);
             this.btnMoveUpJob.TabIndex = 1;
@@ -1043,6 +1014,31 @@ namespace BeHappy
             this.toolTip1.SetToolTip(this.btnMoveUpJob, "Moving jobs around does currently not effect the job execution order,\r\nif the lis" +
         "t contains running jobs.");
             this.btnMoveUpJob.Click += new System.EventHandler(this.moveUpJob);
+            // 
+            // numericUpDownJobs
+            // 
+            this.numericUpDownJobs.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numericUpDownJobs.Location = new System.Drawing.Point(421, 7);
+            this.numericUpDownJobs.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownJobs.Maximum = new decimal(new int[] {
+            32,
+            0,
+            0,
+            0});
+            this.numericUpDownJobs.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownJobs.Name = "numericUpDownJobs";
+            this.numericUpDownJobs.Size = new System.Drawing.Size(72, 20);
+            this.numericUpDownJobs.TabIndex = 13;
+            this.toolTip1.SetToolTip(this.numericUpDownJobs, resources.GetString("numericUpDownJobs.ToolTip"));
+            this.numericUpDownJobs.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // tabPageInfo
             // 
@@ -1053,6 +1049,7 @@ namespace BeHappy
             this.tabPageInfo.Size = new System.Drawing.Size(736, 431);
             this.tabPageInfo.TabIndex = 5;
             this.tabPageInfo.Text = "Info";
+            this.tabPageInfo.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 

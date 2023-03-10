@@ -84,11 +84,8 @@ namespace BeHappy
 		
 		public CheckBoxButton()
 		{
-			this.Width = 146;
-			this.Height = 40;
-			this.MinimumSize = new Size(80, 40);
+			this.MinimumSize = new Size(80, 30);
 			this.TextAlign = ContentAlignment.BottomCenter;
-			this.Font = new Font(this.Font, FontStyle.Bold);
 			checkBox = new CheckBox();
 			checkBox.AutoSize = false;
 			checkBox.Text = "checkBox";
