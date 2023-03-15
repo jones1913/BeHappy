@@ -215,7 +215,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>TimeStretchDSP.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LICENSE.txt" />
+    <EmbeddedResource Include="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>

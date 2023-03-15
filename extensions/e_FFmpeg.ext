@@ -421,6 +421,7 @@
 				<TitleFormatString>AAC FFmpeg - {0}</TitleFormatString>
 				<SupportedFileExtension>m4a</SupportedFileExtension>
 				<SupportedFileExtension>mp4</SupportedFileExtension>
+				<SupportedFileExtension>aac</SupportedFileExtension>
 				<SupportedFileExtension>3gp</SupportedFileExtension>
 				<SupportedFileExtension>3g2</SupportedFileExtension>
 				<ShowCommandTextbox>true</ShowCommandTextbox>
@@ -443,7 +444,21 @@
 						<Multiplier>0.1</Multiplier>
 					</Trackbar>
 					<ToolTip>Variable Bitrate mode</ToolTip>
-				</Radiobutton>	
+				</Radiobutton>
+				<Dropdown Name="File Format" DefaultIndex="0">
+					<Item Name="By file extension">
+						<Value></Value></Item>
+					<Item Name="ISOM">
+						<Value>-f mp4</Value></Item>
+					<Item Name="IPOD">
+						<Value>-f ipod</Value></Item>
+					<Item Name="ADTS">
+						<Value>-f adts</Value></Item>
+					<ToolTip>Override file format hinted by file extension.
+							.m4a defaults to IPOD format which is more compatible with i-Tunes.
+							.mp4 defaults to ISO format.
+					</ToolTip>
+				</Dropdown>
 			</MultiOptionEncoder>
 		</Plugin>
 	</AudioEncoder>	
