@@ -335,7 +335,7 @@ namespace BeHappy
             bool Greater4GB =  m_nSizeInBytes>=(uint.MaxValue-68);
             bool WExtHeader =  m_ChannelMask >= 0;
             uint HeaderSize = (uint)(WExtHeader ? 60 : 36);
-            int[] defmask = {0, 4, 3, 7, 51, 55, 63, 319, 1599, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            int[] defmask = {0, 4, 3, 11, 263, 1543, 1551, 1807, 1599, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
             if (m_HeaderType == 1) {                                          // W64
                 HeaderSize = (uint)(WExtHeader ? 128 : 112);
