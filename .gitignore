@@ -1,4 +1,9 @@
-bin/
+bin/*/Debug/
+bin/*/Release/extensions
+bin/*/Release/plugins*
+bin/*/Release/*.dll
+bin/*/Release/*.State
+bin/*/Release/*.txt
 dist/
 obj/
 .vs/
